@@ -23,19 +23,31 @@ class LaunchType(Enum):
 class Aircraft(models.Model):
     type = models.CharField(max_length=3, choices=[(at.name, at.value) for at in AircraftType])
     model = models.CharField(max_length=64)
-    registration = models.CharField(max_length=8)
+    registration = models.CharField(max_length=8, unique=True)
 
     def __str__(self):
         return f"{self.registration} ({self.model})"
 
+    class Meta:
+        ordering = ("registration",)
 
+
+class Pilot(models.Model):
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=150)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
+    class Meta:
+        ordering = ("last_name",)
+        unique_together = ("first_name", "last_name")
+
+
+# TODO: auto-populate from database, plus free text
 AERODROME_CHOICES = (
     ("EDKA", "EDKA"),
-)
-
-PILOT_CHOICES = (
-    ("Yury Zaytsev", "Yury Zaytsev"),
-    ("Bernd Orban", "Bernd Orban"),
+    ("EDRV", "EDRV"),
 )
 
 
@@ -45,19 +57,37 @@ class LogEntry(models.Model):
     from_aerodrome = models.CharField(max_length=64, choices=AERODROME_CHOICES)
     to_aerodrome = models.CharField(max_length=64, choices=AERODROME_CHOICES)
 
-    departure_time = models.DateTimeField()
-    arrival_time = models.DateTimeField()
+    # TODO: add complex constraints
+    # https://docs.djangoproject.com/en/dev/ref/models/options/#django.db.models.Options.constraints
+    departure_time = models.DateTimeField(unique=True)
+    arrival_time = models.DateTimeField(unique=True)
+
+    landings = models.PositiveSmallIntegerField(default=1)
 
     time_function = models.CharField(max_length=5, choices=[(ft.name, ft.value) for ft in FunctionType])
 
-    pilot = models.CharField(max_length=64, choices=PILOT_CHOICES)
-    copilot = models.CharField(max_length=64, choices=PILOT_CHOICES)
+    # TODO: add complex constraints
+    pilot = models.ForeignKey(Pilot, on_delete=models.PROTECT, related_name="pilot_set")
+    copilot = models.ForeignKey(Pilot, on_delete=models.PROTECT, related_name="copilot_set", blank=True, null=True)
 
     launch_type = models.CharField(max_length=5, blank=True, choices=[(lt.name, lt.value) for lt in LaunchType])
 
     remarks = models.CharField(max_length=255, blank=True)
 
-    # cross-country
+    # TODO: add cross-country flag?
 
     def __str__(self):
-        return f"{self.departure_time.date}"
+        duration = (self.arrival_time - self.departure_time).total_seconds()
+        duration_hours = int(duration // 3600)
+        duration_minutes = int((duration - duration_hours * 3600) // 60)
+        return (
+            f"{self.departure_time.strftime('%Y-%m-%d %H:%M')} - {self.arrival_time.strftime('%H:%M')} "
+            f"({duration_hours:02}:{duration_minutes:02}) "
+            f"{self.aircraft.registration} ({self.aircraft.type}) "
+            f"{self.from_aerodrome} -> {self.to_aerodrome} "
+            f"{self.pilot.last_name} / {self.copilot.last_name}"
+        )
+
+    class Meta:
+        ordering = ("-arrival_time",)
+        verbose_name_plural = "Log entries"
