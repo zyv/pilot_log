@@ -80,12 +80,14 @@ class LogEntry(models.Model):
         duration = (self.arrival_time - self.departure_time).total_seconds()
         duration_hours = int(duration // 3600)
         duration_minutes = int((duration - duration_hours * 3600) // 60)
+        remarks = f"({self.launch_type})" if self.launch_type else ""
         return (
             f"{self.departure_time.strftime('%Y-%m-%d %H:%M')} - {self.arrival_time.strftime('%H:%M')} "
             f"({duration_hours:02}:{duration_minutes:02}) "
             f"{self.aircraft.registration} ({self.aircraft.type}) "
             f"{self.from_aerodrome} -> {self.to_aerodrome} "
-            f"{self.pilot.last_name} / {self.copilot.last_name}"
+            f"{self.pilot.last_name} / {self.copilot.last_name} "
+            f"{remarks}"
         )
 
     class Meta:

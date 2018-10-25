@@ -17,6 +17,7 @@ FIELD_LANDINGS = "Landings"
 FIELD_COPILOT = "0. Co-pilot"
 FIELD_DEPARTURE_TIME = "1. Start time"
 FIELD_ARRIVAL_TIME = "2. Landing time"
+FIELD_NOTE = "Note"
 
 
 class Command(BaseCommand):
@@ -63,12 +64,19 @@ class Command(BaseCommand):
                 from_aerodrome = row[FIELD_FROM].strip()
                 to_aerodrome = row[FIELD_TO].strip()
 
+                note = row[FIELD_NOTE].strip()
+
+                launch_type = {
+                    "Self": models.LaunchType.SELF.name,
+                    "Tow": models.LaunchType.TOW.name,
+                    "Winch": models.LaunchType.WINCH.name,
+                }[note] if aircraft.type == models.AircraftType.GLD.name else ""
+
                 self.stdout.write(
                     f"{departure_time.date()} {departure_time.time()} {arrival_time.time()} {aircraft.registration} "
-                    f"{from_aerodrome} -> {to_aerodrome} {pilot.last_name} / {copilot.last_name}"
+                    f"{from_aerodrome} -> {to_aerodrome} {pilot.last_name} / {copilot.last_name} "
+                    f"{'({})'.format(note) if note else ''}"
                 )
-
-                # TODO: add support for launch type detection
 
                 try:
                     entry = models.LogEntry.objects.get(departure_time=departure_time)
@@ -83,6 +91,7 @@ class Command(BaseCommand):
                         time_function=time_function.name,
                         pilot=pilot,
                         copilot=copilot,
+                        launch_type=launch_type,
                     )
                 else:
                     self.stdout.write(f"Entry already exists (pk={entry.id})!")
