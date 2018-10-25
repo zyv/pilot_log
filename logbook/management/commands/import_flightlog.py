@@ -1,6 +1,7 @@
 import csv
 from datetime import datetime, timezone
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.base import BaseCommand
 
 from logbook import models
@@ -69,16 +70,22 @@ class Command(BaseCommand):
 
                 # TODO: add support for launch type detection
 
-                models.LogEntry(
-                    aircraft=aircraft,
-                    from_aerodrome=from_aerodrome,
-                    to_aerodrome=to_aerodrome,
-                    departure_time=departure_time,
-                    arrival_time=arrival_time,
-                    landings=int(row[FIELD_LANDINGS]),
-                    time_function=time_function.name,
-                    pilot=pilot,
-                    copilot=copilot,
-                ).save()
+                try:
+                    entry = models.LogEntry.objects.get(departure_time=departure_time)
+                except ObjectDoesNotExist:
+                    models.LogEntry.objects.create(
+                        aircraft=aircraft,
+                        from_aerodrome=from_aerodrome,
+                        to_aerodrome=to_aerodrome,
+                        departure_time=departure_time,
+                        arrival_time=arrival_time,
+                        landings=int(row[FIELD_LANDINGS]),
+                        time_function=time_function.name,
+                        pilot=pilot,
+                        copilot=copilot,
+                    )
+                else:
+                    self.stdout.write(f"Entry already exists (pk={entry.id})!")
+                    # TODO: update?
 
         self.stdout.write(self.style.SUCCESS("Successfully completed FlightLog import!"))
