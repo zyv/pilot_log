@@ -64,18 +64,22 @@ class Command(BaseCommand):
                 from_aerodrome = row[FIELD_FROM].strip()
                 to_aerodrome = row[FIELD_TO].strip()
 
-                note = row[FIELD_NOTE].strip()
+                remarks = row[FIELD_NOTE].strip()
 
                 launch_type = {
                     "Self": models.LaunchType.SELF.name,
                     "Tow": models.LaunchType.TOW.name,
                     "Winch": models.LaunchType.WINCH.name,
-                }[note] if aircraft.type == models.AircraftType.GLD.name else ""
+                }[remarks] if aircraft.type == models.AircraftType.GLD.name else ""
+
+                # Clear remarks field, if used for glider launch type
+                if launch_type:
+                    remarks = ""
 
                 self.stdout.write(
                     f"{departure_time.date()} {departure_time.time()} {arrival_time.time()} {aircraft.registration} "
                     f"{from_aerodrome} -> {to_aerodrome} {pilot.last_name} / {copilot.last_name} "
-                    f"{'({})'.format(note) if note else ''}"
+                    f"{'({})'.format(remarks) if remarks else ''}"
                 )
 
                 try:
@@ -92,6 +96,7 @@ class Command(BaseCommand):
                         pilot=pilot,
                         copilot=copilot,
                         launch_type=launch_type,
+                        remarks=remarks,
                     )
                 else:
                     self.stdout.write(f"Entry already exists (pk={entry.id})!")
