@@ -34,6 +34,11 @@
                     </tr>
                 {% endfor %}
             {% endfor %}
+            <tr>
+                <th>Grand total</th>
+                <th class="text-right">{{ grand_total.time | duration:"%{h}h %m′" }}</th>
+                <th class="text-right">{{ grand_total.landings }}</th>
+            </tr>
             </tbody>
         </table>
     </div>

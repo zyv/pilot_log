@@ -34,6 +34,7 @@ class DashboardView(generic.ListView):
                     }
                 } for aircraft_type in self.queryset
             },
+            "grand_total": self.compute_totals(LogEntry.objects.all()),
         }
 
 
