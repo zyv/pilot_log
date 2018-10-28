@@ -18,24 +18,18 @@
 <body>
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#">Logbook</a>
+    <a class="navbar-brand" href="{% url "logbook:dashboard" %}">Logbook</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarDefault" aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarDefault">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Dashboard <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Normal link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled link</a>
-            </li>
-        </ul>
-    </div>
+    {% with current_route=request.resolver_match.url_name %}
+        <div class="collapse navbar-collapse" id="navbarDefault">
+            <ul class="navbar-nav mr-auto">
+                {% include "logbook/nav_item.html" with name="Dashboard" slug="logbook:dashboard" current_route=current_route only %}
+            </ul>
+        </div>
+    {% endwith %}
 </nav>
 
 <main role="main" class="container">
