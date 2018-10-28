@@ -20,7 +20,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for aircraft_type, type_totals in totals.items %}
+            {% for aircraft_type, type_totals in totals_per_type.items %}
                 <tr>
                     <th>{{ aircraft_type.value }}</th>
                     <th class="text-right">{{ type_totals.time | duration:"%{h}h %m′" }}</th>

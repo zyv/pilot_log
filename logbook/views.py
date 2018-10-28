@@ -22,7 +22,7 @@ class DashboardView(generic.ListView):
 
     def get_context_data(self, *args, **kwargs):
         return {
-            "totals": {
+            "totals_per_type": {
                 aircraft_type: {
                     **self.compute_totals(LogEntry.objects.filter(aircraft__type=aircraft_type.name)),
                     **{
