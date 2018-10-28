@@ -22,6 +22,7 @@ class LaunchType(Enum):
 
 class Aircraft(models.Model):
     type = models.CharField(max_length=3, choices=[(at.name, at.value) for at in AircraftType])
+    maker = models.CharField(max_length=64)
     model = models.CharField(max_length=64)
     registration = models.CharField(max_length=8, unique=True)
 

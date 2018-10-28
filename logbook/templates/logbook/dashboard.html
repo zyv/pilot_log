@@ -28,7 +28,7 @@
                 </tr>
                 {% for aircraft, aircraft_totals in type_totals.per_aircraft %}
                     <tr>
-                        <td><abbr title="{{ aircraft.model }}">{{ aircraft.registration }}</abbr></td>
+                        <td><abbr title="{{ aircraft.maker }} {{ aircraft.model }}">{{ aircraft.registration }}</abbr></td>
                         <td class="text-right">{{ aircraft_totals.time | duration:"%{h}h %m′" }}</td>
                         <td class="text-right">{{ aircraft_totals.landings }}</td>
                     </tr>
