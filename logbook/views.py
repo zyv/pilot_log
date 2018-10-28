@@ -40,6 +40,8 @@ class DashboardView(generic.ListView):
 
 class EntryIndexView(generic.ListView):
     model = LogEntry
+    ordering = "arrival_time"
+    paginate_by = 7
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -48,3 +50,14 @@ class EntryIndexView(generic.ListView):
             "function_types": list(FunctionType),
         })
         return context
+
+    def paginate_queryset(self, queryset, page_size):
+        paginator = self.get_paginator(
+            queryset, page_size, orphans=self.get_paginate_orphans(),
+            allow_empty_first_page=self.get_allow_empty())
+
+        # Set last page as a default to mimic paper logbook
+        if not self.request.GET.get(self.page_kwarg):
+            self.kwargs[self.page_kwarg] = paginator.num_pages
+
+        return super().paginate_queryset(queryset, page_size)
