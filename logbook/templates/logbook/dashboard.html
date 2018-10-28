@@ -1,0 +1,42 @@
+{% extends "logbook/base.html" %}
+{% load logbook_utils %}
+
+{% block content %}
+    <h1>Dashboard</h1>
+
+    <p class="lead">
+        Everything you need in one place!
+    </p>
+
+    <h2>Aircraft totals</h2>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-sm table-hover">
+            <thead>
+            <tr>
+                <th>Type / Registration</th>
+                <th class="text-right">Total time</th>
+                <th class="text-right">Total landings</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for aircraft_type, type_totals in totals.items %}
+                <tr>
+                    <th>{{ aircraft_type.value }}</th>
+                    <th class="text-right">{{ type_totals.time | duration:"%{h}h %m′" }}</th>
+                    <th class="text-right">{{ type_totals.landings }}</th>
+                </tr>
+                {% for aircraft, aircraft_totals in type_totals.per_aircraft %}
+                    <tr>
+                        <td><abbr title="{{ aircraft.model }}">{{ aircraft.registration }}</abbr></td>
+                        <td class="text-right">{{ aircraft_totals.time | duration:"%{h}h %m′" }}</td>
+                        <td class="text-right">{{ aircraft_totals.landings }}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+{% endblock %}
