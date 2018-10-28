@@ -1,0 +1,66 @@
+{% extends "logbook/base.html" %}
+{% load logbook_utils %}
+
+{% block content %}
+
+    <h1>Log entries</h1>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-sm table-hover">
+            <thead>
+            <tr>
+                <th>Day / Month</th>
+                <th>Type<br>Registration</th>
+                <th>From<br>To</th>
+                <th>Departure<br>Arrival</th>
+                {% for aircraft_type in aircraft_types reversed %}
+                    <th>{{ aircraft_type.name }}</th>
+                {% endfor %}
+                <th>Landings</th>
+                <th>Name</th>
+                {% for function_type in function_types %}
+                    <th>{{ function_type.name }}</th>
+                {% endfor %}
+                <th>Remarks</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for obj in object_list %}
+                <tr>
+                    <td>{{ obj.departure_time | date:"j/n" }}</td>
+                    <td>{{ obj.aircraft.model }}<br>{{ obj.aircraft.registration }}</td>
+                    <td>{{ obj.from_aerodrome }}<br>{{ obj.to_aerodrome }}</td>
+                    <td>{{ obj.departure_time | time:"G:i" }}<br>{{ obj.arrival_time | time:"G:i" }}</td>
+                    {% for aircraft_type in aircraft_types reversed %}
+                        <td>
+                            {% if obj.aircraft.type == aircraft_type.name %}
+                                {{ obj.arrival_time | subtract:obj.departure_time | duration:"%h:%M" }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                    <td>{{ obj.landings }}</td>
+                    <td>{{ obj.pilot.last_name }}</td>
+                    {% for function_type in function_types %}
+                        <td>
+                            {% if obj.time_function == function_type.name %}
+                                {{ obj.arrival_time | subtract:obj.departure_time | duration:"%h:%M" }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                    <td>
+                        {% if obj.launch_type %}
+                            {{ obj.launch_type.capitalize }}<br>
+                        {% endif %}
+                        {{ obj.remarks }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

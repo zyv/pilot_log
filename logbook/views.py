@@ -3,7 +3,7 @@ from typing import Iterable
 
 from django.views import generic
 
-from .models import Aircraft, AircraftType, LogEntry
+from .models import Aircraft, AircraftType, FunctionType, LogEntry
 
 
 class DashboardView(generic.ListView):
@@ -35,3 +35,15 @@ class DashboardView(generic.ListView):
                 } for aircraft_type in self.queryset
             },
         }
+
+
+class EntryIndexView(generic.ListView):
+    model = LogEntry
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context.update({
+            "aircraft_types": list(AircraftType),
+            "function_types": list(FunctionType),
+        })
+        return context

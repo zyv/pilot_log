@@ -25,3 +25,8 @@ def duration(value: datetime.timedelta, format_specification: str = "%H:%M:%S"):
     }
 
     return DurationTemplate(format_specification).substitute(**substitutions)
+
+
+@register.filter
+def subtract(value, argument):
+    return value - argument
