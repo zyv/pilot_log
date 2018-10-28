@@ -7,7 +7,7 @@ from django.shortcuts import render
 from .models import Aircraft, AircraftType, LogEntry
 
 
-def index(request):
+def dashboard(request):
     def compute_totals(entries: Iterable[LogEntry]):
         return {
             "time": sum(
