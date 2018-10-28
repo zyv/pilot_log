@@ -1,13 +1,16 @@
 import datetime
 from typing import Iterable
 
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.views import generic
 
 from .models import Aircraft, AircraftType, LogEntry
 
 
-def dashboard(request):
+class DashboardView(generic.ListView):
+    queryset = AircraftType
+    template_name = "logbook/dashboard.html"
+
+    @staticmethod
     def compute_totals(entries: Iterable[LogEntry]):
         return {
             "time": sum(
@@ -17,17 +20,18 @@ def dashboard(request):
             "landings": sum(entry.landings for entry in entries)
         }
 
-    return HttpResponse(render(request, "logbook/dashboard.html", {
-        "totals": {
-            aircraft_type: {
-                **compute_totals(LogEntry.objects.filter(aircraft__type=aircraft_type.name)),
-                **{
-                    "per_aircraft":
-                        [
-                            (aircraft, compute_totals(LogEntry.objects.filter(aircraft=aircraft)))
-                            for aircraft in Aircraft.objects.filter(type=aircraft_type.name)
-                        ]
-                }
-            } for aircraft_type in AircraftType
-        },
-    }))
+    def get_context_data(self, *args, **kwargs):
+        return {
+            "totals": {
+                aircraft_type: {
+                    **self.compute_totals(LogEntry.objects.filter(aircraft__type=aircraft_type.name)),
+                    **{
+                        "per_aircraft":
+                            [
+                                (aircraft, self.compute_totals(LogEntry.objects.filter(aircraft=aircraft)))
+                                for aircraft in Aircraft.objects.filter(type=aircraft_type.name)
+                            ]
+                    }
+                } for aircraft_type in self.queryset
+            },
+        }
