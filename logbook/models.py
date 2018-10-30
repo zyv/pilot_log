@@ -27,7 +27,7 @@ class Aircraft(models.Model):
     registration = models.CharField(max_length=8, unique=True)
 
     def __str__(self):
-        return f"{self.registration} ({self.model})"
+        return f"{self.registration} ({self.maker} {self.model})"
 
     class Meta:
         ordering = ("registration",)
