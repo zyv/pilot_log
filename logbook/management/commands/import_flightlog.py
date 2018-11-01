@@ -26,7 +26,20 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("filename", type=str)
 
+        parser.add_argument(
+            "--init",
+            action="store_true",
+            dest="init",
+            default=False,
+            help="Re-initialize the database by removing all entries and importing them anew",
+        )
+
     def handle(self, *args, **options):
+
+        if options["init"]:
+            self.stdout.write(self.style.WARNING("Removing old database records..."))
+            models.LogEntry.objects.all().delete()
+
         self.stdout.write(self.style.SUCCESS("Importing FlightLog records..."))
 
         with open(options["filename"], newline="") as fp:
