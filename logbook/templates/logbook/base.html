@@ -33,6 +33,7 @@
             <ul class="navbar-nav mr-auto">
                 {% include "logbook/nav_item.html" with name="Log entries" slug="logbook:entries" current_route=current_route only %}
                 {% include "logbook/nav_item.html" with name="Certificates" slug="logbook:certificates" current_route=current_route only %}
+                {% include "logbook/nav_item.html" with name="Admin" slug="admin:index" current_route=current_route only %}
             </ul>
         </div>
     {% endwith %}
