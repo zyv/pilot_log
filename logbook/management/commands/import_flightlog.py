@@ -90,29 +90,32 @@ class Command(BaseCommand):
                     remarks = ""
 
                 self.stdout.write(
+                    "Processing entry "
                     f"{departure_time.date()} {departure_time.time()} {arrival_time.time()} {aircraft.registration} "
                     f"{from_aerodrome} -> {to_aerodrome} {pilot.last_name} / {copilot.last_name} "
                     f"{'({})'.format(remarks) if remarks else ''}"
                 )
 
-                try:
-                    entry = models.LogEntry.objects.get(departure_time=departure_time)
-                except ObjectDoesNotExist:
-                    models.LogEntry.objects.create(
-                        aircraft=aircraft,
-                        from_aerodrome=from_aerodrome,
-                        to_aerodrome=to_aerodrome,
-                        departure_time=departure_time,
-                        arrival_time=arrival_time,
-                        landings=int(row[FIELD_LANDINGS]),
-                        time_function=time_function.name,
-                        pilot=pilot,
-                        copilot=copilot,
-                        launch_type=launch_type,
-                        remarks=remarks,
-                    )
-                else:
-                    self.stdout.write(f"Entry already exists (pk={entry.id})!")
-                    # TODO: update?
+                defaults = {
+                    "aircraft": aircraft,
+                    "from_aerodrome": from_aerodrome,
+                    "to_aerodrome": to_aerodrome,
+                    "departure_time": departure_time,
+                    "arrival_time": arrival_time,
+                    "landings": int(row[FIELD_LANDINGS]),
+                    "time_function": time_function.name,
+                    "pilot": pilot,
+                    "copilot": copilot,
+                    "launch_type": launch_type,
+                    "remarks": remarks,
+                }
+
+                entry, created = models.LogEntry.objects.update_or_create(
+                    departure_time=departure_time,
+                    from_aerodrome=from_aerodrome,
+                    defaults=defaults,
+                )
+
+                self.stdout.write(("Created new object" if created else "Updated object") + f" (pk={entry.id})")
 
         self.stdout.write(self.style.SUCCESS("Successfully completed FlightLog import!"))
