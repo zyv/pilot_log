@@ -24,7 +24,7 @@ class Command(BaseCommand):
     help = "Imports data from FlightLog CSV reports"
 
     def add_arguments(self, parser):
-        parser.add_argument("filename", nargs="?", type=str)
+        parser.add_argument("filename", type=str)
 
     def handle(self, *args, **options):
         self.stdout.write(self.style.SUCCESS("Importing FlightLog records..."))
