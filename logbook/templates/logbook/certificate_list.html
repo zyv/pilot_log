@@ -1,0 +1,35 @@
+{% extends "logbook/base.html" %}
+{% load logbook_utils %}
+
+{% block content %}
+
+    <h1>Certificates</h1>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-sm table-hover">
+            <thead>
+            <tr>
+                <th>Issue date</th>
+                <th>Name</th>
+                <th>Number</th>
+                <th>Valid until</th>
+                <th>Issuing Authority</th>
+                <th>Remarks</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for obj in object_list %}
+                <tr>
+                    <td>{{ obj.issue_date }}</td>
+                    <td>{{ obj.name }}</td>
+                    <td>{{ obj.number | default:"-" }}</td>
+                    <td>{{ obj.valid_until | default:"-" }}</td>
+                    <td>{{ obj.authority }}</td>
+                    <td>{{ obj.remarks }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

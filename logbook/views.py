@@ -3,7 +3,7 @@ from typing import Iterable
 
 from django.views import generic
 
-from .models import Aircraft, AircraftType, FunctionType, LogEntry
+from .models import Aircraft, AircraftType, Certificate, FunctionType, LogEntry
 
 
 class DashboardView(generic.ListView):
@@ -61,3 +61,7 @@ class EntryIndexView(generic.ListView):
             self.kwargs[self.page_kwarg] = paginator.num_pages
 
         return super().paginate_queryset(queryset, page_size)
+
+
+class CertificateIndexView(generic.ListView):
+    model = Certificate

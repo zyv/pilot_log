@@ -8,4 +8,5 @@ app_name = LogbookConfig.name
 urlpatterns = [
     path("", views.DashboardView.as_view(), name="dashboard"),
     path("entries/", views.EntryIndexView.as_view(), name="entries"),
+    path("certificates/", views.CertificateIndexView.as_view(), name="certificates"),
 ]
