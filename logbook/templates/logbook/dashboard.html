@@ -2,7 +2,7 @@
 {% load logbook_utils %}
 
 {% block content %}
-    <h1>Dashboard</h1>
+    <h1>Logbook dashboard</h1>
 
     <p class="lead">
         Everything you need in one place!
@@ -15,8 +15,8 @@
             <thead>
             <tr>
                 <th>Type / Registration</th>
-                <th class="text-right">Total time</th>
-                <th class="text-right">Total landings</th>
+                <th class="text-right">Total Time</th>
+                <th class="text-right">Total Landings</th>
             </tr>
             </thead>
             <tbody>
@@ -35,7 +35,7 @@
                 {% endfor %}
             {% endfor %}
             <tr>
-                <th>Grand total</th>
+                <th>Grand Total</th>
                 <th class="text-right">{{ grand_total.time | duration:"%{h}h %m′" }}</th>
                 <th class="text-right">{{ grand_total.landings }}</th>
             </tr>
