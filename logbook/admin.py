@@ -1,7 +1,8 @@
 from django.contrib import admin
 
-from .models import Aircraft, Pilot, LogEntry
+from .models import Aircraft, Certificate, LogEntry, Pilot
 
 admin.site.register(Aircraft)
-admin.site.register(Pilot)
+admin.site.register(Certificate)
 admin.site.register(LogEntry)
+admin.site.register(Pilot)

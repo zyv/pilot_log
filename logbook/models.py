@@ -94,3 +94,18 @@ class LogEntry(models.Model):
     class Meta:
         ordering = ("-arrival_time",)
         verbose_name_plural = "Log entries"
+
+
+class Certificate(models.Model):
+    name = models.CharField(max_length=255)
+    number = models.CharField(max_length=255, blank=True)
+    issue_date = models.DateField()
+    valid_until = models.DateField(blank=True, null=True)
+    authority = models.CharField(max_length=255)
+    remarks = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return f"{self.name}{' ({})'.format(self.number) if self.number else ''}"
+
+    class Meta:
+        ordering = ("name",)
