@@ -32,7 +32,7 @@
                     <td>{{ obj.departure_time | date:"j/n" }}</td>
                     <td>{{ obj.aircraft.model }}<br>{{ obj.aircraft.registration }}</td>
                     <td>{{ obj.from_aerodrome }}<br>{{ obj.to_aerodrome }}</td>
-                    <td>{{ obj.departure_time | time:"G:i" }}<br>{{ obj.arrival_time | time:"G:i" }}</td>
+                    <td>{{ obj.departure_time | time:"H:i" }}<br>{{ obj.arrival_time | time:"H:i" }}</td>
                     {% for aircraft_type in aircraft_types reversed %}
                         <td class="text-center">
                             {% if obj.aircraft.type == aircraft_type.name %}
