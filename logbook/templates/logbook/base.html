@@ -31,8 +31,7 @@
     {% with current_route=request.resolver_match.url_name %}
         <div class="collapse navbar-collapse" id="navbarDefault">
             <ul class="navbar-nav mr-auto">
-                {% include "logbook/nav_item.html" with name="Dashboard" slug="logbook:dashboard" current_route=current_route only %}
-                {% include "logbook/nav_item.html" with name="Entries" slug="logbook:entries" current_route=current_route only %}
+                {% include "logbook/nav_item.html" with name="Log entries" slug="logbook:entries" current_route=current_route only %}
                 {% include "logbook/nav_item.html" with name="Certificates" slug="logbook:certificates" current_route=current_route only %}
             </ul>
         </div>
