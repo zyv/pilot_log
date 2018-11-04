@@ -12,6 +12,11 @@ It is being developed to provide a personal migration path from the excellent [F
 ## Usage
 
 ```
+./manage.py migrate
+./manage.py createsuperuser
+```
+
+```
 ./manage.py dumpdata logbook --exclude logbook.Aerodrome --exclude logbook.LogEntry > logbook/fixtures/logbook.json
 ```
 
