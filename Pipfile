@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 Django = ">=2.1,<2.2"
+django-countries = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
