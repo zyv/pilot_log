@@ -11,6 +11,10 @@ class AerodromeAdmin(admin.ModelAdmin):
 @admin.register(LogEntry)
 class LogEntryAdmin(admin.ModelAdmin):
     autocomplete_fields = ("from_aerodrome", "to_aerodrome")
+    radio_fields = {
+        "time_function": admin.VERTICAL,
+        "launch_type": admin.VERTICAL,
+    }
     save_as = True
 
 
