@@ -74,8 +74,8 @@ class Command(BaseCommand):
                 pilot, copilot = \
                     (me, recorded_copilot) if time_function is models.FunctionType.PIC else (recorded_copilot, me)
 
-                from_aerodrome = row[FIELD_FROM].strip()
-                to_aerodrome = row[FIELD_TO].strip()
+                from_aerodrome = models.Aerodrome.objects.get(icao_code=row[FIELD_FROM].strip())
+                to_aerodrome = models.Aerodrome.objects.get(icao_code=row[FIELD_TO].strip())
 
                 remarks = row[FIELD_NOTE].strip()
 
@@ -92,7 +92,7 @@ class Command(BaseCommand):
                 self.stdout.write(
                     "Processing entry "
                     f"{departure_time.date()} {departure_time.time()} {arrival_time.time()} {aircraft.registration} "
-                    f"{from_aerodrome} -> {to_aerodrome} {pilot.last_name} / {copilot.last_name} "
+                    f"{from_aerodrome.icao_code} -> {to_aerodrome.icao_code} {pilot.last_name} / {copilot.last_name} "
                     f"{'({})'.format(remarks) if remarks else ''}"
                 )
 

@@ -1,6 +1,7 @@
 from enum import Enum
 
 from django.db import models
+from django_countries.fields import CountryField
 
 
 class AircraftType(Enum):
@@ -18,6 +19,23 @@ class LaunchType(Enum):
     SELF = "Self-launch"
     WINCH = "Winch launch"
     TOW = "Aerotow"
+
+
+class Aerodrome(models.Model):
+    name = models.CharField(max_length=75)
+    city = models.CharField(max_length=75)
+    country = CountryField()
+    icao_code = models.CharField(max_length=4)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6)
+    elevation = models.IntegerField()
+    priority = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.icao_code} ({self.name})"
+
+    class Meta:
+        ordering = ("priority",)
 
 
 class Aircraft(models.Model):
@@ -45,18 +63,11 @@ class Pilot(models.Model):
         unique_together = ("first_name", "last_name")
 
 
-# TODO: auto-populate from database, plus free text
-AERODROME_CHOICES = (
-    ("EDKA", "EDKA"),
-    ("EDRV", "EDRV"),
-)
-
-
 class LogEntry(models.Model):
     aircraft = models.ForeignKey(Aircraft, on_delete=models.PROTECT)
 
-    from_aerodrome = models.CharField(max_length=64, choices=AERODROME_CHOICES)
-    to_aerodrome = models.CharField(max_length=64, choices=AERODROME_CHOICES)
+    from_aerodrome = models.ForeignKey(Aerodrome, on_delete=models.PROTECT, related_name="from_aerodrome_set")
+    to_aerodrome = models.ForeignKey(Aerodrome, on_delete=models.PROTECT, related_name="to_aerodrome_set")
 
     # TODO: add complex constraints
     # https://docs.djangoproject.com/en/dev/ref/models/options/#django.db.models.Options.constraints
@@ -86,7 +97,7 @@ class LogEntry(models.Model):
             f"{self.departure_time.strftime('%Y-%m-%d %H:%M')} - {self.arrival_time.strftime('%H:%M')} "
             f"({duration_hours:02}:{duration_minutes:02}) "
             f"{self.aircraft.registration} ({self.aircraft.type}) "
-            f"{self.from_aerodrome} -> {self.to_aerodrome} "
+            f"{self.from_aerodrome.icao_code} -> {self.to_aerodrome.icao_code} "
             f"{self.pilot.last_name} / {self.copilot.last_name} "
             f"{remarks}"
         )
