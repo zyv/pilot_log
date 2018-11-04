@@ -15,6 +15,10 @@ It is being developed to provide a personal migration path from the excellent [F
 ./manage.py dumpdata logbook --exclude logbook.Aerodrome --exclude logbook.LogEntry > logbook/fixtures/logbook.json
 ```
 
+```
+./manage.py loaddata logbook
+```
+
 ## License
 
 This project is released under the terms of the MIT license. Full details in the `LICENSE` file.
