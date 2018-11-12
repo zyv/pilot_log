@@ -1,12 +1,21 @@
 import datetime
 from typing import Iterable
 
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.urls import reverse_lazy
 from django.views import generic
 
 from .models import Aircraft, AircraftType, Certificate, FunctionType, LogEntry
 
 
-class DashboardView(generic.ListView):
+class AuthenticatedListView(UserPassesTestMixin, LoginRequiredMixin, generic.ListView):
+    login_url = reverse_lazy("admin:login")
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class DashboardView(AuthenticatedListView):
     queryset = AircraftType
     template_name = "logbook/dashboard.html"
 
@@ -38,7 +47,7 @@ class DashboardView(generic.ListView):
         }
 
 
-class EntryIndexView(generic.ListView):
+class EntryIndexView(AuthenticatedListView):
     model = LogEntry
     ordering = "arrival_time"
     paginate_by = 7
@@ -63,5 +72,5 @@ class EntryIndexView(generic.ListView):
         return super().paginate_queryset(queryset, page_size)
 
 
-class CertificateIndexView(generic.ListView):
+class CertificateIndexView(AuthenticatedListView):
     model = Certificate
