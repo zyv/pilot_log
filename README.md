@@ -6,7 +6,7 @@ It is being developed to provide a personal migration path from the excellent [F
 
 ## Requirements
 
-* Python 3.6+
+* Python 3.7+
 * Django 2.1
 
 ## Usage
