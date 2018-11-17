@@ -24,6 +24,16 @@ SECRET_KEY = "rh@f3&8l=ai&18!r8vy#ongu+(z12qf(d4#_son(07+h+6%(vj"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if bool(os.getenv("DJANGO_DEBUG")) else False
 
+if not DEBUG:
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    X_FRAME_OPTIONS = 'DENY'
+
 ALLOWED_HOSTS = []
 
 # Application definition
