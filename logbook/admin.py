@@ -27,6 +27,7 @@ class LogEntryAdmin(admin.ModelAdmin):
 
     def get_time(self, obj):
         return (obj.departure_time.strftime("%Y-%m-%d %H:%M") +
+                obj.arrival_time.strftime(" - %H:%M") +
                 f" {duration(obj.arrival_time - obj.departure_time, '(%H:%M)')}")
 
     get_time.short_description = "Time"
