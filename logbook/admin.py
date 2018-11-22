@@ -22,7 +22,7 @@ class LogEntryAdmin(admin.ModelAdmin):
         "launch_type": admin.VERTICAL,
     }
     list_display = ("get_time", "get_registration", "get_from", "get_to", "pilot", "copilot")
-    list_filter = ("time_function", "pilot")
+    list_filter = ("aircraft__type", "time_function", "pilot")
     save_as = True
 
     def get_time(self, obj):
