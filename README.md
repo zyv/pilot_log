@@ -7,7 +7,7 @@ It is being developed to provide a personal migration path from the excellent [F
 ## Requirements
 
 * Python 3.7+
-* Django 2.1
+* Django 2.2 LTS
 
 ## Usage
 
