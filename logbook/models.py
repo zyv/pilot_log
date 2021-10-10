@@ -1,5 +1,6 @@
 from enum import Enum
 
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import CheckConstraint, F, Q
 from django_countries.fields import CountryField
@@ -100,6 +101,10 @@ class LogEntry(models.Model):
             f"{self.pilot.last_name} / {self.copilot.last_name} "
             f"{remarks}"
         )
+
+    def clean(self):
+        if self.aircraft.type == AircraftType.GLD.name and not self.launch_type:
+            raise ValidationError("Launch type is required for gliders!")
 
     class Meta:
         constraints = (
