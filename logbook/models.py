@@ -1,6 +1,7 @@
 from enum import Enum
 
 from django.db import models
+from django.db.models import CheckConstraint, F, Q
 from django_countries.fields import CountryField
 
 
@@ -70,8 +71,6 @@ class LogEntry(models.Model):
     from_aerodrome = models.ForeignKey(Aerodrome, on_delete=models.PROTECT, related_name="from_aerodrome_set")
     to_aerodrome = models.ForeignKey(Aerodrome, on_delete=models.PROTECT, related_name="to_aerodrome_set")
 
-    # TODO: add complex constraints
-    # https://docs.djangoproject.com/en/dev/ref/models/options/#django.db.models.Options.constraints
     departure_time = models.DateTimeField(unique=True)
     arrival_time = models.DateTimeField(unique=True)
 
@@ -79,7 +78,6 @@ class LogEntry(models.Model):
 
     time_function = models.CharField(max_length=5, choices=[(ft.name, ft.value) for ft in FunctionType])
 
-    # TODO: add complex constraints
     pilot = models.ForeignKey(Pilot, on_delete=models.PROTECT, related_name="pilot_set")
     copilot = models.ForeignKey(Pilot, on_delete=models.PROTECT, related_name="copilot_set", blank=True, null=True)
 
@@ -104,6 +102,10 @@ class LogEntry(models.Model):
         )
 
     class Meta:
+        constraints = (
+            CheckConstraint(check=Q(arrival_time__gt=F("departure_time")), name="arrival_after_departure"),
+            CheckConstraint(check=~Q(copilot=F("pilot")), name="copilot_not_pilot"),
+        )
         ordering = ("-arrival_time",)
         verbose_name_plural = "Log entries"
 
