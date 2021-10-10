@@ -36,6 +36,8 @@ if not DEBUG:
 
 ALLOWED_HOSTS = []
 
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
 # Application definition
 
 INSTALLED_APPS = [
