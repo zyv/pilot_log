@@ -50,14 +50,10 @@ class EntryIndexView(AuthenticatedListView):
     paginate_by = 7
 
     def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        context.update(
-            {
-                "aircraft_types": list(AircraftType),
-                "function_types": list(FunctionType),
-            },
-        )
-        return context
+        return super().get_context_data(*args, **kwargs) | {
+            "aircraft_types": list(AircraftType),
+            "function_types": list(FunctionType),
+        }
 
     def paginate_queryset(self, queryset, page_size):
         paginator = self.get_paginator(

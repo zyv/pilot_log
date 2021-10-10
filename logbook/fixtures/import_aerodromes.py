@@ -46,7 +46,7 @@ for aerodrome in load_bitbringers_data():
     aerodrome_country = countries.by_name(aerodrome["country"])
 
     if not any([aerodrome_name, aerodrome_city, aerodrome_country]):
-        logging.warn(f"Empty name/city/country for {aerodrome_icao_code}!")
+        logging.warning(f"Empty name/city/country for {aerodrome_icao_code}!")
 
     obj, created = Aerodrome.objects.update_or_create(
         icao_code=aerodrome_icao_code,
@@ -64,5 +64,5 @@ for aerodrome in load_bitbringers_data():
     logging.debug(f"{'Created' if created else 'Updated'} aerodrome: {obj}")
 
 if suspicious_codes:
-    logging.warn(f"Found suspicious codes: {len(suspicious_codes)}")
-    logging.warn(suspicious_codes)
+    logging.warning(f"Found suspicious codes: {len(suspicious_codes)}")
+    logging.warning(suspicious_codes)
