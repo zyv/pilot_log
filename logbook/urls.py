@@ -1,6 +1,7 @@
 from django.urls import path
 
 from logbook import views
+
 from .apps import LogbookConfig
 
 app_name = LogbookConfig.name

@@ -1,7 +1,6 @@
 import csv
 from datetime import datetime, timezone
 
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.base import BaseCommand
 
 from logbook import models
@@ -71,19 +70,24 @@ class Command(BaseCommand):
                 me = models.Pilot.objects.get(last_name="Zaytsev")
                 recorded_copilot = models.Pilot.objects.get(last_name=row[FIELD_COPILOT].strip())
 
-                pilot, copilot = \
+                pilot, copilot = (
                     (me, recorded_copilot) if time_function is models.FunctionType.PIC else (recorded_copilot, me)
+                )
 
                 from_aerodrome = models.Aerodrome.objects.get(icao_code=row[FIELD_FROM].strip())
                 to_aerodrome = models.Aerodrome.objects.get(icao_code=row[FIELD_TO].strip())
 
                 remarks = row[FIELD_NOTE].strip()
 
-                launch_type = {
-                    "Self": models.LaunchType.SELF.name,
-                    "Tow": models.LaunchType.TOW.name,
-                    "Winch": models.LaunchType.WINCH.name,
-                }[remarks] if aircraft.type == models.AircraftType.GLD.name else ""
+                launch_type = (
+                    {
+                        "Self": models.LaunchType.SELF.name,
+                        "Tow": models.LaunchType.TOW.name,
+                        "Winch": models.LaunchType.WINCH.name,
+                    }[remarks]
+                    if aircraft.type == models.AircraftType.GLD.name
+                    else ""
+                )
 
                 # Clear remarks field, if used for glider launch type
                 if launch_type:
@@ -93,7 +97,7 @@ class Command(BaseCommand):
                     "Processing entry "
                     f"{departure_time.date()} {departure_time.time()} {arrival_time.time()} {aircraft.registration} "
                     f"{from_aerodrome.icao_code} -> {to_aerodrome.icao_code} {pilot.last_name} / {copilot.last_name} "
-                    f"{'({})'.format(remarks) if remarks else ''}"
+                    f"{'({})'.format(remarks) if remarks else ''}",
                 )
 
                 defaults = {

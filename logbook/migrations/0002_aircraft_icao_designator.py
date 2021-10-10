@@ -6,14 +6,14 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('logbook', '0001_initial'),
+        ("logbook", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='aircraft',
-            name='icao_designator',
-            field=models.CharField(default='', max_length=4),
+            model_name="aircraft",
+            name="icao_designator",
+            field=models.CharField(default="", max_length=4),
             preserve_default=False,
         ),
     ]

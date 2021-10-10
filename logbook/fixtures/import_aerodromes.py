@@ -1,7 +1,6 @@
 import csv
 import json
 import logging
-
 from decimal import Decimal
 
 from django_countries import countries
@@ -59,7 +58,7 @@ for aerodrome in load_bitbringers_data():
             "longitude": aerodrome["lng"],
             "elevation": aerodrome["elev"],
             "priority": aerodrome["distance"],
-        }
+        },
     )
 
     logging.debug(f"{'Created' if created else 'Updated'} aerodrome: {obj}")

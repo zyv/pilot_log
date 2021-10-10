@@ -22,11 +22,8 @@ class DashboardView(AuthenticatedListView):
     @staticmethod
     def compute_totals(entries: Iterable[LogEntry]):
         return {
-            "time": sum(
-                (entry.arrival_time - entry.departure_time for entry in entries),
-                datetime.timedelta()
-            ),
-            "landings": sum(entry.landings for entry in entries)
+            "time": sum((entry.arrival_time - entry.departure_time for entry in entries), datetime.timedelta()),
+            "landings": sum(entry.landings for entry in entries),
         }
 
     def get_context_data(self, *args, **kwargs):
@@ -35,13 +32,13 @@ class DashboardView(AuthenticatedListView):
                 aircraft_type: {
                     **self.compute_totals(LogEntry.objects.filter(aircraft__type=aircraft_type.name)),
                     **{
-                        "per_aircraft":
-                            [
-                                (aircraft, self.compute_totals(LogEntry.objects.filter(aircraft=aircraft)))
-                                for aircraft in Aircraft.objects.filter(type=aircraft_type.name)
-                            ]
-                    }
-                } for aircraft_type in self.queryset
+                        "per_aircraft": [
+                            (aircraft, self.compute_totals(LogEntry.objects.filter(aircraft=aircraft)))
+                            for aircraft in Aircraft.objects.filter(type=aircraft_type.name)
+                        ],
+                    },
+                }
+                for aircraft_type in self.queryset
             },
             "grand_total": self.compute_totals(LogEntry.objects.all()),
         }
@@ -54,16 +51,21 @@ class EntryIndexView(AuthenticatedListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context.update({
-            "aircraft_types": list(AircraftType),
-            "function_types": list(FunctionType),
-        })
+        context.update(
+            {
+                "aircraft_types": list(AircraftType),
+                "function_types": list(FunctionType),
+            },
+        )
         return context
 
     def paginate_queryset(self, queryset, page_size):
         paginator = self.get_paginator(
-            queryset, page_size, orphans=self.get_paginate_orphans(),
-            allow_empty_first_page=self.get_allow_empty())
+            queryset,
+            page_size,
+            orphans=self.get_paginate_orphans(),
+            allow_empty_first_page=self.get_allow_empty(),
+        )
 
         # Set last page as a default to mimic paper logbook
         if not self.request.GET.get(self.page_kwarg):
