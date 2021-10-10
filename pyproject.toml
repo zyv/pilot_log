@@ -14,6 +14,24 @@ python = "^3.8"
 [tool.poetry.dev-dependencies]
 django-debug-toolbar = "*"
 
+flake8 = "*"
+flake8-black = "*"
+flake8-coding = "*"
+flake8-commas = "*"
+flake8-isort = "*"
+flake8-quotes = "*"
+
+black = "*"
+isort = {extras = ["pyproject"], version = "*"}
+
+[tool.black]
+line-length = 120
+target-version = ["py39"]
+
+[tool.isort]
+profile = "black"
+line_length = 120
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
