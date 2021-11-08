@@ -28,4 +28,6 @@ jobs:
         run: poetry install
 
       - name: Run linter
-        run: poetry run flake8
+        run: |
+          find . -name '*.py' | xargs poetry run add-trailing-comma --py36-plus
+          poetry run flake8
