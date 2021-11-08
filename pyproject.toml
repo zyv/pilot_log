@@ -17,12 +17,12 @@ django-debug-toolbar = "*"
 flake8 = "*"
 flake8-black = "*"
 flake8-coding = "*"
-flake8-commas = "*"
 flake8-isort = "*"
 flake8-quotes = "*"
 
 black = "*"
 isort = {extras = ["pyproject"], version = "*"}
+add-trailing-comma = "*"
 
 [tool.black]
 line-length = 120
