@@ -6,12 +6,15 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
+    env:
+      PYTHON_VERSION: '3.9'
+
     steps:
       - uses: actions/checkout@v2
 
       - uses: actions/setup-python@v2
         with:
-          python-version: 3.9
+          python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Setup Poetry
         uses: moneymeets/action-setup-poetry@master
@@ -21,7 +24,7 @@ jobs:
         id: poetry-cache
         with:
           path: ~/.cache/pypoetry/virtualenvs
-          key: poetry-${{ hashFiles('**/poetry.lock') }}
+          key: poetry-${{ env.PYTHON_VERSION }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Create virtualenv and install dependencies
         if: steps.poetry-cache.outputs.cache-hit != 'true'
