@@ -45,7 +45,7 @@ class Aircraft(models.Model):
     maker = models.CharField(max_length=64)
     model = models.CharField(max_length=64)
     icao_designator = models.CharField(max_length=4)
-    registration = models.CharField(max_length=8, unique=True)
+    registration = models.CharField(max_length=9, unique=True)
 
     def __str__(self):
         return f"{self.registration} ({self.maker} {self.model})"
