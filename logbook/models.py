@@ -86,7 +86,7 @@ class LogEntry(models.Model):
 
     remarks = models.CharField(max_length=255, blank=True)
 
-    # TODO: add cross-country flag?
+    cross_country = models.BooleanField(default=False)
 
     def __str__(self):
         duration = (self.arrival_time - self.departure_time).total_seconds()
@@ -99,6 +99,7 @@ class LogEntry(models.Model):
             f"{self.aircraft.registration} ({self.aircraft.type}) "
             f"{self.from_aerodrome.icao_code} -> {self.to_aerodrome.icao_code} "
             f"{self.pilot.last_name} / {self.copilot.last_name} "
+            f"{'(XC) ' if self.cross_country else ''}"
             f"{remarks}"
         )
 
