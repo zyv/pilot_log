@@ -26,7 +26,7 @@ class TotalsRecord:
         return TotalsRecord(time=self.time - other.time, landings=self.landings - other.landings)
 
     def __str__(self):
-        return duration(self.time, "%{h}h %{m}m") + f", {self.landings} landing{'s' if self.landings >1 else ''}"
+        return duration(self.time, "%{h}h %{m}m").replace(" 0m", "")
 
 
 @dataclass
@@ -112,7 +112,7 @@ def get_ppl_experience(log_entries: QuerySet) -> dict:
             required=TotalsRecord(time=datetime.timedelta(hours=10), landings=1),
             accrued=compute_totals(log_entries.filter(time_function=FunctionType.PIC.name)),
         ),
-        "Cross-country": ExperienceRecord(
+        "Cross-country solo": ExperienceRecord(
             required=TotalsRecord(time=datetime.timedelta(hours=5), landings=1),
             accrued=compute_totals(log_entries.filter(time_function=FunctionType.PIC.name, cross_country=True)),
         ),
