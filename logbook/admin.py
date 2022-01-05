@@ -12,6 +12,7 @@ class AerodromeAdmin(admin.ModelAdmin):
 @admin.register(Aircraft)
 class AircraftAdmin(admin.ModelAdmin):
     search_fields = ("registration",)
+    save_as = True
 
 
 @admin.register(LogEntry)
