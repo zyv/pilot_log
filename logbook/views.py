@@ -38,7 +38,7 @@ class ExperienceRecord:
     def remaining(self) -> TotalsRecord:
         remaining = self.required - self.accrued
         if remaining.time.total_seconds() < 0:
-            remaining.time = 0
+            remaining.time = datetime.timedelta(0)
         if remaining.landings < 0:
             remaining.landings = 0
         return remaining
