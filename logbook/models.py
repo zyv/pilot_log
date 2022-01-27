@@ -129,3 +129,51 @@ class Certificate(models.Model):
 
     class Meta:
         ordering = ("name",)
+
+
+"""
+# Currency requirements
+
+## SEP rating
+
+1. Pass a proficiency check in a single-engine (single-pilot) aeroplane with an examiner. The proficiency check must
+   take place within the 3 months immediately before the rating’s expiry date; or
+2. 12 hours of flight time in single-engine (single-pilot) aeroplane within the 12 months preceding the rating's expiry
+   date, including the following:
+  a. 6 hours as pilot-in-command (PIC)
+  b. 12 take-offs and landings
+  c. a training flight of at least 1 hour (or a maximum of three totalling 1 hour) with the same flight instructor or
+     class rating instructor.
+
+## Passenger
+
+### FCL.060 - Recent experience
+
+b. Aeroplanes, helicopters, powered-lift, airships and sailplanes. A pilot shall not operate an aircraft in commercial
+   air transport or carrying passengers:
+  1. as PIC or co-pilot unless he/she has carried out, in the preceding 90 days, at least 3 take- offs, approaches and
+     landings in an aircraft of the same type or class or an FFS representing that type or class. The 3 take-offs and
+     landings shall be performed in either multi-pilot or single-pilot operations, depending on the privileges held by
+     the pilot; and
+  2. as PIC at night unless he/she:
+    i. has carried out in the preceding 90 days at least 1 take-off, approach and landing at night as a pilot flying in
+       an aircraft of the same type or class or an FFS representing that type or class; or
+    ii. holds an IR;
+
+## ICAO English language proficiency
+
+* Level 1-3: not for operational use
+* Level 4: 4 years
+* Level 5: 6 years
+* Level 6: unlimited
+
+## Medical II
+
+If you are under 40, the certificate will be valid for 60 months. Please note that if you are issued with a Class 2
+medical before you reach 40, it will no longer be valid once you reach 42 years of age.
+
+If you are aged between 40 and 50 the certificate will be valid for 24 months. Please note that if you are issued
+with a Class 2 medical before you reach 50, it will no longer be valid once you reach 51 years of age.
+
+If you are aged 50 or over the certificate will be valid for 12 months.
+"""
