@@ -99,7 +99,7 @@ class LogEntry(models.Model):
             f"{self.aircraft.registration} ({self.aircraft.type}) "
             f"{self.from_aerodrome.icao_code} -> {self.to_aerodrome.icao_code} "
             f"{self.pilot.last_name} / {self.copilot.last_name} "
-            f"{'(XC) ' if self.cross_country else ''}"
+            f"{'[XC] ' if self.cross_country else ''}"
             f"{remarks}"
         )
 
