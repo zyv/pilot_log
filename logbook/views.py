@@ -11,6 +11,7 @@ from .models import Aircraft, AircraftType, Certificate, FunctionType, LogEntry
 from .templatetags.logbook_utils import duration
 
 PPL_START_DATE = datetime.datetime(2021, 12, 1, 0, 0, tzinfo=datetime.timezone.utc)
+PPL_END_DATE = datetime.datetime(2022, 1, 29, 0, 0, tzinfo=datetime.timezone.utc)
 
 
 @dataclass
@@ -88,7 +89,9 @@ class DashboardView(AuthenticatedListView):
                 for aircraft_type in self.queryset
             },
             "grand_total": compute_totals(LogEntry.objects.all()),
-            "ppl": get_ppl_experience(LogEntry.objects.filter(departure_time__gte=PPL_START_DATE)),
+            "ppl": get_ppl_experience(
+                LogEntry.objects.filter(departure_time__gte=PPL_START_DATE, departure_time__lt=PPL_END_DATE),
+            ),
         }
 
 
