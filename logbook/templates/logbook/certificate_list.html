@@ -32,4 +32,33 @@
         </table>
     </div>
 
+    <h2>PPL(A) readiness</h2>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-sm table-hover">
+            <thead>
+            <tr>
+                <th>Time function</th>
+                <th class="text-right">Required</th>
+                <th class="text-right">Accrued</th>
+                <th class="text-right">Remaining</th>
+                <th class="text-right">Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for type, totals in ppl.items %}
+                <tr>
+                    <td>{{ type }}</td>
+                    <td class="text-right">{{ totals.required }}</td>
+                    <td class="text-right">{{ totals.accrued }}</td>
+                    <td class="text-right">{{ totals.remaining }}</td>
+                    <td class="text-right {% if totals.remaining.zero %}text-success{% else %}text-danger{% endif %}">
+                        {% if totals.remaining.zero %}✓{% else %}✗{% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
 {% endblock %}

@@ -89,6 +89,40 @@ class DashboardView(AuthenticatedListView):
                 for aircraft_type in self.queryset
             },
             "grand_total": compute_totals(LogEntry.objects.all()),
+        }
+
+
+class EntryIndexView(AuthenticatedListView):
+    model = LogEntry
+    ordering = "arrival_time"
+    paginate_by = 7
+
+    def get_context_data(self, *args, **kwargs):
+        return super().get_context_data(*args, **kwargs) | {
+            "aircraft_types": list(AircraftType),
+            "function_types": list(FunctionType),
+        }
+
+    def paginate_queryset(self, queryset, page_size):
+        paginator = self.get_paginator(
+            queryset,
+            page_size,
+            orphans=self.get_paginate_orphans(),
+            allow_empty_first_page=self.get_allow_empty(),
+        )
+
+        # Set last page as a default to mimic paper logbook
+        if not self.request.GET.get(self.page_kwarg):
+            self.kwargs[self.page_kwarg] = paginator.num_pages
+
+        return super().paginate_queryset(queryset, page_size)
+
+
+class CertificateIndexView(AuthenticatedListView):
+    model = Certificate
+
+    def get_context_data(self, *args, **kwargs):
+        return super().get_context_data(*args, **kwargs) | {
             "ppl": get_ppl_experience(
                 LogEntry.objects.filter(departure_time__gte=PPL_START_DATE, departure_time__lt=PPL_END_DATE),
             ),
@@ -124,33 +158,3 @@ def get_ppl_experience(log_entries: QuerySet) -> dict:
             accrued=compute_totals(log_entries),
         ),
     }
-
-
-class EntryIndexView(AuthenticatedListView):
-    model = LogEntry
-    ordering = "arrival_time"
-    paginate_by = 7
-
-    def get_context_data(self, *args, **kwargs):
-        return super().get_context_data(*args, **kwargs) | {
-            "aircraft_types": list(AircraftType),
-            "function_types": list(FunctionType),
-        }
-
-    def paginate_queryset(self, queryset, page_size):
-        paginator = self.get_paginator(
-            queryset,
-            page_size,
-            orphans=self.get_paginate_orphans(),
-            allow_empty_first_page=self.get_allow_empty(),
-        )
-
-        # Set last page as a default to mimic paper logbook
-        if not self.request.GET.get(self.page_kwarg):
-            self.kwargs[self.page_kwarg] = paginator.num_pages
-
-        return super().paginate_queryset(queryset, page_size)
-
-
-class CertificateIndexView(AuthenticatedListView):
-    model = Certificate
