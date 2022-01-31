@@ -6,29 +6,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
-    env:
-      PYTHON_VERSION: '3.9'
-
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/setup-python@v2
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-
-      - name: Setup Poetry
-        uses: moneymeets/action-setup-poetry@master
-
-      - name: Restore virtualenv from Poetry cache
-        uses: actions/cache@v2
-        id: poetry-cache
-        with:
-          path: ~/.cache/pypoetry/virtualenvs
-          key: poetry-${{ env.PYTHON_VERSION }}-${{ hashFiles('**/poetry.lock') }}
-
-      - name: Create virtualenv and install dependencies
-        if: steps.poetry-cache.outputs.cache-hit != 'true'
-        run: poetry install
+      - name: Setup Python and Poetry
+        uses: moneymeets/action-setup-python-poetry@master
 
       - name: Run linter
         run: |
