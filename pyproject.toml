@@ -6,10 +6,10 @@ authors = ["Yury V. Zaytsev <yury@shurup.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-Django = "<4.1"
+Django = "*"
 django-countries = "*"
 
-python = "^3.8"
+python = "^3.10"
 
 [tool.poetry.dev-dependencies]
 django-debug-toolbar = "*"
