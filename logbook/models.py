@@ -44,7 +44,10 @@ class Aircraft(models.Model):
     type = models.CharField(max_length=3, choices=[(at.name, at.value) for at in AircraftType])
     maker = models.CharField(max_length=64)
     model = models.CharField(max_length=64)
+
+    # https://www.icao.int/publications/doc8643/pages/search.aspx
     icao_designator = models.CharField(max_length=4)
+
     registration = models.CharField(max_length=9, unique=True)
 
     def __str__(self):
