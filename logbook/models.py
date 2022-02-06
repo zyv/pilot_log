@@ -91,6 +91,8 @@ class LogEntry(models.Model):
 
     cross_country = models.BooleanField(default=False)
 
+    slots = models.PositiveSmallIntegerField(default=1, help_text="Number of logbook slots for this entry.")
+
     def __str__(self):
         duration = (self.arrival_time - self.departure_time).total_seconds()
         duration_hours = int(duration // 3600)

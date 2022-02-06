@@ -37,7 +37,7 @@
                         <td class="text-center">
                             {% if obj.aircraft.type == aircraft_type.name %}
                                 {{ obj.arrival_time | subtract:obj.departure_time | duration:"%h:%M" }}
-                            {% else %}
+                            {% elif obj is not None %}
                                 -
                             {% endif %}
                         </td>
@@ -48,7 +48,7 @@
                         <td class="text-center">
                             {% if obj.time_function == function_type.name %}
                                 {{ obj.arrival_time | subtract:obj.departure_time | duration:"%h:%M" }}
-                            {% else %}
+                            {% elif obj is not None %}
                                 -
                             {% endif %}
                         </td>

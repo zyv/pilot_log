@@ -1,5 +1,6 @@
 import datetime
 from dataclasses import dataclass
+from itertools import chain
 from typing import Iterable
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -104,12 +105,13 @@ class EntryIndexView(AuthenticatedListView):
         }
 
     def paginate_queryset(self, queryset, page_size):
+        entries = tuple(chain.from_iterable(([entry] + [None] * (entry.slots - 1)) for entry in queryset))
 
         # Set last page as a default to mimic paper logbook
         if not self.request.GET.get(self.page_kwarg):
             self.kwargs[self.page_kwarg] = "last"
 
-        return super().paginate_queryset(queryset, page_size)
+        return super().paginate_queryset(entries, page_size)
 
 
 class CertificateIndexView(AuthenticatedListView):
