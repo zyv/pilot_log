@@ -116,6 +116,13 @@ class LogEntry(models.Model):
         constraints = (
             CheckConstraint(check=Q(arrival_time__gt=F("departure_time")), name="arrival_after_departure"),
             CheckConstraint(check=~Q(copilot=F("pilot")), name="copilot_not_pilot"),
+            CheckConstraint(
+                check=(
+                    Q(time_function=FunctionType.PIC.name)  # PIC time may be XC or not XC
+                    | ~Q(time_function=FunctionType.PIC.name) & Q(cross_country=False)  # non-PIC time must be non-XC
+                ),
+                name="no_pic_no_xc",
+            ),
         )
         ordering = ("-arrival_time",)
         verbose_name_plural = "Log entries"
