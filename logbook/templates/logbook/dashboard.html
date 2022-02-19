@@ -15,20 +15,20 @@
             <thead>
             <tr>
                 <th>Type / Registration</th>
-                <th class="text-right">Total Time</th>
-                <th class="text-right">Total Landings</th>
+                <th class="text-end">Total Time</th>
+                <th class="text-end">Total Landings</th>
             </tr>
             </thead>
             <tbody>
             {% for aircraft_type, type_totals in totals_per_type.items %}
                 <tr>
                     <th>{{ aircraft_type.value }}</th>
-                    <th class="text-right">
+                    <th class="text-end">
                         <abbr title="{% for key, value in type_totals.per_function.items %}{{ key }}: {{ value.time | duration:"%{h}h %{m}m" }} {% if not forloop.last %} | {% endif %}{% endfor %}">
                            {{ type_totals.grand.time | duration:"%{h}h %{m}m" }}
                         </abbr>
                     </th>
-                    <th class="text-right">
+                    <th class="text-end">
                         <abbr title="{% for key, value in type_totals.per_function.items %}{{ key }}: {{ value.landings }} {% if not forloop.last %} | {% endif %}{% endfor %}">
                             {{ type_totals.grand.landings }}
                         </abbr>
@@ -41,12 +41,12 @@
                                 {{ aircraft.registration }}
                             </abbr>
                         </td>
-                        <td class="text-right">
+                        <td class="text-end">
                             <abbr title="{% for key, value in aircraft_per_function.items %}{{ key }}: {{ value.time | duration:"%{h}h %{m}m" }} {% if not forloop.last %} | {% endif %}{% endfor %}">
                                 {{ aircraft_totals.time | duration:"%{h}h %{m}m" }}
                             </abbr>
                         </td>
-                        <td class="text-right">
+                        <td class="text-end">
                             <abbr title="{% for key, value in aircraft_per_function.items %}{{ key }}: {{ value.landings }} {% if not forloop.last %} | {% endif %}{% endfor %}">
                                 {{ aircraft_totals.landings }}
                             </abbr>
@@ -56,8 +56,8 @@
             {% endfor %}
             <tr>
                 <th>Grand Total</th>
-                <th class="text-right">{{ grand_total.time | duration:"%{h}h %{m}m" }}</th>
-                <th class="text-right">{{ grand_total.landings }}</th>
+                <th class="text-end">{{ grand_total.time | duration:"%{h}h %{m}m" }}</th>
+                <th class="text-end">{{ grand_total.landings }}</th>
             </tr>
             </tbody>
         </table>

@@ -39,20 +39,20 @@
             <thead>
             <tr>
                 <th>Time function</th>
-                <th class="text-right">Required</th>
-                <th class="text-right">Accrued</th>
-                <th class="text-right">Remaining</th>
-                <th class="text-right">Status</th>
+                <th class="text-end">Required</th>
+                <th class="text-end">Accrued</th>
+                <th class="text-end">Remaining</th>
+                <th class="text-end">Status</th>
             </tr>
             </thead>
             <tbody>
             {% for type, totals in ppl.items %}
                 <tr>
                     <td>{{ type }}</td>
-                    <td class="text-right">{{ totals.required }}</td>
-                    <td class="text-right">{{ totals.accrued }}</td>
-                    <td class="text-right">{{ totals.remaining }}</td>
-                    <td class="text-right {% if totals.remaining.zero %}text-success{% else %}text-danger{% endif %}">
+                    <td class="text-end">{{ totals.required }}</td>
+                    <td class="text-end">{{ totals.accrued }}</td>
+                    <td class="text-end">{{ totals.remaining }}</td>
+                    <td class="text-end {% if totals.remaining.zero %}text-success{% else %}text-danger{% endif %}">
                         {% if totals.remaining.zero %}✓{% else %}✗{% endif %}
                     </td>
                 </tr>
