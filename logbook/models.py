@@ -109,7 +109,12 @@ class LogEntry(models.Model):
         )
 
     def clean(self):
-        if self.aircraft.type == AircraftType.GLD.name and not self.launch_type:
+        # Check constraints can't reference other tables; it's possible via UDFs, but not universally supported by RDBs
+        if (
+            self.aircraft_id is not None  # checks if foreign key is set to avoid `RelatedObjectDoesNotExist` exception!
+            and self.aircraft.type == AircraftType.GLD.name
+            and not self.launch_type
+        ):
             raise ValidationError("Launch type is required for gliders!")
 
     class Meta:
