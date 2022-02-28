@@ -106,7 +106,7 @@ Django = ">=2.2"
 
 [[package]]
 name = "django-countries"
-version = "7.2.1"
+version = "7.3"
 description = "Provides a country field for Django models."
 category = "main"
 optional = false
@@ -116,7 +116,7 @@ python-versions = "*"
 dev = ["tox", "black", "django", "pytest", "pytest-django", "djangorestframework", "graphene-django"]
 maintainer = ["transifex-client", "zest.releaser", "django"]
 pyuca = ["pyuca"]
-test = ["pytest", "pytest-django", "pytest-cov", "graphene-django"]
+test = ["pytest", "pytest-django", "pytest-cov", "djangorestframework", "graphene-django"]
 
 [[package]]
 name = "django-debug-toolbar"
@@ -381,8 +381,8 @@ django-bootstrap5 = [
     {file = "django_bootstrap5-21.3-py3-none-any.whl", hash = "sha256:c7a686420aa98692f15bd16e61a90dc6a3607e441a4dea37af840b83d4820cac"},
 ]
 django-countries = [
-    {file = "django-countries-7.2.1.tar.gz", hash = "sha256:26878b54d36bedff30b4535ceefcb8af6784741a8b30b1b8a662fb14a936a4ab"},
-    {file = "django_countries-7.2.1-py3-none-any.whl", hash = "sha256:adc965f1d348124274b7d918fc1aad5e29609758af999e1822baa9f2cc06d1b8"},
+    {file = "django-countries-7.3.tar.gz", hash = "sha256:adb4fdb9e28f74c4e65fecf4b8f394ccd737b35f03d3b950faad5e9150d8a7fb"},
+    {file = "django_countries-7.3-py3-none-any.whl", hash = "sha256:8f411b2615f6bf10bfc5b9ac9c8e673dc7903dfe9dd0afdf5ebf7fd1634472cc"},
 ]
 django-debug-toolbar = [
     {file = "django-debug-toolbar-3.2.4.tar.gz", hash = "sha256:644bbd5c428d3283aa9115722471769cac1bec189edf3a0c855fd8ff870375a9"},
