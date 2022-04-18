@@ -1,6 +1,6 @@
 [[package]]
 name = "add-trailing-comma"
-version = "2.2.2"
+version = "2.2.3"
 description = "Automatically add trailing commas to calls and literals"
 category = "dev"
 optional = false
@@ -331,8 +331,8 @@ content-hash = "0a95e6cec580bf185eb2eae289d2bcc839f631718bce01021469ff0f97cd5aa6
 
 [metadata.files]
 add-trailing-comma = [
-    {file = "add_trailing_comma-2.2.2-py2.py3-none-any.whl", hash = "sha256:a6b4f97ee4b528763392d98d872b24b3347cf2039a33926235b0c2ae0ae00c25"},
-    {file = "add_trailing_comma-2.2.2.tar.gz", hash = "sha256:6b3e91a87a572d263c8bc85898902a2ecc1773f432da28d1ceaf507ea20dbf0e"},
+    {file = "add_trailing_comma-2.2.3-py2.py3-none-any.whl", hash = "sha256:e8d928f8a31fc06140fa99802df0789b5f58c9b45b2a32252d7d4b59c46a9d03"},
+    {file = "add_trailing_comma-2.2.3.tar.gz", hash = "sha256:d118070060a40be1f6b7f0bcc2f7be3b9f88d22eb9511b5d7a6535fa9fa74571"},
 ]
 asgiref = [
     {file = "asgiref-3.5.0-py3-none-any.whl", hash = "sha256:88d59c13d634dcffe0510be048210188edd79aeccb6a6c9028cdad6f31d730a9"},
