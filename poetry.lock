@@ -18,22 +18,7 @@ optional = false
 python-versions = ">=3.7"
 
 [package.extras]
-tests = ["pytest", "pytest-asyncio", "mypy (>=0.800)"]
-
-[[package]]
-name = "beautifulsoup4"
-version = "4.10.0"
-description = "Screen-scraping library"
-category = "main"
-optional = false
-python-versions = ">3.0.0"
-
-[package.dependencies]
-soupsieve = ">1.2"
-
-[package.extras]
-html5lib = ["html5lib"]
-lxml = ["lxml"]
+tests = ["mypy (>=0.800)", "pytest", "pytest-asyncio"]
 
 [[package]]
 name = "black"
@@ -94,15 +79,14 @@ bcrypt = ["bcrypt"]
 
 [[package]]
 name = "django-bootstrap5"
-version = "21.3"
+version = "22.1"
 description = "Bootstrap 5 for Django"
 category = "main"
 optional = false
 python-versions = ">=3.7"
 
 [package.dependencies]
-beautifulsoup4 = ">=4.8.0"
-Django = ">=2.2"
+Django = ">=3.2"
 
 [[package]]
 name = "django-countries"
@@ -116,10 +100,10 @@ python-versions = "*"
 typing-extensions = "*"
 
 [package.extras]
-dev = ["tox", "black", "django", "pytest", "pytest-django", "djangorestframework", "graphene-django"]
-maintainer = ["transifex-client", "zest.releaser", "django"]
+dev = ["black", "django", "djangorestframework", "graphene-django", "pytest", "pytest-django", "tox"]
+maintainer = ["django", "transifex-client", "zest.releaser"]
 pyuca = ["pyuca"]
-test = ["pytest", "pytest-django", "pytest-cov", "djangorestframework", "graphene-django"]
+test = ["djangorestframework", "graphene-django", "pytest", "pytest-cov", "pytest-django"]
 
 [[package]]
 name = "django-debug-toolbar"
@@ -205,10 +189,10 @@ optional = false
 python-versions = ">=3.6.1,<4.0"
 
 [package.extras]
-pipfile_deprecated_finder = ["pipreqs", "requirementslib"]
-requirements_deprecated_finder = ["pipreqs", "pip-api"]
 colors = ["colorama (>=0.4.3,<0.5.0)"]
+pipfile_deprecated_finder = ["pipreqs", "requirementslib"]
 plugins = ["setuptools"]
+requirements_deprecated_finder = ["pip-api", "pipreqs"]
 
 [[package]]
 name = "mccabe"
@@ -261,14 +245,6 @@ description = "passive checker of Python programs"
 category = "dev"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
-
-[[package]]
-name = "soupsieve"
-version = "2.3.1"
-description = "A modern CSS selector implementation for Beautiful Soup."
-category = "main"
-optional = false
-python-versions = ">=3.6"
 
 [[package]]
 name = "sqlparse"
@@ -324,10 +300,6 @@ asgiref = [
     {file = "asgiref-3.5.2-py3-none-any.whl", hash = "sha256:1d2880b792ae8757289136f1db2b7b99100ce959b2aa57fd69dab783d05afac4"},
     {file = "asgiref-3.5.2.tar.gz", hash = "sha256:4a29362a6acebe09bf1d6640db38c1dc3d9217c68e6f9f6204d72667fc19a424"},
 ]
-beautifulsoup4 = [
-    {file = "beautifulsoup4-4.10.0-py3-none-any.whl", hash = "sha256:9a315ce70049920ea4572a4055bc4bd700c940521d36fc858205ad4fcde149bf"},
-    {file = "beautifulsoup4-4.10.0.tar.gz", hash = "sha256:c23ad23c521d818955a4151a67d81580319d4bf548d3d49f4223ae041ff98891"},
-]
 black = [
     {file = "black-22.6.0-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:f586c26118bc6e714ec58c09df0157fe2d9ee195c764f630eb0d8e7ccce72e69"},
     {file = "black-22.6.0-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:b270a168d69edb8b7ed32c193ef10fd27844e5c60852039599f9184460ce0807"},
@@ -366,8 +338,8 @@ django = [
     {file = "Django-4.1.tar.gz", hash = "sha256:032f8a6fc7cf05ccd1214e4a2e21dfcd6a23b9d575c6573cacc8c67828dbe642"},
 ]
 django-bootstrap5 = [
-    {file = "django-bootstrap5-21.3.tar.gz", hash = "sha256:35086341881780a44b2e27255894f6029fc5ef75e5a0ec8ebd82f47a5184fa73"},
-    {file = "django_bootstrap5-21.3-py3-none-any.whl", hash = "sha256:c7a686420aa98692f15bd16e61a90dc6a3607e441a4dea37af840b83d4820cac"},
+    {file = "django-bootstrap5-22.1.tar.gz", hash = "sha256:70b51f020ef95a64780a0b5d5fdb1fade6e7b5e26c53355cc4f3648eca239cab"},
+    {file = "django_bootstrap5-22.1-py3-none-any.whl", hash = "sha256:cf3f257abf750f19e47eddc106066ddb182576185494965d1408eddcb3a7380b"},
 ]
 django-countries = [
     {file = "django-countries-7.3.2.tar.gz", hash = "sha256:0df6d34193667c2343da8935cbfb8a2bd4fb0c97baf01ac10db4628ba1557a82"},
@@ -423,10 +395,6 @@ pycodestyle = [
 pyflakes = [
     {file = "pyflakes-2.4.0-py2.py3-none-any.whl", hash = "sha256:3bb3a3f256f4b7968c9c788781e4ff07dce46bdf12339dcda61053375426ee2e"},
     {file = "pyflakes-2.4.0.tar.gz", hash = "sha256:05a85c2872edf37a4ed30b0cce2f6093e1d0581f8c19d7393122da7e25b2b24c"},
-]
-soupsieve = [
-    {file = "soupsieve-2.3.1-py3-none-any.whl", hash = "sha256:1a3cca2617c6b38c0343ed661b1fa5de5637f257d4fe22bd9f1338010a1efefb"},
-    {file = "soupsieve-2.3.1.tar.gz", hash = "sha256:b8d49b1cd4f037c7082a9683dfa1801aa2597fb11c3a1155b7a5b94829b4f1f9"},
 ]
 sqlparse = [
     {file = "sqlparse-0.4.2-py3-none-any.whl", hash = "sha256:48719e356bb8b42991bdbb1e8b83223757b93789c00910a616a071910ca4a64d"},
