@@ -156,31 +156,42 @@ class Certificate(models.Model):
 """
 # Currency requirements
 
-## SEP rating
+## FCL.740 Validity and renewal of class and type ratings
 
-1. Pass a proficiency check in a single-engine (single-pilot) aeroplane with an examiner. The proficiency check must
-   take place within the 3 months immediately before the rating’s expiry date; or
-2. 12 hours of flight time in single-engine (single-pilot) aeroplane within the 12 months preceding the rating's expiry
-   date, including the following:
-  a. 6 hours as pilot-in-command (PIC)
-  b. 12 take-offs and landings
-  c. a training flight of at least 1 hour (or a maximum of three totalling 1 hour) with the same flight instructor or
-     class rating instructor.
+The period of validity of class and type ratings shall be 1 year, except for single-pilot single-engine class ratings,
+for which the period of validity shall be 2 years, unless otherwise determined by the operational suitability data,
+established in accordance with Part-21.
 
-## Passenger
+### Revalidation of single-pilot single-engine class ratings
 
-### FCL.060 - Recent experience
+1. Within the 3 months preceding the expiry date of the rating, pass a proficiency check in the relevant class in
+   accordance with Appendix 9 to this Part with an examiner; or
 
-b. Aeroplanes, helicopters, powered-lift, airships and sailplanes. A pilot shall not operate an aircraft in commercial
-   air transport or carrying passengers:
-  1. as PIC or co-pilot unless he/she has carried out, in the preceding 90 days, at least 3 take- offs, approaches and
-     landings in an aircraft of the same type or class or an FFS representing that type or class. The 3 take-offs and
-     landings shall be performed in either multi-pilot or single-pilot operations, depending on the privileges held by
-     the pilot; and
-  2. as PIC at night unless he/she:
-    i. has carried out in the preceding 90 days at least 1 take-off, approach and landing at night as a pilot flying in
-       an aircraft of the same type or class or an FFS representing that type or class; or
-    ii. holds an IR;
+2. Within the 12 months preceding the expiry date of the rating, complete 12 hours of flight time in the relevant class,
+   including:
+   1. 6 hours as PIC,
+   2. 12 take-offs and 12 landings, and
+   3. refresher training of at least 1 hour of total flight time with a flight instructor (FI) or a class rating
+     instructor (CRI). Applicants shall be exempted from this refresher training if they have passed a class or type
+     rating proficiency check, skill test or assessment of competence in any other class or type of aeroplane.
+
+When applicants hold both a single-engine piston aeroplane-land class rating and a TMG rating, they may complete
+the requirements of (1) in either class or a combination thereof, and achieve revalidation of both ratings.
+
+## FCL.060 - Recent experience
+
+### Aeroplanes, helicopters, powered-lift, airships and sailplanes
+
+A pilot shall not operate an aircraft in commercial air transport or carrying passengers:
+
+1. as PIC or co-pilot unless he/she has carried out, in the preceding 90 days, at least 3 take-offs, approaches and
+   landings in an aircraft of the same type or class or an FFS representing that type or class. The 3 take-offs and
+   landings shall be performed in either multi-pilot or single-pilot operations, depending on the privileges held by
+   the pilot; and
+2. as PIC at night unless he/she:
+   1. has carried out in the preceding 90 days at least 1 take-off, approach and landing at night as a pilot flying in
+      an aircraft of the same type or class or an FFS representing that type or class; or
+   2. holds an IR;
 
 ## ICAO English language proficiency
 
