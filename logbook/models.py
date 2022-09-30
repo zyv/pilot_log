@@ -1,3 +1,4 @@
+from datetime import date
 from enum import Enum
 
 from django.core.exceptions import ValidationError
@@ -141,11 +142,15 @@ class Certificate(models.Model):
     authority = models.CharField(max_length=255)
     remarks = models.CharField(max_length=255, blank=True)
 
+    @property
+    def is_valid(self) -> bool:
+        return self.valid_until is None or self.valid_until >= date.today()
+
     def __str__(self):
         return f"{self.name}{' ({})'.format(self.number) if self.number else ''}"
 
     class Meta:
-        ordering = ("name",)
+        ordering = ("name", "-valid_until")
 
 
 """
