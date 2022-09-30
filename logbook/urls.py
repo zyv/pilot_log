@@ -1,13 +1,14 @@
 from django.urls import path
 
-from logbook import views
-
 from .apps import LogbookConfig
+from .views.certificates import CertificateIndexView
+from .views.entries import EntryIndexView
+from .views.index import DashboardView
 
 app_name = LogbookConfig.name
 
 urlpatterns = [
-    path("", views.DashboardView.as_view(), name="dashboard"),
-    path("entries/", views.EntryIndexView.as_view(), name="entries"),
-    path("certificates/", views.CertificateIndexView.as_view(), name="certificates"),
+    path("", DashboardView.as_view(), name="dashboard"),
+    path("entries/", EntryIndexView.as_view(), name="entries"),
+    path("certificates/", CertificateIndexView.as_view(), name="certificates"),
 ]
