@@ -67,6 +67,27 @@ Applicants for an IR shall:
    2. complete a proficiency check in accordance with Appendix 9 to this Part, in the relevant aircraft category.
 4. If the IR has not been revalidated or renewed within the preceding 7 years, the holder will be required to pass again the IR theoretical knowledge examination and skill test.
 
+## CPL(A) Modular (Part FCL Appendix 3 - E. CPL modular course - Aeroplanes)
+
+### Experience
+
+The applicant for a CPL(A) shall have completed at least 200 hours flight time, including at least:
+
+1. 100 hours as PIC, of which 20 hours of cross-country flight as PIC, which shall include a VFR crosscountry flight of at least 540 km (300 NM), in the course of which full stop landings at two aerodromes different from the aerodrome of departure shall be made;
+2. 5 hours of flight time shall be completed at night, comprising 3 hours of dual instruction, which shall include at least 1 hour of cross-country navigation and 5 solo take-offs and 5 solo full stop landings; and
+3. 10 hours of instrument flight instruction, of which up to 5 hours may be instrument ground time in an FNPT I, or FNPT II or FFS.
+4. 6 hours of flight time shall be completed in a multi-engine aeroplane, if a multi-engine aeroplane is used for the skill test.
+
+### Training course
+
+1. Applicants holding a valid IR(A) shall be fully credited towards the dual instrument instruction time.
+2. Applicants with a valid IR shall be given at least 15 hours dual visual flight instruction.
+3. Applicants without an IR shall be given at least 25 hours dual flight instruction, including 10 hours of instrument instruction of which up to 5 hours may be instrument ground time in a BITD, an FNPT I or II, an FTD 2 or an FFS.
+4. Applicants without a night rating aeroplane shall be given additionally at least 5 hours night flight
+instruction, comprising 3 hours of dual instruction, which shall include at least 1 hour of crosscountry navigation and 5 solo take-offs and 5 solo full stop landings.
+5. At least 5 hours of the flight instruction shall be carried out in an aeroplane certificated for the
+carriage of at least 4 persons and have a variable pitch propeller and retractable landing gear.
+
 ## FCL.055 - Language proficiency
 
 * Level 1-3 (Pre-Elementary / Elementary / Pre-Operational): not for operational use
