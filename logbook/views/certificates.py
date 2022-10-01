@@ -34,16 +34,6 @@ class CertificateIndexView(AuthenticatedListView):
 
 
 def get_ppl_experience(log_entries: QuerySet) -> dict:
-    """
-    https://www.easa.europa.eu/sites/default/files/dfu/Part-FCL.pdf
-
-    (a) Applicants for a PPL(A) shall have completed at least 45 hours of flight instruction in aeroplanes or TMGs,
-        5 of which may have been completed in an FSTD, including at least:
-    (1) 25 hours of dual flight instruction; and
-    (2) 10 hours of supervised solo flight time, including at least 5 hours of solo cross-country flight time
-        with at least 1 cross-country flight of at least 270 km (150 NM), during which full stop landings
-        at 2 aerodromes different from the aerodrome of departure shall be made.
-    """
     return {
         "Dual instruction": ExperienceRecord(
             required=TotalsRecord(time=timedelta(hours=25), landings=1),
