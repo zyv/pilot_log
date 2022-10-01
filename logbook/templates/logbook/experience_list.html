@@ -1,0 +1,19 @@
+{% extends "logbook/base.html" %}
+
+{% block content %}
+
+    <h1>Experience</h1>
+
+    <h2>PPL(A)</h2>
+
+    {% include "logbook/experience.html" with experience=ppl only %}
+
+    <h2>IR(A)</h2>
+
+    {% include "logbook/experience.html" with experience=ir only %}
+
+    <h2>CPL(A)</h2>
+
+    {% include "logbook/experience.html" with experience=cpl only %}
+
+{% endblock %}

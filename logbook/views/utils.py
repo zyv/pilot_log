@@ -4,7 +4,7 @@ from typing import Iterable
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 
 from ..models import LogEntry
 from ..templatetags.logbook_utils import duration
@@ -36,8 +36,31 @@ def compute_totals(entries: Iterable[LogEntry]) -> TotalsRecord:
     )
 
 
-class AuthenticatedListView(UserPassesTestMixin, LoginRequiredMixin, ListView):
+@dataclass
+class ExperienceRecord:
+    required: TotalsRecord
+    accrued: TotalsRecord
+
+    @property
+    def remaining(self) -> TotalsRecord:
+        remaining = self.required - self.accrued
+        if remaining.time.total_seconds() < 0:
+            remaining.time = timedelta(0)
+        if remaining.landings < 0:
+            remaining.landings = 0
+        return remaining
+
+
+class AuthenticatedView(UserPassesTestMixin, LoginRequiredMixin):
     login_url = reverse_lazy("admin:login")
 
     def test_func(self):
         return self.request.user.is_staff
+
+
+class AuthenticatedTemplateView(AuthenticatedView, TemplateView):
+    pass
+
+
+class AuthenticatedListView(AuthenticatedView, ListView):
+    pass
