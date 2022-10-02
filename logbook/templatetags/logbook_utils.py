@@ -3,6 +3,8 @@ from string import Template
 
 from django import template
 
+from ..views.utils import ExperienceRecord, TotalsRecord
+
 register = template.Library()
 
 
@@ -25,6 +27,15 @@ def duration(value: datetime.timedelta, format_specification: str = "%H:%M:%S"):
     }
 
     return DurationTemplate(format_specification).substitute(**substitutions)
+
+
+@register.filter
+def represent(total: TotalsRecord, experience: ExperienceRecord):
+    time = duration(total.time, "%{h}h %{m}m").replace(" 0m", "")
+    landings = "1 landing" if total.landings == 1 else f"{total.landings} landings"
+    return ", ".join(
+        ((time,) if experience.required.time else ()) + ((landings,) if experience.required.landings else ()),
+    )
 
 
 @register.filter
