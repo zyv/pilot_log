@@ -6,19 +6,18 @@
 
     <h2>PPL(A)</h2>
 
-    {% include "logbook/experience.html" with requirements=ppl only %}
-
+    {% include "logbook/experience.html" with requirements=ppl.experience caption=ppl.details only %}
 
     <h2>NVFR</h2>
 
-    {% include "logbook/experience.html" with requirements=night only %}
+    {% include "logbook/experience.html" with requirements=night.experience caption=night.details only %}
 
     <h2>IR(A)</h2>
 
-    {% include "logbook/experience.html" with requirements=ir only %}
+    {% include "logbook/experience.html" with requirements=ir.experience caption=ir.details only %}
 
     <h2>CPL(A)</h2>
 
-    {% include "logbook/experience.html" with requirements=cpl only %}
+    {% include "logbook/experience.html" with requirements=cpl.experience caption=cpl.details only %}
 
 {% endblock %}

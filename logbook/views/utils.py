@@ -11,6 +11,7 @@ from ..models import LogEntry
 
 PPL_START_DATE = datetime(2021, 12, 1, 0, 0, tzinfo=timezone.utc)
 PPL_END_DATE = datetime(2022, 1, 29, 0, 0, tzinfo=timezone.utc)
+CPL_START_DATE = datetime.now(tz=timezone.utc)
 
 
 @dataclass(frozen=True, kw_only=True)
