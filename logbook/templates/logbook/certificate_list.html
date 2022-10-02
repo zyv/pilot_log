@@ -32,4 +32,16 @@
         </table>
     </div>
 
+
+    <h2>Passenger currency</h2>
+
+    <h3>Day</h3>
+
+    {% include "logbook/experience.html" with requirements=passenger_currency.day.experience caption=passenger_currency.day.details only %}
+
+    <h3>Night</h3>
+
+    {% include "logbook/experience.html" with requirements=passenger_currency.night.experience caption=passenger_currency.night.details only %}
+
+
 {% endblock %}

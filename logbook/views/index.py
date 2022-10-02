@@ -15,7 +15,7 @@ class DashboardView(AuthenticatedListView):
                 for function in FunctionType
             }
 
-        return {
+        return super().get_context_data(*args, **kwargs) | {
             "totals_per_type": {
                 aircraft_type: {
                     "grand": compute_totals(LogEntry.objects.filter(aircraft__type=aircraft_type.name)),

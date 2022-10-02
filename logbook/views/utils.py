@@ -1,7 +1,7 @@
 import dataclasses
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
-from typing import Iterable
+from typing import Iterable, Optional
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
@@ -43,6 +43,12 @@ class ExperienceRecord:
     @property
     def completed(self) -> bool:
         return self.remaining.time.total_seconds() == 0 and self.remaining.landings == 0
+
+
+@dataclass(frozen=True, kw_only=True)
+class ExperienceRequirements:
+    experience: dict[str, ExperienceRecord]
+    details: Optional[str] = None
 
 
 def compute_totals(entries: Iterable[LogEntry], full_stop=False) -> TotalsRecord:

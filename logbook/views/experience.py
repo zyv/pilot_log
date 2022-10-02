@@ -1,6 +1,4 @@
-from dataclasses import dataclass
 from datetime import timedelta
-from typing import Optional
 
 from django.db.models import QuerySet
 
@@ -11,15 +9,10 @@ from .utils import (
     PPL_START_DATE,
     AuthenticatedTemplateView,
     ExperienceRecord,
+    ExperienceRequirements,
     TotalsRecord,
     compute_totals,
 )
-
-
-@dataclass(frozen=True, kw_only=True)
-class ExperienceRequirements:
-    experience: dict[str, ExperienceRecord]
-    details: Optional[str] = None
 
 
 class ExperienceIndexView(AuthenticatedTemplateView):
