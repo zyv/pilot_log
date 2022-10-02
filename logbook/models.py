@@ -91,6 +91,7 @@ class LogEntry(models.Model):
     remarks = models.CharField(max_length=255, blank=True)
 
     cross_country = models.BooleanField(default=False)
+    night = models.BooleanField(default=False)
 
     slots = models.PositiveSmallIntegerField(default=1, help_text="Number of logbook slots for this entry.")
 
@@ -106,7 +107,8 @@ class LogEntry(models.Model):
             f"{self.from_aerodrome.icao_code} -> {self.to_aerodrome.icao_code} "
             f"{self.pilot.last_name} / {self.copilot.last_name} "
             f"{'[XC] ' if self.cross_country else ''}"
-            f"{remarks}"
+            f"{'[N] ' if self.night else ''}"
+            f"{remarks}".strip()
         )
 
     def clean(self):
