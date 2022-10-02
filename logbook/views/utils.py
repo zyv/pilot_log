@@ -44,10 +44,10 @@ class ExperienceRecord:
         return self.remaining.time.total_seconds() == 0 and self.remaining.landings == 0
 
 
-def compute_totals(entries: Iterable[LogEntry]) -> TotalsRecord:
+def compute_totals(entries: Iterable[LogEntry], full_stop=False) -> TotalsRecord:
     return TotalsRecord(
         time=sum((entry.arrival_time - entry.departure_time for entry in entries), timedelta()),
-        landings=sum(entry.landings for entry in entries),
+        landings=sum(entry.landings if not full_stop else 1 for entry in entries),
     )
 
 
