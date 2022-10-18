@@ -90,7 +90,7 @@ Django = ">=3.2"
 
 [[package]]
 name = "django-countries"
-version = "7.3.2"
+version = "7.4.2"
 description = "Provides a country field for Django models."
 category = "main"
 optional = false
@@ -190,9 +190,9 @@ python-versions = ">=3.6.1,<4.0"
 
 [package.extras]
 colors = ["colorama (>=0.4.3,<0.5.0)"]
-pipfile_deprecated_finder = ["pipreqs", "requirementslib"]
+pipfile-deprecated-finder = ["pipreqs", "requirementslib"]
 plugins = ["setuptools"]
-requirements_deprecated_finder = ["pip-api", "pipreqs"]
+requirements-deprecated-finder = ["pip-api", "pipreqs"]
 
 [[package]]
 name = "mccabe"
@@ -342,8 +342,8 @@ django-bootstrap5 = [
     {file = "django_bootstrap5-22.1-py3-none-any.whl", hash = "sha256:cf3f257abf750f19e47eddc106066ddb182576185494965d1408eddcb3a7380b"},
 ]
 django-countries = [
-    {file = "django-countries-7.3.2.tar.gz", hash = "sha256:0df6d34193667c2343da8935cbfb8a2bd4fb0c97baf01ac10db4628ba1557a82"},
-    {file = "django_countries-7.3.2-py3-none-any.whl", hash = "sha256:27fc8a0f66a87c9d839493f3926b4e0f4dd873ef66465aa8cd3e953f99758cc9"},
+    {file = "django-countries-7.4.2.tar.gz", hash = "sha256:9d553531de8eaf384fec7fdd5867f3cb9b922d384984c3e613b6b29031e5c3c2"},
+    {file = "django_countries-7.4.2-py3-none-any.whl", hash = "sha256:2eadbe91578fe7b5a0c7782c07487b2ceb4bde9bc5c76eb43458929969f25c62"},
 ]
 django-debug-toolbar = [
     {file = "django-debug-toolbar-3.7.0.tar.gz", hash = "sha256:1e3acad24e3d351ba45c6fa2072e4164820307332a776b16c9f06d1f89503465"},
