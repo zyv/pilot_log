@@ -1,11 +1,13 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base",
-    "schedule:weekly"
+    "config:base"
   ],
   "branchPrefix": "feature/renovate/",
   "reviewers": [
     "zyv"
+  ],
+  "schedule": [
+    "every 1 hour on sunday"
   ]
 }
