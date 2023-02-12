@@ -3,9 +3,18 @@
   "extends": [
     "config:base"
   ],
+  "rangeStrategy": "update-lockfile",
   "branchPrefix": "feature/renovate/",
   "reviewers": [
     "zyv"
+  ],
+  "packageRules": [
+    {
+      "groupName": "all",
+      "matchPackagePatterns": [
+        "*"
+      ]
+    }
   ],
   "schedule": [
     "every 1 hour on sunday"
