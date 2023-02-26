@@ -34,7 +34,6 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-
         if options["init"]:
             self.stdout.write(self.style.WARNING("Removing old database records..."))
             models.LogEntry.objects.all().delete()
