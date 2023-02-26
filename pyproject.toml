@@ -10,7 +10,7 @@ django = "*"
 django-countries = "*"
 django-bootstrap5 = "*"
 
-python = "^3.10"
+python = "^3.11"
 
 [tool.poetry.dev-dependencies]
 django-debug-toolbar = "*"
@@ -27,7 +27,7 @@ add-trailing-comma = "*"
 
 [tool.black]
 line-length = 120
-target-version = ["py310"]
+target-version = ["py311"]
 
 [tool.isort]
 profile = "black"
