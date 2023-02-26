@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("logbook", "0009_logentry_no_pic_no_xc"),
     ]

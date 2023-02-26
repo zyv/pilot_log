@@ -35,7 +35,6 @@ if CHECK_ICAO_CODE:
 suspicious_codes = set()
 
 for aerodrome in load_bitbringers_data():
-
     aerodrome_icao_code = aerodrome["icao"]
 
     if CHECK_ICAO_CODE and aerodrome_icao_code not in reference_codes:
