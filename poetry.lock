@@ -128,14 +128,14 @@ bcrypt = ["bcrypt"]
 
 [[package]]
 name = "django-bootstrap5"
-version = "22.2"
+version = "23.1"
 description = "Bootstrap 5 for Django"
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "django-bootstrap5-22.2.tar.gz", hash = "sha256:e944f5ced342e0e16cde77e1ddacb4b9fd5bce4cc190df2f7da0b8e18a24c9cb"},
-    {file = "django_bootstrap5-22.2-py3-none-any.whl", hash = "sha256:5d677bbfb94207c1a034d63a5f39d95ce287ef509e0b31dfb4d233cc81f93bcc"},
+    {file = "django-bootstrap5-23.1.tar.gz", hash = "sha256:3a3748b1ce1a2a73c2eca851c2926e7b6e5a317815e4da7ced6b1807c4792b1a"},
+    {file = "django_bootstrap5-23.1-py3-none-any.whl", hash = "sha256:d0b1997528b8a557968cf1ac7ff4c68659897779011a5a42816fb1ad9e57d6ae"},
 ]
 
 [package.dependencies]
