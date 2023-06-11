@@ -2,14 +2,14 @@
 
 [[package]]
 name = "add-trailing-comma"
-version = "2.4.0"
+version = "2.5.1"
 description = "Automatically add trailing commas to calls and literals"
 category = "dev"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "add_trailing_comma-2.4.0-py2.py3-none-any.whl", hash = "sha256:88fc66ddb7554b3519529f8e14d6c793d1ae66ccd2a7d0d5396a421d955eb521"},
-    {file = "add_trailing_comma-2.4.0.tar.gz", hash = "sha256:76c0e8a95cb4c06a7d9182db61573bb5253a76ee3a2bd0126b481cc0b4871713"},
+    {file = "add_trailing_comma-2.5.1-py2.py3-none-any.whl", hash = "sha256:603b4b55f76f85237f4c848e93e56a4c84ebf8c9e329daf44ce3e8111d68557b"},
+    {file = "add_trailing_comma-2.5.1.tar.gz", hash = "sha256:f2a4afd41b96d6d34840455752c320c608942757ec6df3aa13b0b3c7effdd49e"},
 ]
 
 [package.dependencies]
@@ -107,14 +107,14 @@ files = [
 
 [[package]]
 name = "django"
-version = "4.2.1"
+version = "4.2.2"
 description = "A high-level Python web framework that encourages rapid development and clean, pragmatic design."
 category = "main"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "Django-4.2.1-py3-none-any.whl", hash = "sha256:066b6debb5ac335458d2a713ed995570536c8b59a580005acb0732378d5eb1ee"},
-    {file = "Django-4.2.1.tar.gz", hash = "sha256:7efa6b1f781a6119a10ac94b4794ded90db8accbe7802281cd26f8664ffed59c"},
+    {file = "Django-4.2.2-py3-none-any.whl", hash = "sha256:672b3fa81e1f853bb58be1b51754108ab4ffa12a77c06db86aa8df9ed0c46fe5"},
+    {file = "Django-4.2.2.tar.gz", hash = "sha256:2a6b6fbff5b59dd07bef10bcb019bee2ea97a30b2a656d51346596724324badf"},
 ]
 
 [package.dependencies]
