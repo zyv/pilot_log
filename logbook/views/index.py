@@ -9,7 +9,7 @@ class DashboardView(AuthenticatedListView):
     template_name = "logbook/dashboard.html"
 
     def get_context_data(self, *args, **kwargs):
-        def totals_per_function(log_entries: QuerySet):
+        def totals_per_function(log_entries: QuerySet[LogEntry]):
             return {
                 function.name: compute_totals(log_entries.filter(time_function=function.name))
                 for function in FunctionType

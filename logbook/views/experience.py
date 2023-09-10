@@ -28,7 +28,7 @@ class ExperienceIndexView(AuthenticatedTemplateView):
         }
 
 
-def get_ppl_experience(log_entries: QuerySet) -> ExperienceRequirements:
+def get_ppl_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirements:
     return ExperienceRequirements(
         experience={
             "Dual instruction": ExperienceRecord(
@@ -55,7 +55,7 @@ def get_ppl_experience(log_entries: QuerySet) -> ExperienceRequirements:
     )
 
 
-def get_night_experience(log_entries: QuerySet) -> ExperienceRequirements:
+def get_night_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirements:
     return ExperienceRequirements(
         experience={
             "Solo full-stop landings": ExperienceRecord(
@@ -78,7 +78,7 @@ def get_night_experience(log_entries: QuerySet) -> ExperienceRequirements:
     )
 
 
-def get_ir_experience(log_entries: QuerySet) -> ExperienceRequirements:
+def get_ir_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirements:
     return ExperienceRequirements(
         experience={
             "Cross-country PIC": ExperienceRecord(
@@ -89,7 +89,7 @@ def get_ir_experience(log_entries: QuerySet) -> ExperienceRequirements:
     )
 
 
-def get_cpl_experience(log_entries: QuerySet) -> ExperienceRequirements:
+def get_cpl_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirements:
     return ExperienceRequirements(
         experience={  # TODO: add dual
             "PIC": ExperienceRecord(
