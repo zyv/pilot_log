@@ -1,7 +1,13 @@
 from django.db.models import QuerySet
 
 from ..models import Aircraft, AircraftType, FunctionType, LogEntry
-from .utils import AuthenticatedListView, compute_totals
+from .utils import (
+    CURRENCY_REQUIRED_LANDINGS_NIGHT,
+    AuthenticatedListView,
+    CurrencyStatus,
+    compute_totals,
+    get_ninety_days_currency,
+)
 
 
 class DashboardView(AuthenticatedListView):
@@ -16,6 +22,24 @@ class DashboardView(AuthenticatedListView):
             }
 
         return super().get_context_data(*args, **kwargs) | {
+            "CurrencyStatus": CurrencyStatus.__members__,
+            "passenger_currency": {
+                "sep": {
+                    "day": get_ninety_days_currency(
+                        LogEntry.objects.filter(
+                            aircraft__type__in={AircraftType.SEP.name, AircraftType.TMG.name},
+                            time_function=FunctionType.PIC.name,
+                        ),
+                    ),
+                    "night": get_ninety_days_currency(
+                        LogEntry.objects.filter(
+                            aircraft__type__in={AircraftType.SEP.name, AircraftType.TMG.name},
+                            time_function=FunctionType.PIC.name,
+                        ),
+                        required_landings=CURRENCY_REQUIRED_LANDINGS_NIGHT,
+                    ),
+                },
+            },
             "totals_per_type": {
                 aircraft_type: {
                     "grand": compute_totals(LogEntry.objects.filter(aircraft__type=aircraft_type.name)),
@@ -26,6 +50,11 @@ class DashboardView(AuthenticatedListView):
                                 aircraft,
                                 totals_per_function(LogEntry.objects.filter(aircraft=aircraft)),
                                 compute_totals(LogEntry.objects.filter(aircraft=aircraft)),
+                                (
+                                    get_ninety_days_currency(LogEntry.objects.filter(aircraft=aircraft))
+                                    if aircraft.currency_required
+                                    else None
+                                ),
                             )
                             for aircraft in Aircraft.objects.filter(type=aircraft_type.name)
                         ],

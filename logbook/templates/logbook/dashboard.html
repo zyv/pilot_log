@@ -4,8 +4,9 @@
 {% block content %}
     <h1>Logbook dashboard</h1>
 
-    <p class="lead">
-        Everything you need in one place!
+    <p>Passenger currency (TMG & SEP):
+        {% include "logbook/currency_status.html" with currency=passenger_currency.sep.day %} (day),
+        {% include "logbook/currency_status.html" with currency=passenger_currency.sep.night %} (night)
     </p>
 
     <h2>Aircraft totals</h2>
@@ -34,12 +35,12 @@
                         </abbr>
                     </th>
                 </tr>
-                {% for aircraft, aircraft_per_function, aircraft_totals in type_totals.per_aircraft %}
+                {% for aircraft, aircraft_per_function, aircraft_totals, aircraft_currency in type_totals.per_aircraft %}
                     <tr>
                         <td>
                             <abbr title="{{ aircraft.maker }} {{ aircraft.model }} ({{ aircraft.icao_designator }})">
                                 {{ aircraft.registration }}
-                            </abbr>
+                            </abbr>{% if aircraft_currency != None %}&nbsp;{% include "logbook/currency_status.html" with currency=aircraft_currency %}{% endif %}
                         </td>
                         <td class="text-end">
                             <abbr title="{% for key, value in aircraft_per_function.items %}{{ key }}: {{ value.time | duration:"%{h}h %{m}m" }} {% if not forloop.last %} | {% endif %}{% endfor %}">
