@@ -17,14 +17,14 @@ def duration(value: datetime.timedelta, format_specification: str = "%H:%M:%S"):
     hours, remainder = divmod(value.total_seconds(), 60 * 60)
     minutes, seconds = divmod(remainder, 60)
 
-    substitutions = {
-        "H": f"{hours:02.0f}",
-        "h": f"{hours:.0f}",
-        "M": f"{minutes:02.0f}",
-        "m": f"{minutes:.0f}",
-        "S": f"{seconds:02.0f}",
-        "s": f"{seconds:.0f}",
-    }
+    def pad(number: float) -> str:
+        return f"{number:02.0f}"
+
+    def ceil(number: float) -> str:
+        return f"{number:.0f}"
+
+    ds = {"d": value.days, "h": hours, "m": minutes, "s": seconds}
+    substitutions = {k.upper(): pad(v) for k, v in ds.items()} | {k.lower(): ceil(v) for k, v in ds.items()}
 
     return DurationTemplate(format_specification).substitute(**substitutions)
 
