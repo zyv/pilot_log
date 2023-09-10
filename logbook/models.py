@@ -56,6 +56,7 @@ class Aircraft(models.Model):
 
     class Meta:
         ordering = ("registration",)
+        verbose_name_plural = "aircraft"
 
 
 class Pilot(models.Model):
