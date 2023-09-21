@@ -7,6 +7,7 @@ from .templatetags.logbook_utils import duration
 @admin.register(Aerodrome)
 class AerodromeAdmin(admin.ModelAdmin):
     search_fields = ("name", "icao_code")
+    save_as = True
 
 
 @admin.register(Aircraft)
@@ -58,6 +59,9 @@ class LogEntryAdmin(admin.ModelAdmin):
 @admin.register(Pilot)
 class PilotAdmin(admin.ModelAdmin):
     search_fields = ("first_name", "last_name")
+    save_as = True
 
 
-admin.site.register(Certificate)
+@admin.register(Certificate)
+class CertificateAdmin(admin.ModelAdmin):
+    save_as = True
