@@ -55,7 +55,8 @@ def get_sep_revalidation_experience(log_entries: QuerySet[LogEntry]) -> Experien
             ),
         },
         details="""
-                Refresher training of at least 1 hour of total flight time with a flight instructor (FI) or a class rating instructor (CRI).
+                Refresher training of at least 1 hour of total flight time with a flight instructor (FI)
+                or a class rating instructor (CRI).
                 """,
     )
 
