@@ -1,8 +1,9 @@
 from datetime import timedelta
 
+from dateutil.relativedelta import relativedelta
 from django.db.models import QuerySet
 
-from ..models import FunctionType, LogEntry
+from ..models import AircraftType, Certificate, FunctionType, LogEntry
 from .utils import (
     CPL_START_DATE,
     PPL_END_DATE,
@@ -21,11 +22,42 @@ class ExperienceIndexView(AuthenticatedTemplateView):
     def get_context_data(self, **kwargs):
         log_entries = LogEntry.objects.filter(departure_time__gte=PPL_START_DATE)
         return super().get_context_data(**kwargs) | {
+            "sep_revalidation": get_sep_revalidation_experience(log_entries),
             "ppl": get_ppl_experience(log_entries.filter(departure_time__lt=PPL_END_DATE)),
             "night": get_night_experience(log_entries.filter(night=True)),
             "ir": get_ir_experience(log_entries),
             "cpl": get_cpl_experience(log_entries),
         }
+
+
+def get_sep_revalidation_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirements:
+    eligible_entries = log_entries.filter(
+        aircraft__type__in={AircraftType.SEP.name, AircraftType.TMG.name},
+        departure_time__gte=(Certificate.objects.get(name__contains="SEP").valid_until - relativedelta(months=12)),
+    )
+    return ExperienceRequirements(
+        experience={
+            "12 hours of flight time": ExperienceRecord(
+                required=TotalsRecord(time=timedelta(hours=12), landings=0),
+                accrued=compute_totals(eligible_entries),
+            ),
+            "6 hours as PIC": ExperienceRecord(
+                required=TotalsRecord(time=timedelta(hours=6), landings=0),
+                accrued=compute_totals(eligible_entries.filter(time_function=FunctionType.PIC.name)),
+            ),
+            "12 take-offs and 12 landings": ExperienceRecord(
+                required=TotalsRecord(time=timedelta(hours=0), landings=12),
+                accrued=compute_totals(eligible_entries),
+            ),
+            "Refresher training with FI or CRI": ExperienceRecord(
+                required=TotalsRecord(time=timedelta(hours=1), landings=0),
+                accrued=compute_totals(eligible_entries.filter(time_function=FunctionType.DUAL.name)),
+            ),
+        },
+        details="""
+                Refresher training of at least 1 hour of total flight time with a flight instructor (FI) or a class rating instructor (CRI).
+                """,
+    )
 
 
 def get_ppl_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirements:

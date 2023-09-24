@@ -10,6 +10,8 @@ django = "*"
 django-countries = "*"
 django-bootstrap5 = "*"
 
+python-dateutil = "*"
+
 python = "^3.11"
 
 [tool.poetry.dev-dependencies]
