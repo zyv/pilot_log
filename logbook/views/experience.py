@@ -1,7 +1,8 @@
-from datetime import timedelta
+from datetime import UTC, datetime, time, timedelta
 
 from dateutil.relativedelta import relativedelta
 from django.db.models import QuerySet
+from django.utils.timezone import make_aware
 
 from ..models import AircraftType, Certificate, FunctionType, LogEntry
 from .utils import (
@@ -33,7 +34,13 @@ class ExperienceIndexView(AuthenticatedTemplateView):
 def get_sep_revalidation_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirements:
     eligible_entries = log_entries.filter(
         aircraft__type__in={AircraftType.SEP.name, AircraftType.TMG.name},
-        departure_time__gte=(Certificate.objects.get(name__contains="SEP").valid_until - relativedelta(months=12)),
+        departure_time__gte=make_aware(
+            datetime.combine(
+                Certificate.objects.get(name__contains="SEP").valid_until - relativedelta(months=12),
+                time.min,
+            ),
+            UTC,
+        ),
     )
     return ExperienceRequirements(
         experience={
