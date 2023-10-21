@@ -68,4 +68,18 @@
 
     {% include "logbook/pagination.html" with is_paginated=is_paginated paginator=paginator page_obj=page_obj only %}
 
+    <h2>Import from Vereinsflieger</h2>
+
+    {% for message in messages %}
+        <div class="alert alert-{{ message.level_tag }}" role="alert">{{ message }}</div>
+    {% endfor %}
+
+    <div class="container">
+        <form method="post">
+            {% csrf_token %}
+            {% include "logbook/form.html" with form=form only %}
+            <button type="submit" name="import" class="btn btn-primary">Import</button>
+        </form>
+    </div>
+
 {% endblock %}
