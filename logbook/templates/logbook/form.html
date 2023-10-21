@@ -1,0 +1,26 @@
+{% load logbook_utils %}
+
+{% if form.non_field_errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ form.non_field_errors }}
+    </div>
+{% endif %}
+
+{% for field in form %}
+    <div class="mb-3 row">
+        <label for="{{ field.auto_id }}" class="col-sm-3 col-form-label">{{ field.label }}</label>
+        <div class="col-sm-9">
+            {% if field.errors %}
+                {% replace field|stringformat:"s" "form-control" "form-control is-invalid" %}
+                {% for error in field.errors %}
+                    <div class="invalid-feedback">{{ error|escape }}</div>
+                {% endfor %}
+            {% else %}
+                {{ field }}
+            {% endif %}
+            {% if field.help_text %}
+                <small class="form-text text-muted">{{ field.help_text }}</small>
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}
