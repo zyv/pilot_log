@@ -16,3 +16,6 @@ jobs:
         run: |
           find . -name '*.py' | xargs poetry run add-trailing-comma --py36-plus
           poetry run flake8
+
+      - name: Run tests
+        run: poetry run ./manage.py test
