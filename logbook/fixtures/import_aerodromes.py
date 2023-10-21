@@ -2,6 +2,7 @@ import csv
 import json
 import logging
 from decimal import Decimal
+from pathlib import Path
 
 from django_countries import countries
 
@@ -25,8 +26,7 @@ def load_reference_icao_codes():
 
 
 def load_bitbringers_data():
-    with open("logbook/fixtures/data/aerodromes.json", "r") as fp:
-        return json.load(fp, parse_float=Decimal)
+    return json.loads(Path("logbook/fixtures/data/aerodromes.json").read_text(), parse_float=Decimal)
 
 
 if CHECK_ICAO_CODE:
