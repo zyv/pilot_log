@@ -12,6 +12,8 @@ django-bootstrap5 = "*"
 
 python-dateutil = "*"
 
+requests = "*"
+
 python = "^3.11"
 
 [tool.poetry.dev-dependencies]
@@ -22,6 +24,8 @@ flake8-black = "*"
 flake8-coding = "*"
 flake8-isort = "*"
 flake8-quotes = "*"
+
+requests-mock = "*"
 
 black = "*"
 isort = {extras = ["pyproject"], version = "*"}
