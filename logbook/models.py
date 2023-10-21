@@ -110,7 +110,7 @@ class LogEntry(models.Model):
             f"({duration_hours:02}:{duration_minutes:02}) "
             f"{self.aircraft.registration} ({self.aircraft.type}) "
             f"{self.from_aerodrome.icao_code} -> {self.to_aerodrome.icao_code} "
-            f"{self.pilot.last_name} / {self.copilot.last_name} "
+            f"{self.pilot.last_name}{' / ' + self.copilot.last_name if self.copilot is not None else ''} "
             f"{'[XC] ' if self.cross_country else ''}"
             f"{'[N] ' if self.night else ''}"
             f"{remarks}".strip()

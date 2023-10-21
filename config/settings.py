@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 
+from django.contrib.messages import constants as message_constants
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -23,6 +25,10 @@ SECRET_KEY = "rh@f3&8l=ai&18!r8vy#ongu+(z12qf(d4#_son(07+h+6%(vj"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if bool(os.getenv("DJANGO_DEBUG")) else False
+
+VEREINSFLIEGER_APP_KEY = os.getenv("VEREINSFLIEGER_APP_KEY")
+VEREINSFLIEGER_USERNAME = os.getenv("VEREINSFLIEGER_USERNAME")
+VEREINSFLIEGER_PASSWORD = os.getenv("VEREINSFLIEGER_PASSWORD")
 
 if not DEBUG:
     SECURE_HSTS_SECONDS = 31536000
@@ -51,6 +57,11 @@ INSTALLED_APPS = [
     "django_bootstrap5",
     "logbook",
 ]
+
+
+MESSAGE_TAGS = {
+    message_constants.ERROR: "danger",  # Bootstrap error class
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
