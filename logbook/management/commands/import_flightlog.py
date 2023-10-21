@@ -1,6 +1,6 @@
 import csv
 import enum
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from django.core.management.base import BaseCommand
 
@@ -50,8 +50,8 @@ class Command(BaseCommand):
                 hour_departure, minute_departure = [int(value) for value in row[Fields.DEPARTURE_TIME].split(":")]
                 hour_arrival, minute_arrival = [int(value) for value in row[Fields.ARRIVAL_TIME].split(":")]
 
-                departure_time = datetime(year, month, day, hour_departure, minute_departure, tzinfo=timezone.utc)
-                arrival_time = datetime(year, month, day, hour_arrival, minute_arrival, tzinfo=timezone.utc)
+                departure_time = datetime(year, month, day, hour_departure, minute_departure, tzinfo=UTC)
+                arrival_time = datetime(year, month, day, hour_arrival, minute_arrival, tzinfo=UTC)
 
                 duration_recorded = (hour_arrival * 60 + minute_arrival) - (hour_departure * 60 + minute_departure)
                 duration_computed = (arrival_time - departure_time).total_seconds() / 60

@@ -1,6 +1,6 @@
 import dataclasses
 from dataclasses import dataclass
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from enum import StrEnum
 from typing import Iterable, Optional
 
@@ -12,9 +12,9 @@ from django.views.generic import ListView, TemplateView
 
 from ..models import LogEntry
 
-PPL_START_DATE = datetime(2021, 12, 1, 0, 0, tzinfo=timezone.utc)
-PPL_END_DATE = datetime(2022, 1, 29, 0, 0, tzinfo=timezone.utc)
-CPL_START_DATE = datetime.now(tz=timezone.utc)
+PPL_START_DATE = datetime(2021, 12, 1, 0, 0, tzinfo=UTC)
+PPL_END_DATE = datetime(2022, 1, 29, 0, 0, tzinfo=UTC)
+CPL_START_DATE = datetime.now(tz=UTC)
 
 
 @dataclass(frozen=True, kw_only=True)
