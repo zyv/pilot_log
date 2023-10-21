@@ -1,7 +1,10 @@
 import datetime
 from string import Template
+from typing import Optional
 
 from django import template
+from django.template import TemplateSyntaxError
+from django.utils.safestring import mark_safe
 
 from ..views.utils import ExperienceRecord, TotalsRecord
 
@@ -41,3 +44,10 @@ def represent(total: TotalsRecord, experience: ExperienceRecord):
 @register.filter
 def subtract(value, argument):
     return value - argument
+
+
+@register.simple_tag
+def replace(value: str, old: str, new: str) -> Optional[str]:
+    if not all(isinstance(obj, str) for obj in (old, new)):
+        raise TemplateSyntaxError("'replace' tag arguments must be strings")
+    return mark_safe(value.replace(old, new)) if isinstance(value, str) else None
