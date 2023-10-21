@@ -26,6 +26,10 @@ SECRET_KEY = "rh@f3&8l=ai&18!r8vy#ongu+(z12qf(d4#_son(07+h+6%(vj"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if bool(os.getenv("DJANGO_DEBUG")) else False
 
+VEREINSFLIEGER_APP_KEY = os.getenv("VEREINSFLIEGER_APP_KEY")
+VEREINSFLIEGER_USERNAME = os.getenv("VEREINSFLIEGER_USERNAME")
+VEREINSFLIEGER_PASSWORD = os.getenv("VEREINSFLIEGER_PASSWORD")
+
 if not DEBUG:
     SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
