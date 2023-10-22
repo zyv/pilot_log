@@ -28,8 +28,8 @@ class VereinsfliegerTest(TestCase):
         m.post("https://www.vereinsflieger.de/interface/rest/auth/accesstoken", text='{"accesstoken": "foo"}')
         m.post("https://www.vereinsflieger.de/interface/rest/auth/signin")
         m.delete("https://www.vereinsflieger.de/interface/rest/auth/signout/foo")
-        with VereinsfliegerSession("app_key", "username", "password") as _:
-            pass
+        with VereinsfliegerSession("app_key", "username", "password") as vs:
+            self.assertIsInstance(vs, VereinsfliegerSession)
 
     @requests_mock.Mocker()
     def test_get_flight_no_token(self, m):

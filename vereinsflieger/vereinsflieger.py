@@ -29,7 +29,8 @@ class VereinsfliegerSession:
         self.session.request = authenticated_request(self.session.request)
 
     def __enter__(self):
-        return self.sign_in()
+        self.sign_in()
+        return self
 
     def __exit__(self, type, value, traceback):
         self.sign_out()
