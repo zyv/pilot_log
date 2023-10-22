@@ -17,7 +17,7 @@ from .utils import AuthenticatedListView
 class VereinsfliegerForm(forms.Form):
     flight_id = forms.IntegerField(
         label="Vereinsflieger Flight ID",
-        help_text="The ID of the flight to import from Vereinsflieger (Allgemeine Daten / Eintrag).",
+        help_text="The ID of the flight to import from Vereinsflieger (Allgemeine Daten / Eintrag)",
         widget=forms.TextInput(
             attrs={
                 "min": 1,
