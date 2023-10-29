@@ -21,13 +21,12 @@ class VereinsfliegerForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 "min": 1,
-                "class": "form-control",
                 "placeholder": "123456",
             },
         ),
     )
 
-    def import_flight(self) -> LogEntry:
+    def import_flight(self) -> (int, LogEntry):
         flight_id = self.cleaned_data["flight_id"]
 
         with VereinsfliegerSession(
@@ -63,7 +62,7 @@ class VereinsfliegerForm(forms.Form):
             pilot = parse_pilot(flight_data["pilotname"])
             copilot = None
 
-        return LogEntry.objects.create(
+        return flight_id, LogEntry.objects.create(
             aircraft=aircraft,
             from_aerodrome=aerodrome_from,
             to_aerodrome=aerodrome_to,
@@ -86,6 +85,9 @@ class EntryIndexView(AuthenticatedListView, FormView):
     form_class = VereinsfliegerForm
     success_url = reverse_lazy("logbook:entries")
 
+    def post(self, request, *args, **kwargs):
+        return super().get(self, request, *args, **kwargs)
+
     def get_context_data(self, *args, **kwargs):
         return super().get_context_data(*args, **kwargs) | {
             "aircraft_types": list(AircraftType),
@@ -102,6 +104,6 @@ class EntryIndexView(AuthenticatedListView, FormView):
         return super().paginate_queryset(entries, page_size)
 
     def form_valid(self, form):
-        log_entry = form.import_flight()
-        messages.success(self.request, f"Flight imported successfully as #{log_entry.id}!")
+        flight_id, log_entry = form.import_flight()
+        messages.success(self.request, f"Flight #{flight_id} imported successfully as #{log_entry.id}!")
         return super().form_valid(form)
