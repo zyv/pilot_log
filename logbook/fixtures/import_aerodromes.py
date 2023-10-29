@@ -17,7 +17,7 @@ logging.basicConfig(level=logging.DEBUG)
 def load_reference_icao_codes():
     icao_codes = set()
 
-    with open("logbook/fixtures/data/airports.csv", newline="") as fp:
+    with Path("logbook/fixtures/data/airports.csv").open(newline="") as fp:
         reader = csv.DictReader(fp)
         for row in reader:
             icao_codes.add(row["ident"])

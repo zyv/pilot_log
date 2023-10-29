@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import UTC, datetime
 from enum import Enum
 
 from django.core.exceptions import ValidationError
@@ -34,11 +34,11 @@ class Aerodrome(models.Model):
     elevation = models.IntegerField()
     priority = models.IntegerField()
 
-    def __str__(self):
-        return f"{self.icao_code} ({self.name})"
-
     class Meta:
         ordering = ("priority",)
+
+    def __str__(self):
+        return f"{self.icao_code} ({self.name})"
 
 
 class Aircraft(models.Model):
@@ -53,12 +53,12 @@ class Aircraft(models.Model):
 
     currency_required = models.BooleanField(default=False)
 
-    def __str__(self):
-        return f"{self.registration} ({self.maker} {self.model})"
-
     class Meta:
         ordering = ("registration",)
         verbose_name_plural = "aircraft"
+
+    def __str__(self):
+        return f"{self.registration} ({self.maker} {self.model})"
 
 
 class Pilot(models.Model):
@@ -67,12 +67,12 @@ class Pilot(models.Model):
 
     self = models.BooleanField(default=False)
 
-    def __str__(self):
-        return f"{self.first_name} {self.last_name}"
-
     class Meta:
         ordering = ("last_name",)
         unique_together = ("first_name", "last_name")
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
 
 
 class LogEntry(models.Model):
@@ -100,6 +100,21 @@ class LogEntry(models.Model):
 
     slots = models.PositiveSmallIntegerField(default=1, help_text="Number of logbook slots for this entry.")
 
+    class Meta:
+        constraints = (
+            CheckConstraint(check=Q(arrival_time__gt=F("departure_time")), name="arrival_after_departure"),
+            CheckConstraint(check=~Q(copilot=F("pilot")), name="copilot_not_pilot"),
+            CheckConstraint(
+                check=(
+                    Q(time_function=FunctionType.PIC.name)  # PIC time may be XC or not XC
+                    | ~Q(time_function=FunctionType.PIC.name) & Q(cross_country=False)  # non-PIC time must be non-XC
+                ),
+                name="no_pic_no_xc",
+            ),
+        )
+        ordering = ("-arrival_time",)
+        verbose_name_plural = "Log entries"
+
     def __str__(self):
         duration = (self.arrival_time - self.departure_time).total_seconds()
         duration_hours = int(duration // 3600)
@@ -125,21 +140,6 @@ class LogEntry(models.Model):
         ):
             raise ValidationError("Launch type is required for gliders!")
 
-    class Meta:
-        constraints = (
-            CheckConstraint(check=Q(arrival_time__gt=F("departure_time")), name="arrival_after_departure"),
-            CheckConstraint(check=~Q(copilot=F("pilot")), name="copilot_not_pilot"),
-            CheckConstraint(
-                check=(
-                    Q(time_function=FunctionType.PIC.name)  # PIC time may be XC or not XC
-                    | ~Q(time_function=FunctionType.PIC.name) & Q(cross_country=False)  # non-PIC time must be non-XC
-                ),
-                name="no_pic_no_xc",
-            ),
-        )
-        ordering = ("-arrival_time",)
-        verbose_name_plural = "Log entries"
-
 
 class Certificate(models.Model):
     name = models.CharField(max_length=255)
@@ -150,12 +150,12 @@ class Certificate(models.Model):
     remarks = models.CharField(max_length=255, blank=True)
     relinquished = models.BooleanField(default=False)
 
-    @property
-    def is_valid(self) -> bool:
-        return (self.valid_until is None or self.valid_until >= date.today()) and not self.relinquished
+    class Meta:
+        ordering = ("name", "-valid_until")
 
     def __str__(self):
         return f"{self.name}{' ({})'.format(self.number) if self.number else ''}"
 
-    class Meta:
-        ordering = ("name", "-valid_until")
+    @property
+    def is_valid(self) -> bool:
+        return (self.valid_until is None or self.valid_until >= datetime.now(tz=UTC).today()) and not self.relinquished

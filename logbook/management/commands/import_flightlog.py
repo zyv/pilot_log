@@ -1,6 +1,7 @@
 import csv
 import enum
 from datetime import UTC, datetime
+from pathlib import Path
 
 from django.core.management.base import BaseCommand
 
@@ -43,7 +44,7 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS("Importing FlightLog records..."))
 
-        with open(options["filename"], newline="") as fp:
+        with Path(options["filename"]).open(newline="") as fp:
             reader = csv.DictReader(fp)
             for row in reader:
                 day, month, year = [int(value) for value in row[Fields.DATE].split("/")]

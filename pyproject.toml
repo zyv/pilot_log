@@ -6,38 +6,21 @@ authors = ["Yury V. Zaytsev <yury@shurup.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
+python = "^3.11"
+
 django = "*"
 django-countries = "*"
 django-bootstrap5 = "*"
 
 python-dateutil = "*"
-
 requests = "*"
-
-python = "^3.11"
 
 [tool.poetry.dev-dependencies]
 django-debug-toolbar = "*"
 
-flake8 = "*"
-flake8-black = "*"
-flake8-coding = "*"
-flake8-isort = "*"
-flake8-quotes = "*"
-
 requests-mock = "*"
 
-black = "*"
-isort = {extras = ["pyproject"], version = "*"}
-add-trailing-comma = "*"
-
-[tool.black]
-line-length = 120
-target-version = ["py311"]
-
-[tool.isort]
-profile = "black"
-line_length = 120
+ruff = "*"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
