@@ -1,13 +1,12 @@
 import dataclasses
 from dataclasses import dataclass
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, date, datetime, timedelta
 from enum import StrEnum
 from typing import Iterable, Optional
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import OuterRef, QuerySet, Subquery, Sum, Value
 from django.urls import reverse_lazy
-from django.utils.timezone import now
 from django.views.generic import ListView, TemplateView
 
 from ..models import LogEntry
@@ -85,11 +84,11 @@ def get_ninety_days_currency(
     queryset: QuerySet[LogEntry],
     required_landings: int = CURRENCY_REQUIRED_LANDINGS_PASSENGER,
 ) -> NinetyDaysCurrency:
-    eligible_entries = queryset.filter(arrival_time__gte=now() - timedelta(days=CURRENCY_DAYS_RANGE))
+    eligible_entries = queryset.filter(arrival_time__gte=datetime.now(tz=UTC) - timedelta(days=CURRENCY_DAYS_RANGE))
 
     annotated_entries = eligible_entries.annotate(
         eligible_landings=Subquery(
-            eligible_entries.filter(arrival_time__lte=OuterRef("arrival_time"))
+            eligible_entries.filter(arrival_time__gte=OuterRef("arrival_time"))
             .annotate(remove_group_by=Value(None))
             .values("remove_group_by")
             .annotate(total_landings_until=Sum("landings"))
@@ -106,7 +105,7 @@ def get_ninety_days_currency(
     )
 
     time_to_expiry = (
-        timedelta(days=CURRENCY_DAYS_RANGE) - (now() - first_current_entry.arrival_time)
+        timedelta(days=CURRENCY_DAYS_RANGE) - (datetime.now(tz=UTC) - first_current_entry.arrival_time)
         if first_current_entry is not None
         else timedelta(days=0)
     )
