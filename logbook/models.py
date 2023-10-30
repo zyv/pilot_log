@@ -151,6 +151,12 @@ class Certificate(models.Model):
     relinquished = models.BooleanField(default=False)
 
     class Meta:
+        constraints = (
+            CheckConstraint(
+                check=Q(valid_until__isnull=True) | Q(valid_until__gt=F("issue_date")),
+                name="validity_after_issue",
+            ),
+        )
         ordering = ("name", "-valid_until")
 
     def __str__(self):
