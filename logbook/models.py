@@ -158,4 +158,4 @@ class Certificate(models.Model):
 
     @property
     def is_valid(self) -> bool:
-        return (self.valid_until is None or self.valid_until >= datetime.now(tz=UTC).today()) and not self.relinquished
+        return (self.valid_until is None or self.valid_until >= datetime.now(tz=UTC).date()) and not self.relinquished
