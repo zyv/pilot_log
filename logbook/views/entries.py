@@ -85,13 +85,11 @@ class EntryIndexView(AuthenticatedListView, FormView):
     form_class = VereinsfliegerForm
     success_url = reverse_lazy("logbook:entries")
 
-    def post(self, request, *args, **kwargs):
-        return super().get(self, request, *args, **kwargs)
-
     def get_context_data(self, *args, **kwargs):
         return super().get_context_data(*args, **kwargs) | {
             "aircraft_types": list(AircraftType),
             "function_types": list(FunctionType),
+            "form": self.get_form(),
         }
 
     def paginate_queryset(self, queryset, page_size):
@@ -107,3 +105,6 @@ class EntryIndexView(AuthenticatedListView, FormView):
         flight_id, log_entry = form.import_flight()
         messages.success(self.request, f"Flight #{flight_id} imported successfully as #{log_entry.id}!")
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return super().get(self.request, *self.args, **self.kwargs)
