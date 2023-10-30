@@ -72,6 +72,10 @@ class NinetyDaysCurrency:
     expires_in: timedelta
     landings_to_renew: int
 
+    @property
+    def expires_on(self) -> date:
+        return datetime.now(tz=UTC).date() + self.expires_in
+
 
 CURRENCY_REQUIRED_LANDINGS_PASSENGER = 3
 CURRENCY_REQUIRED_LANDINGS_NIGHT = 1

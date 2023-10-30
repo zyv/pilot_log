@@ -1,3 +1,3 @@
 {% load logbook_utils %}
 
-<abbr title="{% if currency.status.value != CurrencyStatus.NOT_CURRENT %}expires in {{ currency.expires_in | duration:"%d" }} days, {% endif %}{{ currency.landings_to_renew }} landing{% if currency.landings_to_renew > 1 %}s{% endif %} to renew">{{ currency.status }}</abbr>
+<abbr title="{% if currency.status.value != CurrencyStatus.NOT_CURRENT %}expires in {{ currency.expires_in | duration:"%d" }} days ({{ currency.expires_on | date:"Y-m-d" }}), {% endif %}{{ currency.landings_to_renew }} landing{% if currency.landings_to_renew > 1 %}s{% endif %} to renew">{{ currency.status }}</abbr>
