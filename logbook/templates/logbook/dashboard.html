@@ -4,10 +4,30 @@
 {% block content %}
     <h1>Dashboard</h1>
 
-    <p>Passenger currency (TMG & SEP):
-        {% include "logbook/currency_status.html" with currency=passenger_currency.sep.day %} (day),
-        {% include "logbook/currency_status.html" with currency=passenger_currency.sep.night %} (night)
-    </p>
+    <h2>Currency status</h2>
+
+    <table class="table w-25">
+        <caption>Passenger currency</caption>
+        <thead>
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">Day</th>
+            <th scope="col">Night</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">SEP</th>
+            <td>{% include "logbook/currency_status.html" with currency=passenger_currency.sep.day %}</td>
+            <td>{% include "logbook/currency_status.html" with currency=passenger_currency.sep.night %}</td>
+        </tr>
+        <tr>
+            <th scope="row">TMG</th>
+            <td>{% include "logbook/currency_status.html" with currency=passenger_currency.tmg.day %}</td>
+            <td>{% include "logbook/currency_status.html" with currency=passenger_currency.tmg.night %}</td>
+        </tr>
+        </tbody>
+    </table>
 
     <h2>Aircraft totals</h2>
 

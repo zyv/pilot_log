@@ -27,13 +27,29 @@ class DashboardView(AuthenticatedListView):
                 "sep": {
                     "day": get_ninety_days_currency(
                         LogEntry.objects.filter(
-                            aircraft__type__in={AircraftType.SEP.name, AircraftType.TMG.name},
+                            aircraft__type=AircraftType.SEP.name,
                             time_function=FunctionType.PIC.name,
                         ),
                     ),
                     "night": get_ninety_days_currency(
                         LogEntry.objects.filter(
-                            aircraft__type__in={AircraftType.SEP.name, AircraftType.TMG.name},
+                            aircraft__type=AircraftType.SEP.name,
+                            time_function=FunctionType.PIC.name,
+                            night=True,
+                        ),
+                        required_landings=CURRENCY_REQUIRED_LANDINGS_NIGHT,
+                    ),
+                },
+                "tmg": {
+                    "day": get_ninety_days_currency(
+                        LogEntry.objects.filter(
+                            aircraft__type=AircraftType.TMG.name,
+                            time_function=FunctionType.PIC.name,
+                        ),
+                    ),
+                    "night": get_ninety_days_currency(
+                        LogEntry.objects.filter(
+                            aircraft__type=AircraftType.TMG.name,
                             time_function=FunctionType.PIC.name,
                             night=True,
                         ),
