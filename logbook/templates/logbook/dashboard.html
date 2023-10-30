@@ -2,7 +2,7 @@
 {% load logbook_utils %}
 
 {% block content %}
-    <h1>Logbook dashboard</h1>
+    <h1>Dashboard</h1>
 
     <p>Passenger currency (TMG & SEP):
         {% include "logbook/currency_status.html" with currency=passenger_currency.sep.day %} (day),
@@ -12,7 +12,7 @@
     <h2>Aircraft totals</h2>
 
     <div class="table-responsive">
-        <table class="table table-striped table-sm table-hover">
+        <table class="table table-striped table-sm table-hover w-75">
             <thead>
             <tr>
                 <th>Type / Registration</th>
