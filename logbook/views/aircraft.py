@@ -1,5 +1,6 @@
-from logbook.models import Aircraft
-from logbook.views.utils import AuthenticatedListView, CurrencyStatus
+from ..models import Aircraft
+from ..statistics.currency import CurrencyStatus
+from .utils import AuthenticatedListView
 
 
 class AircraftIndexView(AuthenticatedListView):

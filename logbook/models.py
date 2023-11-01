@@ -7,7 +7,7 @@ from django.db import models
 from django.db.models import CheckConstraint, F, Q
 from django_countries.fields import CountryField
 
-from logbook.views.utils import NinetyDaysCurrency, get_ninety_days_currency
+from .statistics.currency import NinetyDaysCurrency, get_ninety_days_currency
 
 
 class NameStrEnum(StrEnum):

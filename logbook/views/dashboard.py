@@ -1,12 +1,10 @@
 from django.db.models import QuerySet
 
 from ..models import Aircraft, AircraftType, FunctionType, LogEntry
+from ..statistics.currency import CURRENCY_REQUIRED_LANDINGS_NIGHT, CurrencyStatus, get_ninety_days_currency
+from ..statistics.experience import compute_totals
 from .utils import (
-    CURRENCY_REQUIRED_LANDINGS_NIGHT,
     AuthenticatedListView,
-    CurrencyStatus,
-    compute_totals,
-    get_ninety_days_currency,
 )
 
 

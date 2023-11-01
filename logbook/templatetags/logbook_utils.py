@@ -6,7 +6,7 @@ from django import template
 from django.template import TemplateSyntaxError
 from django.utils.safestring import mark_safe
 
-from ..views.utils import ExperienceRecord, TotalsRecord
+from ..statistics.experience import ExperienceRecord, TotalsRecord
 
 register = template.Library()
 

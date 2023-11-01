@@ -4,8 +4,8 @@ from unittest import TestCase
 from django.template import TemplateSyntaxError
 from django.utils.safestring import SafeString
 
-from ..views.utils import ExperienceRecord, TotalsRecord
-from .logbook_utils import replace, represent, subtract
+from logbook.statistics.experience import ExperienceRecord, TotalsRecord
+from logbook.templatetags.logbook_utils import replace, represent, subtract
 
 
 class TestRepresent(TestCase):

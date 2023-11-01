@@ -5,15 +5,17 @@ from django.db.models import QuerySet
 from django.utils.timezone import make_aware
 
 from ..models import AircraftType, Certificate, FunctionType, LogEntry
-from .utils import (
+from ..statistics.experience import (
     CPL_START_DATE,
     PPL_END_DATE,
     PPL_START_DATE,
-    AuthenticatedTemplateView,
     ExperienceRecord,
     ExperienceRequirements,
     TotalsRecord,
     compute_totals,
+)
+from .utils import (
+    AuthenticatedTemplateView,
 )
 
 

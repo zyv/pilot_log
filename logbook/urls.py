@@ -3,9 +3,9 @@ from django.urls import path
 from .apps import LogbookConfig
 from .views.aircraft import AircraftIndexView
 from .views.certificates import CertificateIndexView
+from .views.dashboard import DashboardView
 from .views.entries import EntryIndexView
 from .views.experience import ExperienceIndexView
-from .views.index import DashboardView
 
 app_name = LogbookConfig.name
 
