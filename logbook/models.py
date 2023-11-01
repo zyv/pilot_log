@@ -174,7 +174,13 @@ class Certificate(models.Model):
     valid_until = models.DateField(blank=True, null=True)
     authority = models.CharField(max_length=255)
     remarks = models.CharField(max_length=255, blank=True)
-    relinquished = models.BooleanField(default=False)
+    supersedes = models.ForeignKey(
+        "self",
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+        related_name="supersedes_set",
+    )
 
     class Meta:
         constraints = (
@@ -183,11 +189,13 @@ class Certificate(models.Model):
                 name="validity_after_issue",
             ),
         )
-        ordering = ("name", "-valid_until")
+        ordering = ("name", F("supersedes").desc(nulls_last=True), "-valid_until")
 
     def __str__(self):
-        return f"{self.name}{' ({})'.format(self.number) if self.number else ''}"
+        return f"{self.name}{' / {}'.format(self.number) if self.number else ''} ({self.issue_date})"
 
     @property
-    def is_valid(self) -> bool:
-        return (self.valid_until is None or self.valid_until >= datetime.now(tz=UTC).date()) and not self.relinquished
+    def valid(self) -> bool:
+        return (
+            self.valid_until is None or self.valid_until >= datetime.now(tz=UTC).date()
+        ) and not self.supersedes_set.count()

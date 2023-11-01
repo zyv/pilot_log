@@ -1,8 +1,11 @@
 {% extends "logbook/base.html" %}
+{% load django_bootstrap5 %}
 {% load logbook_utils %}
 
 {% block content %}
     <h1>Dashboard</h1>
+
+    {% bootstrap_messages %}
 
     <h2>Currency status</h2>
 

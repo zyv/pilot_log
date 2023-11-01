@@ -6,13 +6,19 @@ from logbook.models import Certificate
 
 
 class ModelsTest(TestCase):
-    def test_is_valid(self):
-        certificate = Certificate.objects.create(name="Test", issue_date=datetime.now(tz=UTC))
-        self.assertTrue(certificate.is_valid)
+    def test_certificate_valid(self):
+        certificate_old = Certificate.objects.create(
+            name="Test",
+            issue_date=datetime.now(tz=UTC),
+        )
+        certificate_new = Certificate.objects.create(
+            name="Test",
+            issue_date=datetime.now(tz=UTC),
+            supersedes=certificate_old,
+        )
 
-        certificate.valid_until = (datetime.now(tz=UTC) - timedelta(days=1)).date()
-        self.assertFalse(certificate.is_valid)
+        self.assertFalse(certificate_old.valid)
+        self.assertTrue(certificate_new.valid)
 
-        certificate.relinquished = True
-        certificate.valid_until = None
-        self.assertFalse(certificate.is_valid)
+        certificate_new.valid_until = (datetime.now(tz=UTC) - timedelta(days=1)).date()
+        self.assertFalse(certificate_new.valid)

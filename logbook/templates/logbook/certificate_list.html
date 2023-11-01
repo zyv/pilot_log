@@ -1,9 +1,12 @@
 {% extends "logbook/base.html" %}
+{% load django_bootstrap5 %}
 {% load logbook_utils %}
 
 {% block content %}
 
     <h1>Certificates</h1>
+
+    {% bootstrap_messages %}
 
     <div class="table-responsive">
         <table class="table table-sm table-hover">
@@ -19,7 +22,7 @@
             </thead>
             <tbody>
             {% for obj in object_list %}
-                <tr class="{% if obj.is_valid %}table-light{% else %}text-muted{% endif %}">
+                <tr class="{% if obj.valid %}table-light{% else %}text-muted{% endif %}">
                     <td>{{ obj.name }}</td>
                     <td>{{ obj.number | default:"-" }}</td>
                     <td>{{ obj.issue_date }}</td>

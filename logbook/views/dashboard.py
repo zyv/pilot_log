@@ -4,13 +4,17 @@ from ..models import Aircraft, AircraftType, FunctionType, LogEntry
 from ..statistics.currency import CURRENCY_REQUIRED_LANDINGS_NIGHT, get_ninety_days_currency
 from ..statistics.experience import compute_totals
 from .utils import (
-    AuthenticatedListView,
+    AuthenticatedTemplateView,
+    check_certificates_expiry,
 )
 
 
-class DashboardView(AuthenticatedListView):
-    queryset = AircraftType
+class DashboardView(AuthenticatedTemplateView):
     template_name = "logbook/dashboard.html"
+
+    def get(self, request, *args, **kwargs):
+        check_certificates_expiry(request)
+        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
         def totals_per_function(log_entries: QuerySet[LogEntry]):
@@ -66,7 +70,7 @@ class DashboardView(AuthenticatedListView):
                         ],
                     },
                 }
-                for aircraft_type in self.queryset
+                for aircraft_type in AircraftType
             },
             "grand_total": compute_totals(LogEntry.objects.all()),
         }
