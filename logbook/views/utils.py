@@ -2,14 +2,15 @@ import dataclasses
 from dataclasses import dataclass
 from datetime import UTC, date, datetime, timedelta
 from enum import StrEnum
-from typing import Iterable, Optional
+from typing import TYPE_CHECKING, Iterable, Optional
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import OuterRef, QuerySet, Subquery, Sum, Value
 from django.urls import reverse_lazy
 from django.views.generic import ListView, TemplateView
 
-from ..models import LogEntry
+if TYPE_CHECKING:
+    from ..models import LogEntry
 
 PPL_START_DATE = datetime(2021, 12, 1, 0, 0, tzinfo=UTC)
 PPL_END_DATE = datetime(2022, 1, 29, 0, 0, tzinfo=UTC)
@@ -53,7 +54,7 @@ class ExperienceRequirements:
     details: Optional[str] = None
 
 
-def compute_totals(entries: Iterable[LogEntry], full_stop=False) -> TotalsRecord:
+def compute_totals(entries: Iterable["LogEntry"], full_stop=False) -> TotalsRecord:
     return TotalsRecord(
         time=sum((entry.arrival_time - entry.departure_time for entry in entries), timedelta()),
         landings=sum(entry.landings if not full_stop else 1 for entry in entries),
@@ -85,7 +86,7 @@ CURRENCY_DAYS_WARNING = 14
 
 
 def get_ninety_days_currency(
-    queryset: QuerySet[LogEntry],
+    queryset: QuerySet["LogEntry"],
     required_landings: int = CURRENCY_REQUIRED_LANDINGS_PASSENGER,
 ) -> NinetyDaysCurrency:
     eligible_entries = queryset.filter(arrival_time__gte=datetime.now(tz=UTC) - timedelta(days=CURRENCY_DAYS_RANGE))

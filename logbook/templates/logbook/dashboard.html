@@ -55,12 +55,12 @@
                         </abbr>
                     </th>
                 </tr>
-                {% for aircraft, aircraft_per_function, aircraft_totals, aircraft_currency in type_totals.per_aircraft %}
+                {% for aircraft, aircraft_per_function, aircraft_totals in type_totals.per_aircraft %}
                     <tr>
                         <td>
                             <abbr title="{{ aircraft.maker }} {{ aircraft.model }} ({{ aircraft.icao_designator }})">
                                 {{ aircraft.registration }}
-                            </abbr>{% if aircraft_currency != None %}&nbsp;{% include "logbook/currency_status.html" with currency=aircraft_currency %}{% endif %}
+                            </abbr>{% if aircraft.currency_required %}&nbsp;{% include "logbook/currency_status.html" with currency=aircraft.currency_status %}{% endif %}
                         </td>
                         <td class="text-end">
                             <abbr title="{% for key, value in aircraft_per_function.items %}{{ key }}: {{ value.time | duration:"%{h}h %{m}m" }} {% if not forloop.last %} | {% endif %}{% endfor %}">

@@ -1,10 +1,18 @@
 from datetime import UTC, datetime
-from enum import Enum
+from enum import Enum, StrEnum
+from typing import Optional
 
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import CheckConstraint, F, Q
 from django_countries.fields import CountryField
+
+from logbook.views.utils import NinetyDaysCurrency, get_ninety_days_currency
+
+
+class NameStrEnum(StrEnum):
+    def __str__(self) -> str:
+        return self.name
 
 
 class AircraftType(Enum):
@@ -22,6 +30,12 @@ class LaunchType(Enum):
     SELF = "Self-launch"
     WINCH = "Winch launch"
     TOW = "Aerotow"
+
+
+class SpeedUnit(NameStrEnum):
+    KMH = "km/h"
+    KT = "kt"
+    MPH = "mph"
 
 
 class Aerodrome(models.Model):
@@ -53,12 +67,30 @@ class Aircraft(models.Model):
 
     currency_required = models.BooleanField(default=False)
 
+    speed_unit = models.CharField(max_length=3, choices=[(su.name, su.value) for su in SpeedUnit])
+
+    v_r = models.PositiveSmallIntegerField(verbose_name="Vr", help_text="Rotation speed", blank=True, null=True)
+    v_y = models.PositiveSmallIntegerField(
+        verbose_name="Vy",
+        help_text="Best rate of climb speed",
+        blank=True,
+        null=True,
+    )
+    v_bg = models.PositiveSmallIntegerField(verbose_name="Vbg", help_text="Best glide speed", blank=True, null=True)
+    v_app = models.PositiveSmallIntegerField(verbose_name="Vapp", help_text="Approach speed", blank=True, null=True)
+    v_s = models.PositiveSmallIntegerField(verbose_name="Vs", help_text="Stall speed", blank=True, null=True)
+    v_c = models.PositiveSmallIntegerField(verbose_name="Vc", help_text="Cruise speed", blank=True, null=True)
+
     class Meta:
         ordering = ("registration",)
         verbose_name_plural = "aircraft"
 
     def __str__(self):
         return f"{self.registration} ({self.maker} {self.model})"
+
+    @property
+    def currency_status(self) -> Optional[NinetyDaysCurrency]:
+        return get_ninety_days_currency(LogEntry.objects.filter(aircraft=self)) if self.currency_required else None
 
 
 class Pilot(models.Model):

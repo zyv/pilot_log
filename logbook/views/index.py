@@ -67,11 +67,6 @@ class DashboardView(AuthenticatedListView):
                                 aircraft,
                                 totals_per_function(LogEntry.objects.filter(aircraft=aircraft)),
                                 compute_totals(LogEntry.objects.filter(aircraft=aircraft)),
-                                (
-                                    get_ninety_days_currency(LogEntry.objects.filter(aircraft=aircraft))
-                                    if aircraft.currency_required
-                                    else None
-                                ),
                             )
                             for aircraft in Aircraft.objects.filter(type=aircraft_type.name)
                         ],

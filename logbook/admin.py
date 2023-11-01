@@ -15,6 +15,25 @@ class AircraftAdmin(admin.ModelAdmin):
     search_fields = ("registration",)
     save_as = True
 
+    fieldsets = [
+        (
+            None,
+            {
+                "fields": [
+                    field.name
+                    for field in Aircraft._meta.get_fields()
+                    if not field.name.startswith("v_") and field.concrete and not field.primary_key
+                ],
+            },
+        ),
+        (
+            "Speeds",
+            {
+                "fields": [field.name for field in Aircraft._meta.get_fields() if field.name.startswith("v_")],
+            },
+        ),
+    ]
+
 
 @admin.register(LogEntry)
 class LogEntryAdmin(admin.ModelAdmin):

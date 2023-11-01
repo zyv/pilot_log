@@ -1,0 +1,49 @@
+{% extends "logbook/base.html" %}
+{% load logbook_utils %}
+
+{% block content %}
+    <h1>Aircraft</h1>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-sm table-hover">
+            <thead>
+            <tr>
+                <th rowspan="2" class="align-middle">Currency</th>
+                <th rowspan="2" class="align-middle">Registration</th>
+                <th rowspan="2" class="align-middle">Designator</th>
+                <th rowspan="2" class="align-middle">Model</th>
+                <th colspan="6" class="align-middle text-center">Speeds</th>
+            </tr>
+            <tr>
+                <th><abbr title="{{ aircraft_fields.v_r.help_text }}">{{ aircraft_fields.v_r.verbose_name }}</abbr></th>
+                <th><abbr title="{{ aircraft_fields.v_y.help_text }}">{{ aircraft_fields.v_y.verbose_name }}</abbr></th>
+                <th><abbr title="{{ aircraft_fields.v_bg.help_text }}">{{ aircraft_fields.v_bg.verbose_name }}</abbr></th>
+                <th><abbr title="{{ aircraft_fields.v_app.help_text }}">{{ aircraft_fields.v_app.verbose_name }}</abbr></th>
+                <th><abbr title="{{ aircraft_fields.v_s.help_text }}">{{ aircraft_fields.v_s.verbose_name }}</abbr></th>
+                <th><abbr title="{{ aircraft_fields.v_c.help_text }}">{{ aircraft_fields.v_c.verbose_name }}</abbr></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for aircraft in object_list %}
+                <tr>
+                    <td class="text-center">
+                        {% if aircraft.currency_required %}
+                            {% include "logbook/currency_status.html" with currency=aircraft.currency_status %}
+                        {% endif %}
+                    </td>
+                    <td>{{ aircraft.registration }}</td>
+                    <td>{{ aircraft.icao_designator }}</td>
+                    <td>{{ aircraft.maker }} {{ aircraft.model }}</td>
+                    <td>{% if aircraft.v_r != None %}{{ aircraft.v_r }} {{ aircraft.speed_unit }}{% endif %}</td>
+                    <td>{% if aircraft.v_y != None %}{{ aircraft.v_y }} {{ aircraft.speed_unit }}{% endif %}</td>
+                    <td>{% if aircraft.v_bg != None %}{{ aircraft.v_bg }} {{ aircraft.speed_unit }}{% endif %}</td>
+                    <td>{% if aircraft.v_app != None %}{{ aircraft.v_app }} {{ aircraft.speed_unit }}{% endif %}</td>
+                    <td>{% if aircraft.v_s != None %}{{ aircraft.v_s }} {{ aircraft.speed_unit }}{% endif %}</td>
+                    <td>{% if aircraft.v_c != None %}{{ aircraft.v_c }} {{ aircraft.speed_unit }}{% endif %}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
