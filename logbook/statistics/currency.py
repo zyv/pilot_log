@@ -1,15 +1,15 @@
 from dataclasses import dataclass
 from datetime import UTC, date, datetime, timedelta
-from enum import StrEnum
 from typing import TYPE_CHECKING
 
+from django.db import models
 from django.db.models import OuterRef, QuerySet, Subquery, Sum, Value
 
 if TYPE_CHECKING:
     from ..models import LogEntry
 
 
-class CurrencyStatus(StrEnum):
+class CurrencyStatus(models.TextChoices):
     CURRENT = "🟢"
     EXPIRING = "🟡"
     NOT_CURRENT = "🔴"

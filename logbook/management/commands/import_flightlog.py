@@ -84,11 +84,11 @@ class Command(BaseCommand):
 
                 launch_type = (
                     {
-                        "Self": models.LaunchType.SELF.name,
-                        "Tow": models.LaunchType.TOW.name,
-                        "Winch": models.LaunchType.WINCH.name,
+                        "Self": models.LaunchType.SELF,
+                        "Tow": models.LaunchType.TOW,
+                        "Winch": models.LaunchType.WINCH,
                     }[remarks]
-                    if aircraft.type == models.AircraftType.GLD.name
+                    if aircraft.type == models.AircraftType.GLD
                     else ""
                 )
 

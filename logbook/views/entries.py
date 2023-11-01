@@ -10,7 +10,7 @@ from django.views.generic import FormView
 
 from vereinsflieger.vereinsflieger import VereinsfliegerSession
 
-from ..models import Aerodrome, Aircraft, AircraftType, FunctionType, LogEntry, Pilot
+from ..models import Aerodrome, Aircraft, FunctionType, LogEntry, Pilot
 from .utils import AuthenticatedListView
 
 
@@ -86,11 +86,7 @@ class EntryIndexView(AuthenticatedListView, FormView):
     success_url = reverse_lazy("logbook:entries")
 
     def get_context_data(self, *args, **kwargs):
-        return super().get_context_data(*args, **kwargs) | {
-            "aircraft_types": list(AircraftType),
-            "function_types": list(FunctionType),
-            "form": self.get_form(),
-        }
+        return super().get_context_data(*args, **kwargs) | {"form": self.get_form()}
 
     def paginate_queryset(self, queryset, page_size):
         entries = tuple(chain.from_iterable(([entry] + [None] * (entry.slots - 1)) for entry in queryset))

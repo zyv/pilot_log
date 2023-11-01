@@ -1,5 +1,4 @@
 from datetime import UTC, datetime
-from enum import Enum, StrEnum
 from typing import Optional
 
 from django.core.exceptions import ValidationError
@@ -10,32 +9,27 @@ from django_countries.fields import CountryField
 from .statistics.currency import NinetyDaysCurrency, get_ninety_days_currency
 
 
-class NameStrEnum(StrEnum):
-    def __str__(self) -> str:
-        return self.name
+class AircraftType(models.TextChoices):
+    GLD = "GLD", "Glider"
+    TMG = "TMG", "Touring Motor Glider"
+    SEP = "SEP", "Single Engine Piston"
 
 
-class AircraftType(Enum):
-    GLD = "Glider"
-    TMG = "Touring Motor Glider"
-    SEP = "Single Engine Piston"
+class FunctionType(models.TextChoices):
+    PIC = "PIC", "Pilot-in-Command"
+    DUAL = "DUAL", "Dual instruction time"
 
 
-class FunctionType(Enum):
-    PIC = "Pilot-in-Command"
-    DUAL = "Dual instruction time"
+class LaunchType(models.TextChoices):
+    SELF = "SELF", "Self-launch"
+    WINCH = "WINCH", "Winch launch"
+    TOW = "TOW", "Aerotow"
 
 
-class LaunchType(Enum):
-    SELF = "Self-launch"
-    WINCH = "Winch launch"
-    TOW = "Aerotow"
-
-
-class SpeedUnit(NameStrEnum):
-    KMH = "km/h"
-    KT = "kt"
-    MPH = "mph"
+class SpeedUnit(models.TextChoices):
+    KMH = "KMH", "km/h"
+    KT = "KT", "kt"
+    MPH = "MPH", "mph"
 
 
 class Aerodrome(models.Model):
@@ -56,7 +50,7 @@ class Aerodrome(models.Model):
 
 
 class Aircraft(models.Model):
-    type = models.CharField(max_length=3, choices=[(at.name, at.value) for at in AircraftType])
+    type = models.CharField(max_length=3, choices=AircraftType.choices)
     maker = models.CharField(max_length=64)
     model = models.CharField(max_length=64)
 
@@ -67,7 +61,7 @@ class Aircraft(models.Model):
 
     currency_required = models.BooleanField(default=False)
 
-    speed_unit = models.CharField(max_length=3, choices=[(su.name, su.value) for su in SpeedUnit])
+    speed_unit = models.CharField(max_length=3, choices=SpeedUnit.choices)
 
     v_r = models.PositiveSmallIntegerField(verbose_name="Vr", help_text="Rotation speed", blank=True, null=True)
     v_y = models.PositiveSmallIntegerField(
@@ -118,12 +112,12 @@ class LogEntry(models.Model):
 
     landings = models.PositiveSmallIntegerField(default=1)
 
-    time_function = models.CharField(max_length=5, choices=[(ft.name, ft.value) for ft in FunctionType])
+    time_function = models.CharField(max_length=5, choices=FunctionType.choices)
 
     pilot = models.ForeignKey(Pilot, on_delete=models.PROTECT, related_name="pilot_set")
     copilot = models.ForeignKey(Pilot, on_delete=models.PROTECT, related_name="copilot_set", blank=True, null=True)
 
-    launch_type = models.CharField(max_length=5, blank=True, choices=[(lt.name, lt.value) for lt in LaunchType])
+    launch_type = models.CharField(max_length=5, blank=True, choices=LaunchType.choices)
 
     remarks = models.CharField(max_length=255, blank=True)
 
@@ -138,8 +132,8 @@ class LogEntry(models.Model):
             CheckConstraint(check=~Q(copilot=F("pilot")), name="copilot_not_pilot"),
             CheckConstraint(
                 check=(
-                    Q(time_function=FunctionType.PIC.name)  # PIC time may be XC or not XC
-                    | ~Q(time_function=FunctionType.PIC.name) & Q(cross_country=False)  # non-PIC time must be non-XC
+                    Q(time_function=FunctionType.PIC)  # PIC time may be XC or not XC
+                    | ~Q(time_function=FunctionType.PIC) & Q(cross_country=False)  # non-PIC time must be non-XC
                 ),
                 name="no_pic_no_xc",
             ),
@@ -167,7 +161,7 @@ class LogEntry(models.Model):
         # Check constraints can't reference other tables; it's possible via UDFs, but not universally supported by RDBs
         if (
             self.aircraft_id is not None  # checks if foreign key is set to avoid `RelatedObjectDoesNotExist` exception!
-            and self.aircraft.type == AircraftType.GLD.name
+            and self.aircraft.type == AircraftType.GLD
             and not self.launch_type
         ):
             raise ValidationError("Launch type is required for gliders!")

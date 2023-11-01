@@ -35,7 +35,7 @@ class ExperienceIndexView(AuthenticatedTemplateView):
 
 def get_sep_revalidation_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirements:
     eligible_entries = log_entries.filter(
-        aircraft__type__in={AircraftType.SEP.name, AircraftType.TMG.name},
+        aircraft__type__in={AircraftType.SEP, AircraftType.TMG},
         departure_time__gte=make_aware(
             datetime.combine(
                 Certificate.objects.get(name__contains="SEP").valid_until - relativedelta(months=12),
@@ -52,7 +52,7 @@ def get_sep_revalidation_experience(log_entries: QuerySet[LogEntry]) -> Experien
             ),
             "6 hours as PIC": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=6), landings=0),
-                accrued=compute_totals(eligible_entries.filter(time_function=FunctionType.PIC.name)),
+                accrued=compute_totals(eligible_entries.filter(time_function=FunctionType.PIC)),
             ),
             "12 take-offs and 12 landings": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=0), landings=12),
@@ -60,7 +60,7 @@ def get_sep_revalidation_experience(log_entries: QuerySet[LogEntry]) -> Experien
             ),
             "Refresher training with FI or CRI": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=1), landings=0),
-                accrued=compute_totals(eligible_entries.filter(time_function=FunctionType.DUAL.name)),
+                accrued=compute_totals(eligible_entries.filter(time_function=FunctionType.DUAL)),
             ),
         },
         details="""
@@ -75,15 +75,15 @@ def get_ppl_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirement
         experience={
             "Dual instruction": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=25), landings=0),
-                accrued=compute_totals(log_entries.filter(time_function=FunctionType.DUAL.name)),
+                accrued=compute_totals(log_entries.filter(time_function=FunctionType.DUAL)),
             ),
             "Supervised solo": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=10), landings=0),
-                accrued=compute_totals(log_entries.filter(time_function=FunctionType.PIC.name)),
+                accrued=compute_totals(log_entries.filter(time_function=FunctionType.PIC)),
             ),
             "Cross-country solo": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=5), landings=0),
-                accrued=compute_totals(log_entries.filter(time_function=FunctionType.PIC.name, cross_country=True)),
+                accrued=compute_totals(log_entries.filter(time_function=FunctionType.PIC, cross_country=True)),
             ),
             "Total hours": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=45), landings=0),
@@ -102,15 +102,15 @@ def get_night_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequireme
         experience={
             "Solo full-stop landings": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=0), landings=5),
-                accrued=compute_totals(log_entries.filter(time_function=FunctionType.PIC.name), full_stop=True),
+                accrued=compute_totals(log_entries.filter(time_function=FunctionType.PIC), full_stop=True),
             ),
             "Dual instruction": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=3), landings=0),
-                accrued=compute_totals(log_entries.filter(time_function=FunctionType.DUAL.name)),
+                accrued=compute_totals(log_entries.filter(time_function=FunctionType.DUAL)),
             ),
             "Dual cross-country (>27 NM)": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=1), landings=0),
-                accrued=compute_totals(log_entries.filter(time_function=FunctionType.DUAL.name, cross_country=True)),
+                accrued=compute_totals(log_entries.filter(time_function=FunctionType.DUAL, cross_country=True)),
             ),
             "Total hours": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=5), landings=0),
@@ -125,7 +125,7 @@ def get_ir_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirements
         experience={
             "Cross-country PIC": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=50), landings=0),
-                accrued=compute_totals(log_entries.filter(time_function=FunctionType.PIC.name, cross_country=True)),
+                accrued=compute_totals(log_entries.filter(time_function=FunctionType.PIC, cross_country=True)),
             ),
         },
     )
@@ -136,16 +136,16 @@ def get_cpl_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirement
         experience={  # TODO: add dual
             "PIC": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=100), landings=0),
-                accrued=compute_totals(log_entries.filter(time_function=FunctionType.PIC.name)),
+                accrued=compute_totals(log_entries.filter(time_function=FunctionType.PIC)),
             ),
             "Cross-country PIC": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=20), landings=0),
-                accrued=compute_totals(log_entries.filter(time_function=FunctionType.PIC.name, cross_country=True)),
+                accrued=compute_totals(log_entries.filter(time_function=FunctionType.PIC, cross_country=True)),
             ),
             "Visual dual instruction": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=15), landings=0),
                 accrued=compute_totals(
-                    log_entries.filter(time_function=FunctionType.DUAL.name, departure_time__gte=CPL_START_DATE),
+                    log_entries.filter(time_function=FunctionType.DUAL, departure_time__gte=CPL_START_DATE),
                 ),
             ),
             "Total hours": ExperienceRecord(

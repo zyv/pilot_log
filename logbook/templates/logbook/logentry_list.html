@@ -16,12 +16,12 @@
                 <th>Type<br>Registration</th>
                 <th>From<br>To</th>
                 <th>Departure<br>Arrival</th>
-                {% for aircraft_type in aircraft_types reversed %}
+                {% for aircraft_type in AircraftType reversed %}
                     <th class="text-center">{{ aircraft_type.name }}</th>
                 {% endfor %}
                 <th class="text-center">Landings</th>
                 <th>Name</th>
-                {% for function_type in function_types %}
+                {% for function_type in FunctionType %}
                     <th class="text-center">{{ function_type.name }}</th>
                 {% endfor %}
                 <th>Remarks</th>
@@ -34,7 +34,7 @@
                     <td>{{ obj.aircraft.icao_designator }}<br>{{ obj.aircraft.registration }}</td>
                     <td>{{ obj.from_aerodrome.icao_code }}<br>{{ obj.to_aerodrome.icao_code }}</td>
                     <td>{{ obj.departure_time | time:"H:i" }}<br>{{ obj.arrival_time | time:"H:i" }}</td>
-                    {% for aircraft_type in aircraft_types reversed %}
+                    {% for aircraft_type in AircraftType reversed %}
                         <td class="text-center">
                             {% if obj.aircraft.type == aircraft_type.name %}
                                 {{ obj.arrival_time | subtract:obj.departure_time | duration:"%h:%M" }}
@@ -45,7 +45,7 @@
                     {% endfor %}
                     <td class="text-center">{{ obj.landings }}</td>
                     <td>{% if not obj.pilot.self %}{{ obj.pilot.first_name.0 }}. {{ obj.pilot.last_name }}{% else %}Self{% endif %}</td>
-                    {% for function_type in function_types %}
+                    {% for function_type in FunctionType %}
                         <td class="text-center">
                             {% if obj.time_function == function_type.name %}
                                 {{ obj.arrival_time | subtract:obj.departure_time | duration:"%h:%M" }}
