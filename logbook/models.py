@@ -3,7 +3,7 @@ from typing import Optional
 
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import CheckConstraint, F, Q
+from django.db.models import CheckConstraint, F, Q, UniqueConstraint
 from django_countries.fields import CountryField
 
 from .statistics.currency import NinetyDaysCurrency, get_ninety_days_currency
@@ -187,6 +187,15 @@ class Certificate(models.Model):
             CheckConstraint(
                 check=Q(valid_until__isnull=True) | Q(valid_until__gt=F("issue_date")),
                 name="validity_after_issue",
+            ),
+            CheckConstraint(
+                check=~Q(id=F("supersedes")),
+                name="supersedes_self",
+            ),
+            UniqueConstraint(
+                fields=["supersedes"],
+                condition=Q(supersedes__isnull=False),
+                name="supersedes_unique",
             ),
         )
         ordering = ("name", F("supersedes").desc(nulls_last=True), "-valid_until")
