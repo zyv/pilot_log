@@ -1,14 +1,12 @@
 from datetime import UTC, datetime, time, timedelta
 
 from dateutil.relativedelta import relativedelta
+from django.conf import settings
 from django.db.models import QuerySet
 from django.utils.timezone import make_aware
 
 from ..models import AircraftType, Certificate, FunctionType, LogEntry
 from ..statistics.experience import (
-    CPL_START_DATE,
-    PPL_END_DATE,
-    PPL_START_DATE,
     ExperienceRecord,
     ExperienceRequirements,
     TotalsRecord,
@@ -23,10 +21,10 @@ class ExperienceIndexView(AuthenticatedTemplateView):
     template_name = "logbook/experience_list.html"
 
     def get_context_data(self, **kwargs):
-        log_entries = LogEntry.objects.filter(departure_time__gte=PPL_START_DATE)
+        log_entries = LogEntry.objects.filter(departure_time__gte=settings.PPL_START_DATE)
         return super().get_context_data(**kwargs) | {
             "sep_revalidation": get_sep_revalidation_experience(log_entries),
-            "ppl": get_ppl_experience(log_entries.filter(departure_time__lt=PPL_END_DATE)),
+            "ppl": get_ppl_experience(log_entries.filter(departure_time__lt=settings.PPL_END_DATE)),
             "night": get_night_experience(log_entries.filter(night=True)),
             "ir": get_ir_experience(log_entries),
             "cpl": get_cpl_experience(log_entries),
@@ -145,7 +143,7 @@ def get_cpl_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirement
             "Visual dual instruction": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=15), landings=0),
                 accrued=compute_totals(
-                    log_entries.filter(time_function=FunctionType.DUAL, departure_time__gte=CPL_START_DATE),
+                    log_entries.filter(time_function=FunctionType.DUAL, departure_time__gte=settings.CPL_START_DATE),
                 ),
             ),
             "Total hours": ExperienceRecord(

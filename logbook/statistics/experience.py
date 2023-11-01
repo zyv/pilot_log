@@ -1,14 +1,10 @@
 import dataclasses
 from dataclasses import dataclass
-from datetime import UTC, datetime, timedelta
+from datetime import timedelta
 from typing import TYPE_CHECKING, Iterable, Optional
 
 if TYPE_CHECKING:
     from ..models import LogEntry
-
-PPL_START_DATE = datetime(2021, 12, 1, 0, 0, tzinfo=UTC)
-PPL_END_DATE = datetime(2022, 1, 29, 0, 0, tzinfo=UTC)
-CPL_START_DATE = datetime.now(tz=UTC)
 
 
 @dataclass(frozen=True, kw_only=True)

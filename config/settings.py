@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from datetime import UTC, datetime
 from pathlib import Path
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -133,3 +134,8 @@ if DEBUG:
     INTERNAL_IPS = ["127.0.0.1"]
     INSTALLED_APPS += ["debug_toolbar"]
     MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
+
+
+PPL_START_DATE = datetime(2021, 12, 1, 0, 0, tzinfo=UTC)
+PPL_END_DATE = datetime(2022, 1, 29, 0, 0, tzinfo=UTC)
+CPL_START_DATE = datetime.now(tz=UTC)
