@@ -28,7 +28,13 @@
                     <td>{{ obj.issue_date }}</td>
                     <td>{{ obj.valid_until | default:"-" }}</td>
                     <td>{{ obj.authority }}</td>
-                    <td>{{ obj.remarks }}</td>
+                    <td>
+                        {% if obj.remarks %}
+                            {{ obj.remarks }}
+                        {% else %}
+                            {% if obj.superseded_by %}Superseded by "{{ obj.superseded_by.number }}"{% endif %}
+                        {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
