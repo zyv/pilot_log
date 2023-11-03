@@ -18,12 +18,13 @@
                 <th colspan="6" class="align-middle text-center">Speeds</th>
             </tr>
             <tr>
-                <th><abbr title="{{ aircraft_fields.v_r.help_text }}">{{ aircraft_fields.v_r.verbose_name }}</abbr></th>
-                <th><abbr title="{{ aircraft_fields.v_y.help_text }}">{{ aircraft_fields.v_y.verbose_name }}</abbr></th>
-                <th><abbr title="{{ aircraft_fields.v_bg.help_text }}">{{ aircraft_fields.v_bg.verbose_name }}</abbr></th>
-                <th><abbr title="{{ aircraft_fields.v_app.help_text }}">{{ aircraft_fields.v_app.verbose_name }}</abbr></th>
-                <th><abbr title="{{ aircraft_fields.v_s.help_text }}">{{ aircraft_fields.v_s.verbose_name }}</abbr></th>
-                <th><abbr title="{{ aircraft_fields.v_c.help_text }}">{{ aircraft_fields.v_c.verbose_name }}</abbr></th>
+                <th>{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_r only %}</th>
+                <th>{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_y only %}</th>
+                <th>{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_bg only %}</th>
+                <th>{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_app only %}</th>
+                <th>{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_ref only %}</th>
+                <th>{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_s only %}</th>
+                <th>{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_c only %}</th>
             </tr>
             </thead>
             <tbody>

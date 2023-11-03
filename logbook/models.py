@@ -72,6 +72,12 @@ class Aircraft(models.Model):
     )
     v_bg = models.PositiveSmallIntegerField(verbose_name="Vbg", help_text="Best glide speed", blank=True, null=True)
     v_app = models.PositiveSmallIntegerField(verbose_name="Vapp", help_text="Approach speed", blank=True, null=True)
+    v_ref = models.PositiveSmallIntegerField(
+        verbose_name="Vref",
+        help_text="Uncorrected final approach speed",
+        blank=True,
+        null=True,
+    )
     v_s = models.PositiveSmallIntegerField(verbose_name="Vs", help_text="Stall speed", blank=True, null=True)
     v_c = models.PositiveSmallIntegerField(verbose_name="Vc", help_text="Cruise speed", blank=True, null=True)
 
