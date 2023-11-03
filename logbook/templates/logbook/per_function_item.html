@@ -1,0 +1,5 @@
+{% spaceless %}
+{% load logbook_utils %}
+
+{% for key, value in items %}{{ key }}: {% if landings %}{{ value.landings }}{% else %}{{ value.time | duration:"%{h}h %{m}m" }}{% endif %}{% if not forloop.last %} | {% endif %}{% endfor %}
+{% endspaceless %}

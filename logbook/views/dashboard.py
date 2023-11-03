@@ -1,3 +1,5 @@
+from datetime import UTC, datetime, timedelta
+
 from django.db.models import QuerySet
 
 from ..models import Aircraft, AircraftType, FunctionType, LogEntry
@@ -20,6 +22,13 @@ class DashboardView(AuthenticatedTemplateView):
         def totals_per_function(log_entries: QuerySet[LogEntry]):
             return {function: compute_totals(log_entries.filter(time_function=function)) for function in FunctionType}
 
+        now = datetime.now(tz=UTC)
+        periods = {
+            "3M": timedelta(days=90),
+            "6M": timedelta(days=180),
+            "1Y": timedelta(days=365),
+            "2Y": timedelta(days=365 * 2),
+        }
         return super().get_context_data(*args, **kwargs) | {
             "passenger_currency": {
                 "sep": {
@@ -57,20 +66,36 @@ class DashboardView(AuthenticatedTemplateView):
             },
             "totals_per_type": {
                 aircraft_type: {
-                    "grand": compute_totals(LogEntry.objects.filter(aircraft__type=aircraft_type.name)),
-                    **{"per_function": totals_per_function(LogEntry.objects.filter(aircraft__type=aircraft_type.name))},
-                    **{
-                        "per_aircraft": [
-                            (
-                                aircraft,
-                                totals_per_function(LogEntry.objects.filter(aircraft=aircraft)),
-                                compute_totals(LogEntry.objects.filter(aircraft=aircraft)),
-                            )
-                            for aircraft in Aircraft.objects.filter(type=aircraft_type.name)
-                        ],
-                    },
+                    "grand": compute_totals(LogEntry.objects.filter(aircraft__type=aircraft_type)),
+                    "per_function": totals_per_function(LogEntry.objects.filter(aircraft__type=aircraft_type)),
+                    "per_aircraft": [
+                        (
+                            aircraft,
+                            totals_per_function(LogEntry.objects.filter(aircraft=aircraft)),
+                            compute_totals(LogEntry.objects.filter(aircraft=aircraft)),
+                        )
+                        for aircraft in Aircraft.objects.filter(type=aircraft_type)
+                    ],
+                    "per_period": [
+                        {
+                            "per_function": totals_per_function(
+                                LogEntry.objects.filter(
+                                    aircraft__type=aircraft_type,
+                                    departure_time__gt=now - period_delta,
+                                ),
+                            ),
+                            "grand": compute_totals(
+                                LogEntry.objects.filter(
+                                    aircraft__type=aircraft_type,
+                                    departure_time__gt=now - period_delta,
+                                ),
+                            ),
+                        }
+                        for period_delta in periods.values()
+                    ],
                 }
-                for aircraft_type in AircraftType
+                for aircraft_type in reversed(AircraftType)
             },
             "grand_total": compute_totals(LogEntry.objects.all()),
+            "period_labels": list(periods.keys()),
         }

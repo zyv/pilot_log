@@ -32,15 +32,51 @@
         </tbody>
     </table>
 
-    <h2>Aircraft totals</h2>
+    <h2>Statistics</h2>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-sm table-hover text-center">
+            <thead>
+            <tr>
+                <th rowspan="2">Class</th>
+                {% for label in period_labels %}
+                    <th colspan="2">{{ label }}</th>
+                {% endfor %}
+            </tr>
+            <tr>
+                {% for label in period_labels %}
+                    <th><abbr title="Time">⏱️</abbr></th>
+                    <th><abbr title="Landings">🛬</abbr></th>
+                {% endfor %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for aircraft_type, type_totals in totals_per_type.items %}
+                <tr>
+                    <th>{{ aircraft_type }}</th>
+                    {% for totals in type_totals.per_period %}
+                        <td>
+                            <abbr title="{% include "logbook/per_function_item.html" with items=totals.per_function.items only %}">{{ totals.grand.time | duration:"%{h}h %{m}m" }}</abbr>
+                        </td>
+                        <td>
+                            <abbr title="{% include "logbook/per_function_item.html" with items=totals.per_function.items landings=True only %}">{{ totals.grand.landings }}</abbr>
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h2>Totals</h2>
 
     <div class="table-responsive">
         <table class="table table-striped table-sm table-hover">
             <thead>
             <tr>
                 <th>Type / Registration</th>
-                <th class="text-end">Total Time</th>
-                <th class="text-end">Total Landings</th>
+                <th class="text-end"><abbr title="Total Time">⏱️</abbr></th>
+                <th class="text-end"><abbr title="Total Landings">🛬</abbr></th>
             </tr>
             </thead>
             <tbody>
@@ -48,12 +84,12 @@
                 <tr>
                     <th>{{ aircraft_type.value }}</th>
                     <th class="text-end">
-                        <abbr title="{% for key, value in type_totals.per_function.items %}{{ key }}: {{ value.time | duration:"%{h}h %{m}m" }} {% if not forloop.last %} | {% endif %}{% endfor %}">
-                           {{ type_totals.grand.time | duration:"%{h}h %{m}m" }}
+                        <abbr title="{% include "logbook/per_function_item.html" with items=type_totals.per_function.items only %}">
+                            {{ type_totals.grand.time | duration:"%{h}h %{m}m" }}
                         </abbr>
                     </th>
                     <th class="text-end">
-                        <abbr title="{% for key, value in type_totals.per_function.items %}{{ key }}: {{ value.landings }} {% if not forloop.last %} | {% endif %}{% endfor %}">
+                        <abbr title="{% include "logbook/per_function_item.html" with items=type_totals.per_function.items landings=True only %}">
                             {{ type_totals.grand.landings }}
                         </abbr>
                     </th>
@@ -63,15 +99,16 @@
                         <td>
                             <abbr title="{{ aircraft.maker }} {{ aircraft.model }} ({{ aircraft.icao_designator }})">
                                 {{ aircraft.registration }}
-                            </abbr>{% if aircraft.currency_required %}&nbsp;{% include "logbook/currency_status.html" with currency=aircraft.currency_status %}{% endif %}
+                            </abbr>{% if aircraft.currency_required %}&nbsp;
+                            {% include "logbook/currency_status.html" with currency=aircraft.currency_status %}{% endif %}
                         </td>
                         <td class="text-end">
-                            <abbr title="{% for key, value in aircraft_per_function.items %}{{ key }}: {{ value.time | duration:"%{h}h %{m}m" }} {% if not forloop.last %} | {% endif %}{% endfor %}">
+                            <abbr title="{% include "logbook/per_function_item.html" with items=aircraft_per_function.items only %}">
                                 {{ aircraft_totals.time | duration:"%{h}h %{m}m" }}
                             </abbr>
                         </td>
                         <td class="text-end">
-                            <abbr title="{% for key, value in aircraft_per_function.items %}{{ key }}: {{ value.landings }} {% if not forloop.last %} | {% endif %}{% endfor %}">
+                            <abbr title="{% include "logbook/per_function_item.html" with items=aircraft_per_function.items landings=True only %}">
                                 {{ aircraft_totals.landings }}
                             </abbr>
                         </td>
