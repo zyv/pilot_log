@@ -6,6 +6,7 @@ from django import template
 from django.template import TemplateSyntaxError
 from django.utils.safestring import mark_safe
 
+from ..models import SpeedUnit
 from ..statistics.experience import ExperienceRecord, TotalsRecord
 
 register = template.Library()
@@ -51,3 +52,16 @@ def replace(value: str, old: str, new: str) -> Optional[str]:
     if not all(isinstance(obj, str) for obj in (old, new)):
         raise TemplateSyntaxError("'replace' tag arguments must be strings")
     return mark_safe(value.replace(old, new)) if isinstance(value, str) else None
+
+
+@register.filter
+def to_kt(value: int | float, unit: SpeedUnit) -> int:
+    match unit:
+        case SpeedUnit.KMH:
+            return round(value * 0.539957)
+        case SpeedUnit.MPH:
+            return round(value * 0.868976)
+        case SpeedUnit.KT:
+            return round(value)
+        case _:
+            raise TemplateSyntaxError(f"unknown speed unit: {unit}")

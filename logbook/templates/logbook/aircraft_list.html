@@ -41,12 +41,13 @@
                     <td>
                         {% if aircraft.demonstrated_crosswind != None %}{{ aircraft.demonstrated_crosswind }} KT{% endif %}
                     </td>
-                    <td>{% if aircraft.v_r != None %}{{ aircraft.v_r }} {{ aircraft.speed_unit }}{% endif %}</td>
-                    <td>{% if aircraft.v_y != None %}{{ aircraft.v_y }} {{ aircraft.speed_unit }}{% endif %}</td>
-                    <td>{% if aircraft.v_bg != None %}{{ aircraft.v_bg }} {{ aircraft.speed_unit }}{% endif %}</td>
-                    <td>{% if aircraft.v_app != None %}{{ aircraft.v_app }} {{ aircraft.speed_unit }}{% endif %}</td>
-                    <td>{% if aircraft.v_s != None %}{{ aircraft.v_s }} {{ aircraft.speed_unit }}{% endif %}</td>
-                    <td>{% if aircraft.v_c != None %}{{ aircraft.v_c }} {{ aircraft.speed_unit }}{% endif %}</td>
+                    <td>{% include "logbook/speed_item.html" with speed=aircraft.v_r unit=aircraft.speed_unit only %}</td>
+                    <td>{% include "logbook/speed_item.html" with speed=aircraft.v_y unit=aircraft.speed_unit only %}</td>
+                    <td>{% include "logbook/speed_item.html" with speed=aircraft.v_bg unit=aircraft.speed_unit only %}</td>
+                    <td>{% include "logbook/speed_item.html" with speed=aircraft.v_app unit=aircraft.speed_unit only %}</td>
+                    <td>{% include "logbook/speed_item.html" with speed=aircraft.v_ref unit=aircraft.speed_unit only %}</td>
+                    <td>{% include "logbook/speed_item.html" with speed=aircraft.v_s unit=aircraft.speed_unit only %}</td>
+                    <td>{% include "logbook/speed_item.html" with speed=aircraft.v_c unit=aircraft.speed_unit only %}</td>
                 </tr>
             {% endfor %}
             </tbody>
