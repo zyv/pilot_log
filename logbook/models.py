@@ -75,6 +75,12 @@ class Aircraft(models.Model):
     v_s = models.PositiveSmallIntegerField(verbose_name="Vs", help_text="Stall speed", blank=True, null=True)
     v_c = models.PositiveSmallIntegerField(verbose_name="Vc", help_text="Cruise speed", blank=True, null=True)
 
+    demonstrated_crosswind = models.PositiveSmallIntegerField(
+        help_text="Demonstrated crosswind in KT",
+        blank=True,
+        null=True,
+    )
+
     class Meta:
         ordering = ("registration",)
         verbose_name_plural = "aircraft"

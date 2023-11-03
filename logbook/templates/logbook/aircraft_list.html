@@ -12,6 +12,9 @@
                 <th rowspan="2" class="align-middle">Registration</th>
                 <th rowspan="2" class="align-middle">Designator</th>
                 <th rowspan="2" class="align-middle">Model</th>
+                <th rowspan="2" class="align-middle">
+                    <abbr title="{{ aircraft_fields.demonstrated_crosswind.verbose_name|capfirst }}">💨</abbr>
+                </th>
                 <th colspan="6" class="align-middle text-center">Speeds</th>
             </tr>
             <tr>
@@ -34,6 +37,9 @@
                     <td>{{ aircraft.registration }}</td>
                     <td>{{ aircraft.icao_designator }}</td>
                     <td>{{ aircraft.maker }} {{ aircraft.model }}</td>
+                    <td>
+                        {% if aircraft.demonstrated_crosswind != None %}{{ aircraft.demonstrated_crosswind }} KT{% endif %}
+                    </td>
                     <td>{% if aircraft.v_r != None %}{{ aircraft.v_r }} {{ aircraft.speed_unit }}{% endif %}</td>
                     <td>{% if aircraft.v_y != None %}{{ aircraft.v_y }} {{ aircraft.speed_unit }}{% endif %}</td>
                     <td>{% if aircraft.v_bg != None %}{{ aircraft.v_bg }} {{ aircraft.speed_unit }}{% endif %}</td>
