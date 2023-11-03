@@ -17,12 +17,12 @@
                 <th>From<br>To</th>
                 <th>Departure<br>Arrival</th>
                 {% for aircraft_type in AircraftType reversed %}
-                    <th class="text-center">{{ aircraft_type.name }}</th>
+                    <th class="text-center">{{ aircraft_type }}</th>
                 {% endfor %}
                 <th class="text-center">Landings</th>
                 <th>Name</th>
                 {% for function_type in FunctionType %}
-                    <th class="text-center">{{ function_type.name }}</th>
+                    <th class="text-center">{{ function_type }}</th>
                 {% endfor %}
                 <th>Remarks</th>
             </tr>
@@ -36,7 +36,7 @@
                     <td>{{ obj.departure_time | time:"H:i" }}<br>{{ obj.arrival_time | time:"H:i" }}</td>
                     {% for aircraft_type in AircraftType reversed %}
                         <td class="text-center">
-                            {% if obj.aircraft.type == aircraft_type.name %}
+                            {% if obj.aircraft.type == aircraft_type %}
                                 {{ obj.arrival_time | subtract:obj.departure_time | duration:"%h:%M" }}
                             {% elif obj is not None %}
                                 -
@@ -47,7 +47,7 @@
                     <td>{% if not obj.pilot.self %}{{ obj.pilot.first_name.0 }}. {{ obj.pilot.last_name }}{% else %}Self{% endif %}</td>
                     {% for function_type in FunctionType %}
                         <td class="text-center">
-                            {% if obj.time_function == function_type.name %}
+                            {% if obj.time_function == function_type %}
                                 {{ obj.arrival_time | subtract:obj.departure_time | duration:"%h:%M" }}
                             {% elif obj is not None %}
                                 -

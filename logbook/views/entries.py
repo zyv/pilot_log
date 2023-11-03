@@ -69,7 +69,7 @@ class VereinsfliegerForm(forms.Form):
             departure_time=departure_time,
             arrival_time=arrival_time,
             landings=int(flight_data["landingcount"]),
-            time_function=time_function.name,
+            time_function=time_function,
             pilot=pilot,
             copilot=copilot,
             remarks=html.unescape(flight_data["comment"]),

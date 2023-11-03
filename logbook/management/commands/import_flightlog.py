@@ -110,7 +110,7 @@ class Command(BaseCommand):
                     "departure_time": departure_time,
                     "arrival_time": arrival_time,
                     "landings": int(row[Fields.LANDINGS]),
-                    "time_function": time_function.name,
+                    "time_function": time_function,
                     "pilot": pilot,
                     "copilot": copilot,
                     "launch_type": launch_type,
