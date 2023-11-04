@@ -221,5 +221,6 @@ class Certificate(models.Model):
             self.valid_until is None or self.valid_until >= datetime.now(tz=UTC).date()
         ) and not self.supersedes_set.count()
 
+    @property
     def superseded_by(self) -> Optional["Certificate"]:
         return self.supersedes_set.first()
