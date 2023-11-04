@@ -17,7 +17,7 @@ class DurationTemplate(Template):
 
 
 @register.filter
-def duration(value: datetime.timedelta, format_specification: str = "%H:%M:%S"):
+def duration(value: datetime.timedelta, format_specification: str = "%{h}h %{m}m"):
     duration_template = DurationTemplate(format_specification)
 
     days, remainder = divmod(value.total_seconds(), 24 * 60 * 60)

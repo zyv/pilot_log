@@ -8,23 +8,23 @@
         <table class="table table-striped table-sm table-hover">
             <thead>
             <tr>
-                <th rowspan="2" class="align-middle">Currency</th>
-                <th rowspan="2" class="align-middle">Registration</th>
-                <th rowspan="2" class="align-middle">Designator</th>
-                <th rowspan="2" class="align-middle">Model</th>
-                <th rowspan="2" class="align-middle">
+                <th scope="col" rowspan="2" class="align-middle">Currency</th>
+                <th scope="col" rowspan="2" class="align-middle">Registration</th>
+                <th scope="col" rowspan="2" class="align-middle">Designator</th>
+                <th scope="col" rowspan="2" class="align-middle">Model</th>
+                <th scope="col" rowspan="2" class="align-middle">
                     <abbr title="{{ aircraft_fields.demonstrated_crosswind.verbose_name|capfirst }}">💨</abbr>
                 </th>
-                <th colspan="6" class="align-middle text-center">Speeds</th>
+                <th scope="colgroup" colspan="6" class="align-middle text-center">Speeds</th>
             </tr>
             <tr>
-                <th>{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_r only %}</th>
-                <th>{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_y only %}</th>
-                <th>{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_bg only %}</th>
-                <th>{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_app only %}</th>
-                <th>{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_ref only %}</th>
-                <th>{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_s only %}</th>
-                <th>{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_c only %}</th>
+                <th scope="col">{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_r only %}</th>
+                <th scope="col">{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_y only %}</th>
+                <th scope="col">{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_bg only %}</th>
+                <th scope="col">{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_app only %}</th>
+                <th scope="col">{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_ref only %}</th>
+                <th scope="col">{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_s only %}</th>
+                <th scope="col">{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_c only %}</th>
             </tr>
             </thead>
             <tbody>

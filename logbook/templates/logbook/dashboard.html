@@ -2,61 +2,78 @@
 {% load django_bootstrap5 %}
 {% load logbook_utils %}
 
+{% block extra_head %}
+    <style>
+        .table-currency {
+            max-width: 15rem;
+        }
+
+        .table-statistics {
+            max-width: 50rem;
+        }
+
+        .table-totals {
+            max-width: 50rem;
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
     <h1>Dashboard</h1>
 
     {% bootstrap_messages %}
 
     <h2>Currency status</h2>
-
-    <table class="table w-25">
-        <caption>Passenger currency</caption>
-        <thead>
-        <tr>
-            <th scope="col"></th>
-            <th scope="col">Day</th>
-            <th scope="col">Night</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <th scope="row">SEP</th>
-            <td>{% include "logbook/currency_status.html" with currency=passenger_currency.sep.day %}</td>
-            <td>{% include "logbook/currency_status.html" with currency=passenger_currency.sep.night %}</td>
-        </tr>
-        <tr>
-            <th scope="row">TMG</th>
-            <td>{% include "logbook/currency_status.html" with currency=passenger_currency.tmg.day %}</td>
-            <td>{% include "logbook/currency_status.html" with currency=passenger_currency.tmg.night %}</td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-bordered text-center table-currency">
+            <caption>Passenger currency</caption>
+            <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">Day</th>
+                <th scope="col">Night</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">SEP</th>
+                <td>{% include "logbook/currency_status.html" with currency=passenger_currency.sep.day %}</td>
+                <td>{% include "logbook/currency_status.html" with currency=passenger_currency.sep.night %}</td>
+            </tr>
+            <tr>
+                <th scope="row">TMG</th>
+                <td>{% include "logbook/currency_status.html" with currency=passenger_currency.tmg.day %}</td>
+                <td>{% include "logbook/currency_status.html" with currency=passenger_currency.tmg.night %}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
     <h2>Statistics</h2>
 
     <div class="table-responsive">
-        <table class="table table-striped table-sm table-hover text-center">
+        <table class="table table-striped table-sm table-hover table-bordered text-center table-statistics">
             <thead>
             <tr>
-                <th rowspan="2">Class</th>
+                <th rowspan="2" scope="col" class="align-middle">Class</th>
                 {% for label in period_labels %}
-                    <th colspan="2">{{ label }}</th>
+                    <th colspan="2" scope="colgroup">{{ label }}</th>
                 {% endfor %}
             </tr>
             <tr>
                 {% for label in period_labels %}
-                    <th><abbr title="Time">⏱️</abbr></th>
-                    <th><abbr title="Landings">🛬</abbr></th>
+                    <th scope="col"><abbr title="Time">⏱️</abbr></th>
+                    <th scope="col"><abbr title="Landings">🛬</abbr></th>
                 {% endfor %}
             </tr>
             </thead>
             <tbody>
             {% for aircraft_type, type_totals in totals_per_type.items %}
                 <tr>
-                    <th>{{ aircraft_type }}</th>
+                    <th scope="row">{{ aircraft_type }}</th>
                     {% for totals in type_totals.per_period %}
                         <td>
-                            <abbr title="{% include "logbook/per_function_item.html" with items=totals.per_function.items only %}">{{ totals.grand.time | duration:"%{h}h %{m}m" }}</abbr>
+                            <abbr title="{% include "logbook/per_function_item.html" with items=totals.per_function.items only %}">{{ totals.grand.time | duration }}</abbr>
                         </td>
                         <td>
                             <abbr title="{% include "logbook/per_function_item.html" with items=totals.per_function.items landings=True only %}">{{ totals.grand.landings }}</abbr>
@@ -71,12 +88,12 @@
     <h2>Totals</h2>
 
     <div class="table-responsive">
-        <table class="table table-striped table-sm table-hover">
+        <table class="table table-striped table-sm table-hover table-totals">
             <thead>
             <tr>
-                <th>Type / Registration</th>
-                <th class="text-end"><abbr title="Total Time">⏱️</abbr></th>
-                <th class="text-end"><abbr title="Total Landings">🛬</abbr></th>
+                <th scope="col">Type / Registration</th>
+                <th scope="col" class="text-end"><abbr title="Total Time">⏱️</abbr></th>
+                <th scope="col" class="text-end"><abbr title="Total Landings">🛬</abbr></th>
             </tr>
             </thead>
             <tbody>
@@ -85,7 +102,7 @@
                     <th>{{ aircraft_type.value }}</th>
                     <th class="text-end">
                         <abbr title="{% include "logbook/per_function_item.html" with items=type_totals.per_function.items only %}">
-                            {{ type_totals.grand.time | duration:"%{h}h %{m}m" }}
+                            {{ type_totals.grand.time | duration }}
                         </abbr>
                     </th>
                     <th class="text-end">
@@ -104,7 +121,7 @@
                         </td>
                         <td class="text-end">
                             <abbr title="{% include "logbook/per_function_item.html" with items=aircraft_per_function.items only %}">
-                                {{ aircraft_totals.time | duration:"%{h}h %{m}m" }}
+                                {{ aircraft_totals.time | duration }}
                             </abbr>
                         </td>
                         <td class="text-end">
@@ -117,7 +134,7 @@
             {% endfor %}
             <tr>
                 <th>Grand Total</th>
-                <th class="text-end">{{ grand_total.time | duration:"%{h}h %{m}m" }}</th>
+                <th class="text-end">{{ grand_total.time | duration }}</th>
                 <th class="text-end">{{ grand_total.landings }}</th>
             </tr>
             </tbody>
