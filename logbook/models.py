@@ -36,7 +36,7 @@ class Aerodrome(models.Model):
     name = models.CharField(max_length=75)
     city = models.CharField(max_length=75)
     country = CountryField()
-    icao_code = models.CharField(max_length=4)
+    icao_code = models.CharField(max_length=4, unique=True)
     latitude = models.DecimalField(max_digits=9, decimal_places=6)
     longitude = models.DecimalField(max_digits=9, decimal_places=6)
     elevation = models.IntegerField()
