@@ -103,7 +103,7 @@ class Pilot(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=150)
 
-    self = models.BooleanField(default=False)
+    me = models.BooleanField(default=False)
 
     class Meta:
         ordering = ("last_name",)
