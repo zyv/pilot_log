@@ -6,7 +6,7 @@ from django.utils.safestring import SafeString
 
 from logbook.models import SpeedUnit
 from logbook.statistics.experience import ExperienceRecord, TotalsRecord
-from logbook.templatetags.logbook_utils import replace, represent, subtract, to_kt
+from logbook.templatetags.logbook_utils import duration, replace, represent, subtract, to_kt
 
 
 class TestRepresent(TestCase):
@@ -17,21 +17,21 @@ class TestRepresent(TestCase):
         experience2 = ExperienceRecord(required=TotalsRecord(time=timedelta(hours=100), landings=0), accrued=totals1)
         experience3 = ExperienceRecord(required=TotalsRecord(time=timedelta(0), landings=1), accrued=totals1)
 
-        self.assertEqual(represent(totals1, experience1), "50h 30m, 1 landing")
-        self.assertEqual(represent(totals2, experience1), "50h 30m, 2 landings")
-        self.assertEqual(represent(totals1, experience2), "50h 30m")
-        self.assertEqual(represent(totals1, experience3), "1 landing")
+        self.assertEqual("50h 30m, 1 landing", represent(totals1, experience1))
+        self.assertEqual("50h 30m, 2 landings", represent(totals2, experience1))
+        self.assertEqual("50h 30m", represent(totals1, experience2))
+        self.assertEqual("1 landing", represent(totals1, experience3))
 
 
 class TestSubtract(TestCase):
     def test_result(self):
-        self.assertEqual(subtract(5, 2), 3)
+        self.assertEqual(3, subtract(5, 2))
 
 
 class TestReplace(TestCase):
     def test_result(self):
         result = replace("Hello, world!", "world", "morning")
-        self.assertEqual(result, "Hello, morning!")
+        self.assertEqual("Hello, morning!", result)
         self.assertIsInstance(result, SafeString)
 
     def test_non_str_value(self):
@@ -45,7 +45,13 @@ class TestReplace(TestCase):
 
 class TestToKT(TestCase):
     def test_to_kt(self):
-        self.assertEqual(to_kt(100, SpeedUnit.KMH), 54)
-        self.assertEqual(to_kt(100, SpeedUnit.MPH), 87)
-        self.assertEqual(to_kt(100, SpeedUnit.KT), 100)
+        self.assertEqual(54, to_kt(100, SpeedUnit.KMH))
+        self.assertEqual(87, to_kt(100, SpeedUnit.MPH))
+        self.assertEqual(100, to_kt(100, SpeedUnit.KT))
         self.assertRaises(TemplateSyntaxError, to_kt, 100, "foo")
+
+
+class TestDuration(TestCase):
+    def test_duration(self):
+        self.assertEqual("26:03", duration(timedelta(days=1, hours=2, minutes=3, seconds=4), "%H:%M"))
+        self.assertEqual("1:2:184", duration(timedelta(days=1, hours=2, minutes=3, seconds=4), "%d:%h:%s"))

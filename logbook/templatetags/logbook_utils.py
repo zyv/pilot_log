@@ -18,8 +18,20 @@ class DurationTemplate(Template):
 
 @register.filter
 def duration(value: datetime.timedelta, format_specification: str = "%H:%M:%S"):
-    hours, remainder = divmod(value.total_seconds(), 60 * 60)
+    duration_template = DurationTemplate(format_specification)
+
+    days, remainder = divmod(value.total_seconds(), 24 * 60 * 60)
+    hours, remainder = divmod(remainder, 60 * 60)
     minutes, seconds = divmod(remainder, 60)
+
+    if "d" not in map(str.lower, duration_template.get_identifiers()):
+        hours += days * 24
+
+    if "h" not in map(str.lower, duration_template.get_identifiers()):
+        minutes += hours * 60
+
+    if "m" not in map(str.lower, duration_template.get_identifiers()):
+        seconds += minutes * 60
 
     def pad(number: float) -> str:
         return f"{number:02.0f}"
@@ -27,10 +39,10 @@ def duration(value: datetime.timedelta, format_specification: str = "%H:%M:%S"):
     def ceil(number: float) -> str:
         return f"{number:.0f}"
 
-    ds = {"d": value.days, "h": hours, "m": minutes, "s": seconds}
+    ds = {"d": days, "h": hours, "m": minutes, "s": seconds}
     substitutions = {k.upper(): pad(v) for k, v in ds.items()} | {k.lower(): ceil(v) for k, v in ds.items()}
 
-    return DurationTemplate(format_specification).substitute(**substitutions)
+    return duration_template.substitute(**substitutions)
 
 
 @register.filter
