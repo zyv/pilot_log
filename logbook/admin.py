@@ -44,6 +44,16 @@ class LogEntryAdmin(admin.ModelAdmin):
     }
     list_display = ("get_time", "get_registration", "get_from", "get_to", "pilot", "copilot")
     list_filter = ("aircraft__type", "time_function", "pilot")
+    search_fields = (
+        "aircraft__registration",
+        "from_aerodrome__icao_code",
+        "to_aerodrome__icao_code",
+        "pilot__first_name",
+        "pilot__last_name",
+        "copilot__first_name",
+        "copilot__last_name",
+        "remarks",
+    )
     save_as = True
 
     def get_time(self, obj):
