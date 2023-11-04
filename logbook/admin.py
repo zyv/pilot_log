@@ -12,7 +12,7 @@ class AerodromeAdmin(admin.ModelAdmin):
 
 @admin.register(Aircraft)
 class AircraftAdmin(admin.ModelAdmin):
-    search_fields = ("registration",)
+    search_fields = ("registration", "maker", "model")
     save_as = True
 
     fieldsets = [
