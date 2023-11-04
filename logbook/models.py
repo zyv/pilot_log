@@ -106,6 +106,13 @@ class Pilot(models.Model):
     me = models.BooleanField(default=False)
 
     class Meta:
+        constraints = (
+            UniqueConstraint(
+                fields=["me"],
+                condition=Q(me=True),
+                name="only_one_me",
+            ),
+        )
         ordering = ("last_name",)
         unique_together = ("first_name", "last_name")
 
