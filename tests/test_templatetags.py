@@ -4,8 +4,9 @@ from unittest import TestCase
 from django.template import TemplateSyntaxError
 from django.utils.safestring import SafeString
 
+from logbook.models import SpeedUnit
 from logbook.statistics.experience import ExperienceRecord, TotalsRecord
-from logbook.templatetags.logbook_utils import replace, represent, subtract
+from logbook.templatetags.logbook_utils import replace, represent, subtract, to_kt
 
 
 class TestRepresent(TestCase):
@@ -40,3 +41,11 @@ class TestReplace(TestCase):
         self.assertRaises(TemplateSyntaxError, replace, "Hello, world!", 5, 7)
         self.assertRaises(TemplateSyntaxError, replace, "Hello, world!", "foo", 7)
         self.assertRaises(TemplateSyntaxError, replace, "Hello, world!", 5, "bar")
+
+
+class TestToKT(TestCase):
+    def test_to_kt(self):
+        self.assertEqual(to_kt(100, SpeedUnit.KMH), 54)
+        self.assertEqual(to_kt(100, SpeedUnit.MPH), 87)
+        self.assertEqual(to_kt(100, SpeedUnit.KT), 100)
+        self.assertRaises(TemplateSyntaxError, to_kt, 100, "foo")
