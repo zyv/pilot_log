@@ -84,4 +84,5 @@ class PilotAdmin(admin.ModelAdmin):
 @admin.register(Certificate)
 class CertificateAdmin(admin.ModelAdmin):
     list_display = ("name", "number", "issue_date", "valid_until", "authority", "supersedes")
+    search_fields = ("name", "number", "authority")
     save_as = True
