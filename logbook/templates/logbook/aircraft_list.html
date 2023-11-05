@@ -37,7 +37,11 @@
                     </td>
                     <td>{{ aircraft.registration }}</td>
                     <td>{{ aircraft.icao_designator }}</td>
-                    <td>{{ aircraft.maker }} {{ aircraft.model }}</td>
+                    <td>
+                        {% if aircraft.remarks %}<abbr title="{{ aircraft.remarks }}">{% endif %}
+                        {{ aircraft.maker }} {{ aircraft.model }}
+                        {% if aircraft.remarks %}</abbr>{% endif %}
+                    </td>
                     <td>
                         {% if aircraft.demonstrated_crosswind != None %}{{ aircraft.demonstrated_crosswind }} KT{% endif %}
                     </td>

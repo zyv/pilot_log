@@ -87,6 +87,8 @@ class Aircraft(models.Model):
         null=True,
     )
 
+    remarks = models.TextField(blank=True)
+
     class Meta:
         ordering = ("registration",)
         verbose_name_plural = "aircraft"
