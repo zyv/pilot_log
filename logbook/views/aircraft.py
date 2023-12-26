@@ -1,4 +1,4 @@
-from ..models import Aircraft
+from ..models.aircraft import Aircraft
 from .utils import AuthenticatedListView
 
 

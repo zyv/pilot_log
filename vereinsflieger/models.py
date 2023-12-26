@@ -5,7 +5,7 @@ from typing import Optional
 
 from playwright.async_api import Page
 
-from logbook.models import FunctionType
+from logbook.models.log_entry import FunctionType
 
 
 @dataclass(frozen=True, kw_only=True)

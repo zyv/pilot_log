@@ -2,7 +2,7 @@ from datetime import UTC, datetime, timedelta
 
 from django.test import TestCase
 
-from logbook.models import Certificate
+from logbook.models.pilot import Certificate
 
 
 class ModelsTest(TestCase):

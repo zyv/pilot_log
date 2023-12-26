@@ -1,4 +1,5 @@
-from .models import AircraftType, FunctionType, LaunchType, SpeedUnit
+from .models.aircraft import AircraftType, SpeedUnit
+from .models.log_entry import FunctionType, LaunchType
 from .statistics.currency import CurrencyStatus
 
 

@@ -8,7 +8,7 @@ from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.views.generic import ListView, TemplateView
 
-from ..models import Certificate
+from ..models.pilot import Certificate
 
 EXPIRY_WARNING_THRESHOLD = relativedelta(months=3)
 

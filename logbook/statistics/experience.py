@@ -4,7 +4,7 @@ from datetime import timedelta
 from typing import TYPE_CHECKING, Iterable, Optional
 
 if TYPE_CHECKING:
-    from ..models import LogEntry
+    from ..models.log_entry import LogEntry
 
 
 @dataclass(frozen=True, kw_only=True)

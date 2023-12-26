@@ -6,7 +6,7 @@ from pathlib import Path
 
 from django_countries import countries
 
-from logbook.models import Aerodrome
+from logbook.models.aerodrome import Aerodrome
 
 CHECK_ICAO_CODE = False
 

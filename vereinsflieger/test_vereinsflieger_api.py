@@ -5,7 +5,7 @@ from unittest import TestCase
 import requests
 import requests_mock
 
-from logbook.models import FunctionType
+from logbook.models.log_entry import FunctionType
 from vereinsflieger.models import Flight, Person
 from vereinsflieger.vereinsflieger_api import VereinsfliegerApiSession
 

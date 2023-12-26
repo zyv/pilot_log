@@ -2,7 +2,10 @@ from datetime import UTC, datetime, timedelta
 
 from django.test import TestCase
 
-from logbook.models import Aerodrome, Aircraft, AircraftType, LogEntry, Pilot
+from logbook.models.aerodrome import Aerodrome
+from logbook.models.aircraft import Aircraft, AircraftType
+from logbook.models.log_entry import LogEntry
+from logbook.models.pilot import Pilot
 from logbook.statistics.currency import CurrencyStatus, get_ninety_days_currency
 
 

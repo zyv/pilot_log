@@ -2,7 +2,8 @@ from datetime import UTC, datetime, timedelta
 
 from django.db.models import QuerySet
 
-from ..models import Aircraft, AircraftType, FunctionType, LogEntry
+from ..models.aircraft import Aircraft, AircraftType
+from ..models.log_entry import FunctionType, LogEntry
 from ..statistics.currency import CURRENCY_REQUIRED_LANDINGS_NIGHT, get_ninety_days_currency
 from ..statistics.experience import compute_totals
 from .utils import (

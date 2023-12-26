@@ -1,4 +1,4 @@
-from ..models import Certificate
+from ..models.pilot import Certificate
 from .utils import AuthenticatedListView, check_certificates_expiry
 
 

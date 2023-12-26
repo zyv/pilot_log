@@ -5,7 +5,10 @@ from pathlib import Path
 
 from django.core.management.base import BaseCommand
 
-from logbook import models
+import logbook.models.aerodrome
+import logbook.models.aircraft
+import logbook.models.log_entry
+import logbook.models.pilot
 
 
 class Fields(enum.StrEnum):
@@ -40,7 +43,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         if options["init"]:
             self.stdout.write(self.style.WARNING("Removing old database records..."))
-            models.LogEntry.objects.all().delete()
+            logbook.models.log_entry.LogEntry.objects.all().delete()
 
         self.stdout.write(self.style.SUCCESS("Importing FlightLog records..."))
 
@@ -65,30 +68,36 @@ class Command(BaseCommand):
                 assert (pic_time + dual_time) == duration_recorded, f"{duration_recorded}, {pic_time}, {dual_time}"
                 assert bool(pic_time) ^ bool(dual_time)
 
-                time_function = models.FunctionType.PIC if pic_time else models.FunctionType.DUAL
+                time_function = (
+                    logbook.models.log_entry.FunctionType.PIC
+                    if pic_time
+                    else logbook.models.log_entry.FunctionType.DUAL
+                )
                 registration = row[Fields.REGISTRATION]
 
-                aircraft = models.Aircraft.objects.get(registration=registration)
+                aircraft = logbook.models.aircraft.Aircraft.objects.get(registration=registration)
 
-                me = models.Pilot.objects.get(last_name="Zaytsev")
-                recorded_copilot = models.Pilot.objects.get(last_name=row[Fields.COPILOT].strip())
+                me = logbook.models.pilot.Pilot.objects.get(last_name="Zaytsev")
+                recorded_copilot = logbook.models.pilot.Pilot.objects.get(last_name=row[Fields.COPILOT].strip())
 
                 pilot, copilot = (
-                    (me, recorded_copilot) if time_function is models.FunctionType.PIC else (recorded_copilot, me)
+                    (me, recorded_copilot)
+                    if time_function is logbook.models.log_entry.FunctionType.PIC
+                    else (recorded_copilot, me)
                 )
 
-                from_aerodrome = models.Aerodrome.objects.get(icao_code=row[Fields.FROM].strip())
-                to_aerodrome = models.Aerodrome.objects.get(icao_code=row[Fields.TO].strip())
+                from_aerodrome = logbook.models.aerodrome.Aerodrome.objects.get(icao_code=row[Fields.FROM].strip())
+                to_aerodrome = logbook.models.aerodrome.Aerodrome.objects.get(icao_code=row[Fields.TO].strip())
 
                 remarks = row[Fields.NOTE].strip()
 
                 launch_type = (
                     {
-                        "Self": models.LaunchType.SELF,
-                        "Tow": models.LaunchType.TOW,
-                        "Winch": models.LaunchType.WINCH,
+                        "Self": logbook.models.log_entry.LaunchType.SELF,
+                        "Tow": logbook.models.log_entry.LaunchType.TOW,
+                        "Winch": logbook.models.log_entry.LaunchType.WINCH,
                     }[remarks]
-                    if aircraft.type == models.AircraftType.GLD
+                    if aircraft.type == logbook.models.aircraft.AircraftType.GLD
                     else ""
                 )
 
@@ -117,7 +126,7 @@ class Command(BaseCommand):
                     "remarks": remarks,
                 }
 
-                entry, created = models.LogEntry.objects.update_or_create(
+                entry, created = logbook.models.log_entry.LogEntry.objects.update_or_create(
                     departure_time=departure_time,
                     from_aerodrome=from_aerodrome,
                     defaults=defaults,

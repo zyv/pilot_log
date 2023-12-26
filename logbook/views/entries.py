@@ -8,7 +8,10 @@ from django.views.generic import FormView
 
 from vereinsflieger.vereinsflieger import import_from_vereinsflieger
 
-from ..models import Aerodrome, Aircraft, LogEntry, Pilot
+from ..models.aerodrome import Aerodrome
+from ..models.aircraft import Aircraft
+from ..models.log_entry import LogEntry
+from ..models.pilot import Pilot
 from .utils import AuthenticatedListView
 
 

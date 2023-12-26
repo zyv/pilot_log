@@ -1,6 +1,9 @@
 from django.contrib import admin
 
-from .models import Aerodrome, Aircraft, Certificate, LogEntry, Pilot
+from .models.aerodrome import Aerodrome
+from .models.aircraft import Aircraft
+from .models.log_entry import LogEntry
+from .models.pilot import Certificate, Pilot
 from .templatetags.logbook_utils import duration
 
 

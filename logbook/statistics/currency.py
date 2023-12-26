@@ -6,7 +6,7 @@ from django.db import models
 from django.db.models import OuterRef, QuerySet, Subquery, Sum, Value
 
 if TYPE_CHECKING:
-    from ..models import LogEntry
+    from ..models.log_entry import LogEntry
 
 
 class CurrencyStatus(models.TextChoices):

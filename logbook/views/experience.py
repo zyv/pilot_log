@@ -5,7 +5,9 @@ from django.conf import settings
 from django.db.models import QuerySet
 from django.utils.timezone import make_aware
 
-from ..models import AircraftType, Certificate, FunctionType, LogEntry
+from ..models.aircraft import AircraftType
+from ..models.log_entry import FunctionType, LogEntry
+from ..models.pilot import Certificate
 from ..statistics.experience import (
     ExperienceRecord,
     ExperienceRequirements,

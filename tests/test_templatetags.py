@@ -4,7 +4,7 @@ from unittest import TestCase
 from django.template import TemplateSyntaxError
 from django.utils.safestring import SafeString
 
-from logbook.models import SpeedUnit
+from logbook.models.aircraft import SpeedUnit
 from logbook.statistics.experience import ExperienceRecord, TotalsRecord
 from logbook.templatetags.logbook_utils import duration, replace, represent, subtract, to_kt
 
