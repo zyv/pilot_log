@@ -14,7 +14,9 @@ django-countries = "*"
 django-bootstrap5 = "*"
 
 python-dateutil = "*"
-requests = "*"
+skyfield = "*"
+timezonefinder = "*"
+
 playwright = "*"
 
 [tool.poetry.dev-dependencies]
