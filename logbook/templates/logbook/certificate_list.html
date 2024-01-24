@@ -8,6 +8,27 @@
 
     {% bootstrap_messages %}
 
+    <div class="form-check pb-3">
+        <input class="form-check-input" type="checkbox" id="hideInvalid" checked>
+        <label class="form-check-label" for="hideInvalid">
+            Hide invalid certificates
+        </label>
+    </div>
+
+    <script>
+        document.querySelector('#hideInvalid').addEventListener('change',
+            () => {
+                document.querySelectorAll('.table tbody tr').forEach(
+                    (row) => {
+                        if (row.classList.contains('text-muted')) {
+                            row.classList.toggle('d-none');
+                        }
+                    }
+                );
+            }
+        );
+    </script>
+
     <div class="table-responsive">
         <table class="table table-sm table-hover">
             <thead>
@@ -22,17 +43,19 @@
             </thead>
             <tbody>
             {% for obj in object_list %}
-                <tr class="{% if obj.valid %}table-light{% else %}text-muted{% endif %}">
+                <tr class="{% if not obj.valid %}table-light text-muted d-none{% endif %}">
                     <td>{{ obj.name }}</td>
                     <td>{{ obj.number | default:"-" }}</td>
-                    <td>{{ obj.issue_date }}</td>
-                    <td>{{ obj.valid_until | default:"-" }}</td>
+                    <td>{{ obj.issue_date.isoformat }}</td>
+                    <td>{{ obj.valid_until.isoformat | default:"-" }}</td>
                     <td>{{ obj.authority }}</td>
                     <td>
                         {% if obj.remarks %}
                             {{ obj.remarks }}
                         {% else %}
-                            {% if obj.superseded_by %}Superseded by "{{ obj.superseded_by.number }}"{% endif %}
+                            {% if obj.superseded_by %}
+                                Superseded by "{{ obj.superseded_by.number | default:obj.superseded_by.issue_date }}"
+                            {% endif %}
                         {% endif %}
                     </td>
                 </tr>
