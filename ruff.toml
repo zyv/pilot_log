@@ -2,6 +2,8 @@
 line-length = 120
 target-version = "py311"
 
+[lint]
+
 # Full list of available rules can be found on https://docs.astral.sh/ruff/rules/
 select = [
     "C4",     # flake8-comprehensions
@@ -18,6 +20,7 @@ select = [
     "UP009",  # pyupgrade: UTF-8 encoding declaration is unnecessary
     "W"       # Warning
 ]
+
 ignore = []
 
 # Allow autofix for all enabled rules (when `--fix`) is provided
