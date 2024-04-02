@@ -14,8 +14,6 @@ import os
 from datetime import UTC, datetime
 from pathlib import Path
 
-from django_countries.widgets import LazyChoicesMixin
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -141,7 +139,3 @@ if DEBUG:
 PPL_START_DATE = datetime(2021, 12, 1, 0, 0, tzinfo=UTC)
 PPL_END_DATE = datetime(2022, 1, 29, 0, 0, tzinfo=UTC)
 CPL_START_DATE = datetime.now(tz=UTC)
-
-# https://github.com/SmileyChris/django-countries/pull/438
-LazyChoicesMixin.get_choices = lambda self: self._choices
-LazyChoicesMixin.choices = property(LazyChoicesMixin.get_choices, LazyChoicesMixin.set_choices)
