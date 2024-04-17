@@ -16,6 +16,7 @@ from ..statistics.experience import (
 )
 from .utils import (
     AuthenticatedTemplateView,
+    get_current_sep_rating,
 )
 
 
@@ -38,7 +39,7 @@ def get_sep_revalidation_experience(log_entries: QuerySet[LogEntry]) -> Experien
         aircraft__type__in={AircraftType.SEP, AircraftType.TMG},
         departure_time__gte=make_aware(
             datetime.combine(
-                Certificate.objects.get(name__contains="SEP").valid_until - relativedelta(months=12),
+                get_current_sep_rating().valid_until - relativedelta(months=12),
                 time.min,
             ),
             UTC,

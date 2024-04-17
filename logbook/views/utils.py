@@ -13,6 +13,11 @@ from ..models.pilot import Certificate
 EXPIRY_WARNING_THRESHOLD = relativedelta(months=3)
 
 
+def get_current_sep_rating() -> Certificate:
+    (current_sep_rating,) = filter(lambda item: item.valid, Certificate.objects.filter(name__contains="SEP"))
+    return current_sep_rating
+
+
 def check_certificates_expiry(request):
     today = datetime.now(tz=UTC).date()
     for certificate in Certificate.objects.filter(
