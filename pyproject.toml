@@ -22,10 +22,17 @@ django-debug-toolbar = "*"
 requests-mock = "*"
 
 pytest-django = "*"
+pytest-cov = "*"
+
 ruff = "*"
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "config.settings"
+
+[tool.coverage.run]
+branch = true
+source = ["."]
+omit = ["**/tests/**", "**/test_*.py"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

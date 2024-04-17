@@ -18,4 +18,4 @@ jobs:
           poetry run ruff format --diff .
 
       - name: Run tests
-        run: poetry run pytest
+        run: poetry run pytest --cov
