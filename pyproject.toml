@@ -32,7 +32,12 @@ DJANGO_SETTINGS_MODULE = "config.settings"
 [tool.coverage.run]
 branch = true
 source = ["."]
-omit = ["**/tests/**", "**/test_*.py"]
+omit = [
+    "**/tests/**",
+    "*/migrations/*",
+    "*/test_*.py",
+    "manage.py"
+]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
