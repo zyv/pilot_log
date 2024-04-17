@@ -48,7 +48,7 @@ class TestNinetyDaysCurrency(TestCase):
                 from_aerodrome=self.airport,
                 to_aerodrome=self.airport,
                 departure_time=datetime.now(tz=UTC) - timedelta(days=110 - i),
-                arrival_time=datetime.now(tz=UTC) - timedelta(days=110 - i),
+                arrival_time=datetime.now(tz=UTC) - timedelta(days=110 - i) + timedelta(seconds=1),
                 landings=1,
                 pilot=self.pilot,
             )
@@ -60,6 +60,7 @@ class TestNinetyDaysCurrency(TestCase):
             currency.expires_in.total_seconds() / 60,
             places=1,
         )
-        self.assertEqual(datetime.now(tz=UTC).date() + timedelta(days=4), currency.expires_on)
+
+        self.assertEqual((datetime.now(tz=UTC) + timedelta(days=5)).date(), currency.expires_on)
         self.assertEqual(CurrencyStatus.EXPIRING, currency.status)
         self.assertEqual(1, currency.landings_to_renew)
