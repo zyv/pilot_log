@@ -55,7 +55,7 @@ class TestNinetyDaysCurrency(TestCase):
 
         currency = get_ninety_days_currency(LogEntry.objects.all(), 5)
 
-        self.assertAlmostEquals(
+        self.assertAlmostEqual(
             timedelta(days=5).total_seconds() / 60,
             currency.expires_in.total_seconds() / 60,
             places=1,
