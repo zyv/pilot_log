@@ -6,7 +6,7 @@ authors = ["Yury V. Zaytsev <yury@shurup.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.11"  # @mm-version-check-ignore
 
 django = "*"
 django-countries = "*"
