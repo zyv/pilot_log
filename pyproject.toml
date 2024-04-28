@@ -4,9 +4,10 @@ version = "0.1.0"
 description = "Simple Django pilot log webapp"
 authors = ["Yury V. Zaytsev <yury@shurup.com>"]
 license = "MIT"
+package-mode = false
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.11"  # @mm-version-check-ignore
 
 django = "*"
 django-countries = "*"

@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup Python and Poetry
-        uses: moneymeets/action-setup-python-poetry@master
+        uses: zyv/action-setup-python-poetry@feature/separate-python-setup
 
       - name: Run linter
         run: |
