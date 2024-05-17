@@ -17,7 +17,7 @@
         <table class="table table-striped table-sm table-hover">
             <thead>
             <tr>
-                <th colspan="3" class="align-middle text-center"></th>
+                <th colspan="4" class="align-middle text-center"></th>
                 <th colspan="8" class="align-middle text-center">Speeds</th>
             </tr>
             <tr>
@@ -68,7 +68,7 @@
                     <td>{% include "logbook/speed_item.html" with speed=aircraft.v_ref unit=aircraft.speed_unit only %}</td>
                     <td>{% include "logbook/speed_item.html" with speed=aircraft.v_s unit=aircraft.speed_unit only %}</td>
                     <td>{% include "logbook/speed_item.html" with speed=aircraft.v_fe unit=aircraft.speed_unit only %}</td>
-                    <td>{% include "logbook/speed_item.html" with field=aircraft.v_c unit=aircraft.speed_unit only %}</td>
+                    <td>{% include "logbook/speed_item.html" with speed=aircraft.v_c unit=aircraft.speed_unit only %}</td>
                 </tr>
             {% endfor %}
             </tbody>
