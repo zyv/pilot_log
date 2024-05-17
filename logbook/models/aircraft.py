@@ -29,6 +29,8 @@ class Aircraft(models.Model):
 
     currency_required = models.BooleanField(default=False)
 
+    night_vfr = models.BooleanField(default=False, help_text="Certified for Night VFR")
+
     speed_unit = models.CharField(max_length=3, choices=SpeedUnit.choices)
 
     v_r = models.PositiveSmallIntegerField(verbose_name="Vr", help_text="Rotation speed", blank=True, null=True)

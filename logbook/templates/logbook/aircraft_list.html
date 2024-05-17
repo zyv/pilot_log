@@ -1,6 +1,15 @@
 {% extends "logbook/base.html" %}
 {% load logbook_utils %}
 
+{% block extra_head %}
+<style>
+    .table-hover-column {
+        --bs-bg-opacity: 0.04;
+        background-color: rgba(var(--bs-black-rgb), var(--bs-bg-opacity)) !important;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
     <h1>Aircraft</h1>
 
@@ -8,40 +17,45 @@
         <table class="table table-striped table-sm table-hover">
             <thead>
             <tr>
-                <th scope="col" rowspan="2" class="align-middle">Currency</th>
-                <th scope="col" rowspan="2" class="align-middle">Registration</th>
-                <th scope="col" rowspan="2" class="align-middle">Designator</th>
-                <th scope="col" rowspan="2" class="align-middle">
-                    <abbr title="{{ aircraft_fields.demonstrated_crosswind.verbose_name|capfirst }}">💨</abbr>
-                </th>
-                <th scope="colgroup" colspan="6" class="align-middle text-center">Speeds</th>
+                <th colspan="3" class="align-middle text-center"></th>
+                <th colspan="8" class="align-middle text-center">Speeds</th>
             </tr>
             <tr>
-                <th scope="col">{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_r only %}</th>
-                <th scope="col">{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_y only %}</th>
-                <th scope="col">{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_bg only %}</th>
-                <th scope="col">{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_app only %}</th>
-                <th scope="col">{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_ref only %}</th>
-                <th scope="col">{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_s only %}</th>
-                <th scope="col">{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_fe only %}</th>
-                <th scope="col">{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_c only %}</th>
+                <th scope="col" class="align-middle"></th>
+                <th scope="col" class="align-middle">Reg.</th>
+                <th scope="col" class="align-middle">Code</th>
+                <th scope="col" class="align-middle">
+                    <abbr title="{{ aircraft_fields.demonstrated_crosswind.verbose_name|capfirst }}">💨</abbr>
+                </th>
+                <th scope="col">{% include "logbook/field_description_item.html" with field=aircraft_fields.v_r only %}</th>
+                <th scope="col">{% include "logbook/field_description_item.html" with field=aircraft_fields.v_y only %}</th>
+                <th scope="col">{% include "logbook/field_description_item.html" with field=aircraft_fields.v_bg only %}</th>
+                <th scope="col">{% include "logbook/field_description_item.html" with field=aircraft_fields.v_app only %}</th>
+                <th scope="col">{% include "logbook/field_description_item.html" with field=aircraft_fields.v_ref only %}</th>
+                <th scope="col">{% include "logbook/field_description_item.html" with field=aircraft_fields.v_s only %}</th>
+                <th scope="col">{% include "logbook/field_description_item.html" with field=aircraft_fields.v_fe only %}</th>
+                <th scope="col">{% include "logbook/field_description_item.html" with field=aircraft_fields.v_c only %}</th>
             </tr>
             </thead>
             <tbody>
             {% for aircraft in object_list %}
                 <tr>
-                    <td class="text-center">
+                    <td class="ps-2 pe-2">
                         {% if aircraft.currency_required %}
                             {% include "logbook/currency_status.html" with currency=aircraft.currency_status %}
                         {% endif %}
+                        {% if aircraft.night_vfr %}
+                            {% include "logbook/field_description_item.html" with field=aircraft_fields.night_vfr name="🌜" only %}
+                        {% endif %}
                     </td>
                     <td>
-                        {% if aircraft.remarks %}<abbr title="{{ aircraft.remarks }}">{% endif %}
-                        {{ aircraft.registration }}
-                        {% if aircraft.remarks %}</abbr>{% endif %}
+                        {% with tooltip=aircraft.remarks %}
+                            {% if tooltip %}<abbr title="{{ tooltip }}">{% endif %}
+                            {{ aircraft.registration }}
+                            {% if tooltip %}</abbr>{% endif %}
+                        {% endwith %}
                     </td>
-                    <td><abbr title="{{ aircraft.maker }} {{ aircraft.model }}">{{ aircraft.icao_designator }}</abbr>
-                    </td>
+                    <td><abbr title="{{ aircraft.maker }} {{ aircraft.model }}">{{ aircraft.icao_designator }}</abbr></td>
                     <td>
                         {% if aircraft.demonstrated_crosswind != None %}
                             {{ aircraft.demonstrated_crosswind }} KT
@@ -54,12 +68,28 @@
                     <td>{% include "logbook/speed_item.html" with speed=aircraft.v_ref unit=aircraft.speed_unit only %}</td>
                     <td>{% include "logbook/speed_item.html" with speed=aircraft.v_s unit=aircraft.speed_unit only %}</td>
                     <td>{% include "logbook/speed_item.html" with speed=aircraft.v_fe unit=aircraft.speed_unit only %}</td>
-                    <td>{% include "logbook/speed_item.html" with speed=aircraft.v_c unit=aircraft.speed_unit only %}</td>
+                    <td>{% include "logbook/speed_item.html" with field=aircraft.v_c unit=aircraft.speed_unit only %}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
+
+    <script>
+    const tds = document.querySelectorAll(".table-hover td");
+
+    tds.forEach((td) => {
+      const table = td.closest("table");
+      const cols = table.querySelectorAll(`td:nth-child(${td.cellIndex + 1}), th[scope="col"]:nth-child(${td.cellIndex + 1})`);
+
+      td.addEventListener("mouseover", () => {
+        cols.forEach((hover) => hover.classList.add("table-hover-column"));
+      });
+      td.addEventListener("mouseleave", () => {
+        cols.forEach((hover) => hover.classList.remove("table-hover-column"));
+      });
+    });
+    </script>
 
     <h2 class="pt-3">Speeds</h2>
 
