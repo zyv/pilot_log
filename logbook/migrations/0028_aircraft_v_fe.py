@@ -4,15 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('logbook', '0027_aircraft_remarks'),
+        ("logbook", "0027_aircraft_remarks"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='aircraft',
-            name='v_fe',
-            field=models.PositiveSmallIntegerField(blank=True, help_text='Flap extension speed', null=True, verbose_name='Vfe'),
+            model_name="aircraft",
+            name="v_fe",
+            field=models.PositiveSmallIntegerField(
+                blank=True,
+                help_text="Flap extension speed",
+                null=True,
+                verbose_name="Vfe",
+            ),
         ),
     ]
