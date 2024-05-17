@@ -23,6 +23,7 @@
                 <th scope="col">{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_app only %}</th>
                 <th scope="col">{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_ref only %}</th>
                 <th scope="col">{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_s only %}</th>
+                <th scope="col">{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_fe only %}</th>
                 <th scope="col">{% include "logbook/speed_description_item.html" with speed=aircraft_fields.v_c only %}</th>
             </tr>
             </thead>
@@ -52,6 +53,7 @@
                     <td>{% include "logbook/speed_item.html" with speed=aircraft.v_app unit=aircraft.speed_unit only %}</td>
                     <td>{% include "logbook/speed_item.html" with speed=aircraft.v_ref unit=aircraft.speed_unit only %}</td>
                     <td>{% include "logbook/speed_item.html" with speed=aircraft.v_s unit=aircraft.speed_unit only %}</td>
+                    <td>{% include "logbook/speed_item.html" with speed=aircraft.v_fe unit=aircraft.speed_unit only %}</td>
                     <td>{% include "logbook/speed_item.html" with speed=aircraft.v_c unit=aircraft.speed_unit only %}</td>
                 </tr>
             {% endfor %}
@@ -67,6 +69,7 @@
         <li>V<sub>S0</sub> = stall speed with full landing flaps extended</li>
         <li>V<sub>S1</sub> = stall speed in clean configuration</li>
         <li>V<sub>REF</sub> = V<sub>S0</sub> &times; 1.3</li>
+        <li>V<sub>FE</sub> = maximum speed with flaps extended</li>
     </ul>
 
 {% endblock %}
