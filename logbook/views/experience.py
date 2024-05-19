@@ -128,6 +128,10 @@ def get_ir_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirements
                 accrued=compute_totals(log_entries.filter(time_function=FunctionType.PIC, cross_country=True)),
             ),
         },
+        details="""
+            PIC XC is to be completed in aeroplanes, TMGs, helicopters or airships, of which at least 10 hours shall be
+            in the relevant aircraft category.
+        """,
     )
 
 

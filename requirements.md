@@ -45,6 +45,8 @@ A pilot shall not operate an aircraft in commercial air transport or carrying pa
 
 ## Instrument rating
 
+"Cross-country" means a flight between a point of departure and a point of arrival following a pre-planned route, using standard navigation procedures.
+
 ### FCL.610 IR — Prerequisites and crediting
 
 Applicants for an IR shall:
@@ -52,9 +54,15 @@ Applicants for an IR shall:
 1. hold:
    1. at least a PPL in the appropriate aircraft category, and:
       1. the privileges to fly at night in accordance with FCL.810, if the IR privileges will be used at night; or
-      2. an ATPL in another category of aircraft; or
    2. a CPL, in the appropriate aircraft category;
 2. have completed at least 50 hours of cross-country flight time as PIC in aeroplanes, TMGs, helicopters or airships, of which at least 10 or, in the case of airships, 20 hours shall be in the relevant aircraft category;
+
+### Training course
+
+The course consists of two modules, which may be taken separately or combined:
+
+1. Basic Instrument Flight Module (10 hours)
+2. Procedural Instrument Flight Module (40 hours SE / 45 hours /ME)
 
 ### FCL.625 IR — Validity, revalidation and renewal
 
@@ -68,6 +76,12 @@ Applicants for an IR shall:
 4. If the IR has not been revalidated or renewed within the preceding 7 years, the holder will be required to pass again the IR theoretical knowledge examination and skill test.
 
 ## CPL(A) Modular (Part FCL Appendix 3 - E. CPL modular course - Aeroplanes)
+
+### Prerequisites
+
+Before commencing the flight training the applicant shall have completed 150 hours flight time; including 50 hours as PIC on aeroplanes of which 10 hours shall be cross-country.
+
+Except for the requirement of 50 hours as PIC in aeroplanes, hours as PIC in other categories of aircraft may account for the 150 hours of aeroplane flight time in any of the following cases: (3) 10 hours in TMGs or sailplanes.
 
 ### Experience
 
@@ -98,19 +112,12 @@ The applicant for a CPL(A) shall have completed at least 200 hours flight time, 
 1. Class 1 medical certificates shall be valid for a period of 12 months.
 2. The period of validity of Class 1 medical certificates shall be reduced to 6 months for
 licence holders who:
-   * are engaged in single-pilot commercial air transport operations carrying
-   passengers and have reached the age of 40;
+   * are engaged in single-pilot commercial air transport operations carrying passengers and have reached the age of 40;
    * have reached the age of 60.
 3. Class 2 medical certificates shall be valid for a period of:
-   * 60 months until the licence holder reaches the age of 40. A medical certificate
-   issued prior to reaching the age of 40 shall cease to be valid after the licence
-   holder reaches the age of 42;
-   * 24 months between the age of 40 and 50. A medical certificate issued prior to
-   reaching the age of 50 shall cease to be valid after the licence holder reaches the
-   age of 51; and
+   * 60 months until the licence holder reaches the age of 40. A medical certificate issued prior to reaching the age of 40 shall cease to be valid after the licence holder reaches the age of 42;
+   * 24 months between the age of 40 and 50. A medical certificate issued prior to reaching the age of 50 shall cease to be valid after the licence holder reaches the age of 51; and
    * 12 months after the age of 50.
 4. LAPL medical certificates shall be valid for a period of:
-   * 60 months until the licence holder reaches the age of 40. A medical certificate
-   issued prior to reaching the age of 40 shall cease to be valid after the licence
-   holder reaches the age of 42;
+   * 60 months until the licence holder reaches the age of 40. A medical certificate issued prior to reaching the age of 40 shall cease to be valid after the licence holder reaches the age of 42;
    * 24 months after the age of 40.
