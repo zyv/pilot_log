@@ -47,6 +47,9 @@
                         {% if aircraft.night_vfr %}
                             {% include "logbook/field_description_item.html" with field=aircraft_fields.night_vfr name="🌜" only %}
                         {% endif %}
+                        {% if aircraft.reduced_noise %}
+                            {% include "logbook/field_description_item.html" with field=aircraft_fields.reduced_noise name="👂🏻" only %}
+                        {% endif %}
                     </td>
                     <td>
                         {% with tooltip=aircraft.remarks %}

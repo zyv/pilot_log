@@ -31,6 +31,8 @@ class Aircraft(models.Model):
 
     night_vfr = models.BooleanField(default=False, help_text="Certified for Night VFR")
 
+    reduced_noise = models.BooleanField(default=False, help_text="Erhöhter Schallschutz")
+
     speed_unit = models.CharField(max_length=3, choices=SpeedUnit.choices)
 
     v_r = models.PositiveSmallIntegerField(verbose_name="Vr", help_text="Rotation speed", blank=True, null=True)
