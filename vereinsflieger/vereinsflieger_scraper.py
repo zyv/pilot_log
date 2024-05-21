@@ -12,6 +12,8 @@ class VereinsfliegerScraperSession:
         self.debug = debug
         self._counter = 0
 
+        assert self.username is not None and self.password is not None, "invalid credentials"
+
     async def __aenter__(self):
         self.playwright = await async_playwright().start()
         self.browser = await self.playwright.firefox.launch(headless=self.debug)
