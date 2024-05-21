@@ -1,10 +1,10 @@
 import dataclasses
 from dataclasses import dataclass
 from datetime import timedelta
-from typing import Iterable, Optional, Callable
+from typing import Iterable, Optional
 
 from ..models.aircraft import AircraftType
-from ..models.log_entry import LogEntry, FunctionType
+from ..models.log_entry import FunctionType, LogEntry
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -58,7 +58,7 @@ def compute_totals(entries: Iterable["LogEntry"], full_stop=False) -> TotalsReco
 def cpl_entry_requirements(entries: Iterable["LogEntry"]):
     max_glider_credit = timedelta(hours=10)
     glider_time = flight_time(
-        entries.filter(time_function=FunctionType.PIC, aircraft__type__in=(AircraftType.GLD, AircraftType.TMG))
+        entries.filter(time_function=FunctionType.PIC, aircraft__type__in=(AircraftType.GLD, AircraftType.TMG)),
     )
     if glider_time > max_glider_credit:
         glider_time = max_glider_credit
