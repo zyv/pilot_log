@@ -24,7 +24,11 @@ When applicants hold both a single-engine piston aeroplane-land class rating and
 
 ## FCL.810 - Night rating
 
-Aeroplanes, TMGs, airships.
+"Night" means the period between the end of evening civil twilight and the beginning of morning civil twilight or such other period between sunset and sunrise as may be prescribed by the appropriate authority.
+
+Civil Twilight begins in the morning, or ends in the evening, when the geometric center of the sun is 6 degrees below the horizon. At Greenwich, England (51.5°N), the duration of civil twilight will vary from 33 minutes to 48 minutes, depending on the time of year. At the equator, civil twilight can last as little as 24 minutes.
+
+### Training course
 
 1. If the privileges of an LAPL, an SPL or a PPL for aeroplanes, TMGs or airships are to be exercised in VFR conditions at night, applicants shall have completed a training course at an ATO. The course shall comprise:
    1. theoretical knowledge instruction;
@@ -56,6 +60,10 @@ Applicants for an IR shall:
       1. the privileges to fly at night in accordance with FCL.810, if the IR privileges will be used at night; or
    2. a CPL, in the appropriate aircraft category;
 2. have completed at least 50 hours of cross-country flight time as PIC in aeroplanes, TMGs, helicopters or airships, of which at least 10 or, in the case of airships, 20 hours shall be in the relevant aircraft category;
+
+### IFR vs. IMC time
+
+In the EASA world it is possible to log IFR hours any time on an IFR flight plan in the IFR-certified airplane, regardless of conditions outside. For FAA, we cannot log instrument time in VMC regardless of our flight rules. This is one of the essential differences between the two authorities.
 
 ### Training course
 
