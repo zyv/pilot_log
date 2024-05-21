@@ -12,6 +12,7 @@ from ..statistics.experience import (
     ExperienceRequirements,
     TotalsRecord,
     compute_totals,
+    cpl_entry_requirements,
 )
 from .utils import (
     AuthenticatedTemplateView,
@@ -123,7 +124,7 @@ def get_night_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequireme
 def get_ir_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirements:
     return ExperienceRequirements(
         experience={
-            "Cross-country PIC (prerequisite)": ExperienceRecord(
+            "Entry: Cross-country PIC hours": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=50), landings=0),
                 accrued=compute_totals(log_entries.filter(time_function=FunctionType.PIC, cross_country=True)),
             ),
@@ -137,22 +138,32 @@ def get_ir_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirements
 
 def get_cpl_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirements:
     return ExperienceRequirements(
-        experience={  # TODO: add dual
-            "PIC": ExperienceRecord(
-                required=TotalsRecord(time=timedelta(hours=100), landings=0),
+        experience={
+            "Entry: PIC hours": ExperienceRecord(
+                required=TotalsRecord(time=timedelta(hours=50), landings=0),
                 accrued=compute_totals(log_entries.filter(time_function=FunctionType.PIC)),
             ),
-            "Cross-country PIC": ExperienceRecord(
-                required=TotalsRecord(time=timedelta(hours=20), landings=0),
+            "Entry: Cross-country PIC hours": ExperienceRecord(
+                required=TotalsRecord(time=timedelta(hours=10), landings=0),
                 accrued=compute_totals(log_entries.filter(time_function=FunctionType.PIC, cross_country=True)),
             ),
-            "Visual dual instruction": ExperienceRecord(
-                required=TotalsRecord(time=timedelta(hours=15), landings=0),
+            "Entry: Total hours": ExperienceRecord(
+                required=TotalsRecord(time=timedelta(hours=150), landings=0),
+                accrued=cpl_entry_requirements(log_entries),
+            ),
+            "Issue: PIC hours": ExperienceRecord(
+                required=TotalsRecord(time=timedelta(hours=100), landings=0),
                 accrued=compute_totals(
-                    log_entries.filter(time_function=FunctionType.DUAL, departure_time__gte=settings.CPL_START_DATE),
+                    log_entries.filter(time_function=FunctionType.PIC),
                 ),
             ),
-            "Total hours": ExperienceRecord(
+            "Issue: Cross-country PIC hours (incl. qualifying)": ExperienceRecord(
+                required=TotalsRecord(time=timedelta(hours=20), landings=0),
+                accrued=compute_totals(
+                    log_entries.filter(time_function=FunctionType.PIC, cross_country=True),
+                ),
+            ),
+            "Issue: Total hours": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=200), landings=0),
                 accrued=compute_totals(log_entries),
             ),

@@ -138,4 +138,3 @@ if DEBUG:
 
 PPL_START_DATE = datetime(2021, 12, 1, 0, 0, tzinfo=UTC)
 PPL_END_DATE = datetime(2022, 1, 29, 0, 0, tzinfo=UTC)
-CPL_START_DATE = datetime.now(tz=UTC)
