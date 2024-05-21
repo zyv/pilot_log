@@ -1,0 +1,58 @@
+{% load logbook_utils %}
+
+<table class="table table-bordered table-location text-center">
+    <thead>
+    <tr>
+        <th scope="col">Aerodrome</th>
+        <th scope="col">Timezone</th>
+        <th scope="col">Latitude</th>
+        <th scope="col">Longitude</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            <abbr title="{{ location_data.aerodrome.name }}">{{ location_data.aerodrome.icao_code }}</abbr>
+        </td>
+        <td>
+            <abbr title="{{ location_data.timezone.key }}">{{ location_data.utc_offset }}</abbr>
+        </td>
+        <td>{{ location_data.aerodrome.latitude }}</td>
+        <td>{{ location_data.aerodrome.longitude }}</td>
+    </tr>
+    </tbody>
+</table>
+
+<table class="table table-bordered table-location text-center">
+    <thead>
+    <tr>
+        <th scope="col">Event</th>
+        <th scope="col">Local time</th>
+        <th scope="col">Duration</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th scope="row"><abbr title="Start of morning civil twilight">🌙 👇</abbr></th>
+        <td>{{ location_data.morning_twilight | date:"H:i" }}</td>
+        <td rowspan="2" class="align-middle">
+            {{ location_data.morning_twilight_duration | duration:"%{m} min." }}
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><abbr title="Sunrise">☀️ 👆</abbr></th>
+        <td>{{ location_data.sunrise | date:"H:i" }}</td>
+    </tr>
+    <tr>
+        <th scope="row"><abbr title="Sunset">☀️ 👇</abbr></th>
+        <td>{{ location_data.sunset | date:"H:i" }}</td>
+        <td rowspan="2" class="align-middle">
+            {{ location_data.evening_twilight_duration | duration:"%{m} min." }}
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><abbr title="End of evening civil twilight">🌙 👆</abbr></th>
+        <td>{{ location_data.evening_twilight | date:"H:i" }}</td>
+    </tr>
+    </tbody>
+</table>

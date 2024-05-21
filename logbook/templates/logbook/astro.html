@@ -1,0 +1,34 @@
+{% extends "logbook/base.html" %}
+
+{% load django_bootstrap5 %}
+
+{% block extra_head %}
+    <style>
+        .table-location {
+            max-width: 35rem;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+    <h1>Astronomical calculator</h1>
+
+    {% bootstrap_messages %}
+
+    <div class="container pt-3">
+        <form method="post">
+            {% csrf_token %}
+            {% bootstrap_form form layout="horizontal" %}
+            <button type="submit" name="calculate" class="btn btn-primary">Calculate</button>
+        </form>
+    </div>
+
+    {% if location_data %}
+        <div class="table-responsive pt-3">
+            {% include "logbook/location_data.html" with location_data=location_data only %}
+        </div>
+    {% endif %}
+
+
+{% endblock %}

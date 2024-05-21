@@ -2,6 +2,7 @@ from django.urls import path
 
 from .apps import LogbookConfig
 from .views.aircraft import AircraftIndexView
+from .views.astro import AstroIndexView
 from .views.certificates import CertificateIndexView
 from .views.dashboard import DashboardView
 from .views.entries import EntryIndexView
@@ -16,4 +17,5 @@ urlpatterns = [
     path("certificates/", CertificateIndexView.as_view(), name="certificates"),
     path("experience/", ExperienceIndexView.as_view(), name="experience"),
     path("aircraft/", AircraftIndexView.as_view(), name="aircraft"),
+    path("astro/", AstroIndexView.as_view(), name="astro"),
 ]
