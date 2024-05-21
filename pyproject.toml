@@ -17,6 +17,7 @@ python-dateutil = "*"
 skyfield = "*"
 timezonefinder = "*"
 
+requests = "*"
 playwright = "*"
 
 [tool.poetry.dev-dependencies]
