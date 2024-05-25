@@ -36,13 +36,11 @@ class DashboardView(AuthenticatedTemplateView):
                     "day": get_ninety_days_currency(
                         LogEntry.objects.filter(
                             aircraft__type=AircraftType.SEP,
-                            time_function=FunctionType.PIC,
                         ),
                     ),
                     "night": get_ninety_days_currency(
                         LogEntry.objects.filter(
                             aircraft__type=AircraftType.SEP,
-                            time_function=FunctionType.PIC,
                             night=True,
                         ),
                         required_landings=CURRENCY_REQUIRED_LANDINGS_NIGHT,
@@ -52,13 +50,11 @@ class DashboardView(AuthenticatedTemplateView):
                     "day": get_ninety_days_currency(
                         LogEntry.objects.filter(
                             aircraft__type=AircraftType.TMG,
-                            time_function=FunctionType.PIC,
                         ),
                     ),
                     "night": get_ninety_days_currency(
                         LogEntry.objects.filter(
                             aircraft__type=AircraftType.TMG,
-                            time_function=FunctionType.PIC,
                             night=True,
                         ),
                         required_landings=CURRENCY_REQUIRED_LANDINGS_NIGHT,

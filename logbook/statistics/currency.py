@@ -53,7 +53,7 @@ def get_ninety_days_currency(
     first_current_entry = current_entries.first()
 
     # It only makes sense to consider expired entries from the day after the first day of currency, because otherwise
-    # a wrong number of landings to renew will be reported, if currency is established through two flights on the same
+    # a wrong number of landings to renew will be reported if currency is established through two flights on the same
     # day - see tests for an example when this matters
     expired_entries = annotated_entries.filter(
         eligible_landings__lt=required_landings,
