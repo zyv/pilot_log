@@ -42,7 +42,9 @@ class TestNinetyDaysCurrency(TestCase):
         self.assertEqual(5, currency.landings_to_renew)
 
     def test_current(self):
-        for i in range(30):
+        number_of_entries = 30
+
+        for i in range(number_of_entries):
             LogEntry.objects.create(
                 aircraft=self.aircraft,
                 from_aerodrome=self.airport,
@@ -53,14 +55,35 @@ class TestNinetyDaysCurrency(TestCase):
                 pilot=self.pilot,
             )
 
-        currency = get_ninety_days_currency(LogEntry.objects.all(), 5)
+        with self.subTest("linear progression"):
+            currency = get_ninety_days_currency(LogEntry.objects.all(), 5)
 
-        self.assertAlmostEqual(
-            timedelta(days=5).total_seconds() / 60,
-            currency.expires_in.total_seconds() / 60,
-            places=1,
-        )
+            self.assertAlmostEqual(
+                timedelta(days=5).total_seconds() / 60,
+                currency.expires_in.total_seconds() / 60,
+                places=1,
+            )
 
-        self.assertEqual((datetime.now(tz=UTC) + timedelta(days=5)).date(), currency.expires_on)
-        self.assertEqual(CurrencyStatus.EXPIRING, currency.status)
-        self.assertEqual(1, currency.landings_to_renew)
+            self.assertEqual((datetime.now(tz=UTC) + timedelta(days=5)).date(), currency.expires_on)
+            self.assertEqual(CurrencyStatus.EXPIRING, currency.status)
+            self.assertEqual(1, currency.landings_to_renew)
+
+        with self.subTest("first current and expired on same day"):
+            first_current_entry = LogEntry.objects.get(pk=number_of_entries)
+            first_current_entry.pk = None
+            first_current_entry.landings = 7
+            first_current_entry.departure_time -= timedelta(hours=1)
+            first_current_entry.arrival_time -= timedelta(hours=1)
+            first_current_entry.save()
+
+            currency = get_ninety_days_currency(LogEntry.objects.all(), 5)
+
+            self.assertAlmostEqual(
+                timedelta(days=8, hours=23).total_seconds() / 60,
+                currency.expires_in.total_seconds() / 60,
+                places=1,
+            )
+
+            self.assertEqual((datetime.now(tz=UTC) + timedelta(days=8)).date(), currency.expires_on)
+            self.assertEqual(CurrencyStatus.EXPIRING, currency.status)
+            self.assertEqual(5, currency.landings_to_renew)

@@ -48,13 +48,23 @@ def get_ninety_days_currency(
         ),
     )
 
-    first_current_entry = (
-        annotated_entries.filter(eligible_landings__gte=required_landings).order_by("eligible_landings").first()
-    )
+    current_entries = annotated_entries.filter(eligible_landings__gte=required_landings).order_by("eligible_landings")
 
-    first_expired_entry = (
-        annotated_entries.filter(eligible_landings__lt=required_landings).order_by("-eligible_landings").first()
-    )
+    first_current_entry = current_entries.first()
+
+    # It only makes sense to consider expired entries from the day after the first day of currency, because otherwise
+    # a wrong number of landings to renew will be reported, if currency is established through two flights on the same
+    # day - see tests for an example when this matters
+    expired_entries = annotated_entries.filter(
+        eligible_landings__lt=required_landings,
+        **(
+            {"arrival_time__date__gt": first_current_entry.arrival_time.date()}
+            if first_current_entry is not None
+            else {}
+        ),
+    ).order_by("-eligible_landings")
+
+    first_expired_entry = expired_entries.first()
 
     time_to_expiry = (
         timedelta(days=CURRENCY_DAYS_RANGE) - (datetime.now(tz=UTC) - first_current_entry.arrival_time)
