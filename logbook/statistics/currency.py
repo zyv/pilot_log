@@ -34,7 +34,7 @@ CURRENCY_DAYS_WARNING = 30
 
 def get_ninety_days_currency(
     queryset: QuerySet["LogEntry"],
-    required_landings: int = CURRENCY_REQUIRED_LANDINGS_PASSENGER,
+    required_landings: int,
 ) -> NinetyDaysCurrency:
     eligible_entries = queryset.filter(arrival_time__gte=datetime.now(tz=UTC) - timedelta(days=CURRENCY_DAYS_RANGE))
 
@@ -91,3 +91,14 @@ def get_ninety_days_currency(
         expires_in=time_to_expiry,
         landings_to_renew=landings_to_renew,
     )
+
+
+def get_passenger_currency(entries: QuerySet["LogEntry"]) -> (CurrencyStatus, CurrencyStatus):
+    day_currency = get_ninety_days_currency(entries, CURRENCY_REQUIRED_LANDINGS_PASSENGER)
+
+    night_currency = get_ninety_days_currency(entries.filter(night=True), CURRENCY_REQUIRED_LANDINGS_NIGHT)
+
+    if day_currency.status == CurrencyStatus.NOT_CURRENT:
+        night_currency = day_currency
+
+    return day_currency, night_currency

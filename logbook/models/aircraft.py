@@ -18,6 +18,8 @@ class SpeedUnit(models.TextChoices):
 
 
 class Aircraft(models.Model):
+    CURRENCY_REQUIRED_LANDINGS = 3
+
     type = models.CharField(max_length=3, choices=AircraftType.choices)
     maker = models.CharField(max_length=64)
     model = models.CharField(max_length=64)
@@ -71,6 +73,8 @@ class Aircraft(models.Model):
 
     @property
     def currency_status(self) -> Optional[NinetyDaysCurrency]:
-        from .log_entry import LogEntry
-
-        return get_ninety_days_currency(LogEntry.objects.filter(aircraft=self)) if self.currency_required else None
+        return (
+            get_ninety_days_currency(self.logentry_set.all(), self.CURRENCY_REQUIRED_LANDINGS)
+            if self.currency_required
+            else None
+        )
