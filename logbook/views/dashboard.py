@@ -34,7 +34,7 @@ class DashboardView(AuthenticatedTemplateView):
         all_entries = LogEntry.objects.all()
 
         day_sep_currency, night_sep_currency = get_passenger_currency(
-            all_entries.filter(aircraft__type=AircraftType.SEP)
+            all_entries.filter(aircraft__type=AircraftType.SEP),
         )
         day_tmg_currency, night_tmg_currency = get_passenger_currency(
             all_entries.filter(aircraft__type=AircraftType.TMG),
