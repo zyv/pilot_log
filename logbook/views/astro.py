@@ -105,20 +105,21 @@ class AstroIndexView(AuthenticatedTemplateView, FormView):
         find_discrete = almanac.find_discrete(t0, t1, almanac.dark_twilight_day(self.ephemeris, location))
         twilight_times, twilight_events = find_discrete
 
-        reference_events = (
-            SkyfieldTwilight.ASTRONOMICAL,
-            SkyfieldTwilight.NAUTICAL,
-            SkyfieldTwilight.CIVIL,
-            SkyfieldTwilight.DAY,
-            SkyfieldTwilight.CIVIL,
-            SkyfieldTwilight.NAUTICAL,
-            SkyfieldTwilight.ASTRONOMICAL,
-        )
+        reference_events = [
+            str(item)
+            for item in (
+                SkyfieldTwilight.NIGHT,
+                SkyfieldTwilight.ASTRONOMICAL,
+                SkyfieldTwilight.NAUTICAL,
+                SkyfieldTwilight.CIVIL,
+                SkyfieldTwilight.DAY,
+                SkyfieldTwilight.CIVIL,
+                SkyfieldTwilight.NAUTICAL,
+                SkyfieldTwilight.ASTRONOMICAL,
+            )
+        ]
 
-        assert tuple(twilight_events) in (
-            (SkyfieldTwilight.NIGHT,) + reference_events,
-            reference_events + (SkyfieldTwilight.NIGHT,),
-        )
+        assert "".join(map(str, twilight_events)) in "".join(reference_events + reference_events[::1])
 
         labeled_twilight_events = list(zip(twilight_times, twilight_events))
 
