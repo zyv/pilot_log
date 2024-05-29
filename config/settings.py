@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_countries",
     "django_bootstrap5",
+    "colorfield",
     "logbook",
 ]
 
