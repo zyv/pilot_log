@@ -9,10 +9,22 @@
         --bs-bg-opacity: 0.04;
         background-color: rgba(var(--bs-black-rgb), var(--bs-bg-opacity)) !important;
     }
+
+    #fuel-color-filters {
+      display: none;
+    }
+
+    {% for fuel_type in fuel_types %}
+        .fuel-color-{{ fuel_type.pk }} {
+          filter: grayscale(100%) brightness(200%) url(#fuel-{{ fuel_type.pk }});
+        }
+    {% endfor %}
 </style>
 {% endblock %}
 
 {% block content %}
+    {{ fuel_color_filters }}
+
     <h1>Aircraft</h1>
 
     <div class="table-responsive">
@@ -23,26 +35,62 @@
                 <th colspan="8" class="align-middle text-center">Speeds</th>
             </tr>
             <tr>
-                <th scope="col" class="align-middle"></th>
-                <th scope="col" class="align-middle">Reg.</th>
-                <th scope="col" class="align-middle">Code</th>
+                <th scope="col" class="align-middle">Tail No.</th>
+                <th scope="col" class="align-middle">Fuel</th>
+                <th scope="col" class="align-middle">Info</th>
                 <th scope="col" class="align-middle">
                     <abbr title="{{ aircraft_fields.demonstrated_crosswind.verbose_name|capfirst }}">💨</abbr>
                 </th>
-                <th scope="col">{% include "logbook/field_description_item.html" with field=aircraft_fields.v_r only %}</th>
-                <th scope="col">{% include "logbook/field_description_item.html" with field=aircraft_fields.v_y only %}</th>
-                <th scope="col">{% include "logbook/field_description_item.html" with field=aircraft_fields.v_bg only %}</th>
-                <th scope="col">{% include "logbook/field_description_item.html" with field=aircraft_fields.v_fe only %}</th>
-                <th scope="col">{% include "logbook/field_description_item.html" with field=aircraft_fields.v_app only %}</th>
-                <th scope="col">{% include "logbook/field_description_item.html" with field=aircraft_fields.v_ref only %}</th>
-                <th scope="col">{% include "logbook/field_description_item.html" with field=aircraft_fields.v_s only %}</th>
-                <th scope="col">{% include "logbook/field_description_item.html" with field=aircraft_fields.v_c only %}</th>
+                <th scope="col">
+                    {% include "logbook/field_description_item.html" with field=aircraft_fields.v_r only %}
+                </th>
+                <th scope="col">
+                    {% include "logbook/field_description_item.html" with field=aircraft_fields.v_y only %}
+                </th>
+                <th scope="col">
+                    {% include "logbook/field_description_item.html" with field=aircraft_fields.v_bg only %}
+                </th>
+                <th scope="col">
+                    {% include "logbook/field_description_item.html" with field=aircraft_fields.v_fe only %}
+                </th>
+                <th scope="col">
+                    {% include "logbook/field_description_item.html" with field=aircraft_fields.v_app only %}
+                </th>
+                <th scope="col">
+                    {% include "logbook/field_description_item.html" with field=aircraft_fields.v_ref only %}
+                </th>
+                <th scope="col">
+                    {% include "logbook/field_description_item.html" with field=aircraft_fields.v_s only %}
+                </th>
+                <th scope="col">
+                    {% include "logbook/field_description_item.html" with field=aircraft_fields.v_c only %}
+                </th>
             </tr>
             </thead>
             <tbody>
             {% for aircraft in object_list %}
                 <tr>
-                    <td class="ps-2 pe-2">
+                    <td>
+                        {% with tooltip=aircraft.remarks %}
+                            {% if tooltip %}<abbr title="{{ tooltip }}">{% endif %}
+                            {{ aircraft.registration }}
+                            {% if tooltip %}</abbr>{% endif %}
+                        {% endwith %}
+
+                        <small>
+                            (<abbr title="{{ aircraft.maker }} {{ aircraft.model }}">
+                            {{ aircraft.icao_designator }}
+                            </abbr>)
+                        </small>
+                    </td>
+                    <td>
+                        {% for fuel_type in aircraft.fuel_types.all %}
+                            <abbr title="{{ fuel_type.name }}">
+                                <span class="fuel-color-{{ fuel_type.pk }}">🛢️</span>️
+                            </abbr>
+                        {% endfor %}
+                    </td>
+                    <td>
                         {% if aircraft.currency_required %}
                             {% include "logbook/currency_status.html" with currency=aircraft.currency_status %}
                         {% endif %}
@@ -54,26 +102,34 @@
                         {% endif %}
                     </td>
                     <td>
-                        {% with tooltip=aircraft.remarks %}
-                            {% if tooltip %}<abbr title="{{ tooltip }}">{% endif %}
-                            {{ aircraft.registration }}
-                            {% if tooltip %}</abbr>{% endif %}
-                        {% endwith %}
-                    </td>
-                    <td><abbr title="{{ aircraft.maker }} {{ aircraft.model }}">{{ aircraft.icao_designator }}</abbr></td>
-                    <td>
                         {% if aircraft.demonstrated_crosswind != None %}
                             {{ aircraft.demonstrated_crosswind }} KT
                         {% endif %}
                     </td>
-                    <td>{% include "logbook/speed_item.html" with speed=aircraft.v_r unit=aircraft.speed_unit only %}</td>
-                    <td>{% include "logbook/speed_item.html" with speed=aircraft.v_y unit=aircraft.speed_unit only %}</td>
-                    <td>{% include "logbook/speed_item.html" with speed=aircraft.v_bg unit=aircraft.speed_unit only %}</td>
-                    <td>{% include "logbook/speed_item.html" with speed=aircraft.v_fe unit=aircraft.speed_unit only %}</td>
-                    <td>{% include "logbook/speed_item.html" with speed=aircraft.v_app unit=aircraft.speed_unit only %}</td>
-                    <td>{% include "logbook/speed_item.html" with speed=aircraft.v_ref unit=aircraft.speed_unit only %}</td>
-                    <td>{% include "logbook/speed_item.html" with speed=aircraft.v_s unit=aircraft.speed_unit only %}</td>
-                    <td>{% include "logbook/speed_item.html" with speed=aircraft.v_c unit=aircraft.speed_unit only %}</td>
+                    <td>
+                        {% include "logbook/speed_item.html" with speed=aircraft.v_r unit=aircraft.speed_unit only %}
+                    </td>
+                    <td>
+                        {% include "logbook/speed_item.html" with speed=aircraft.v_y unit=aircraft.speed_unit only %}
+                    </td>
+                    <td>
+                        {% include "logbook/speed_item.html" with speed=aircraft.v_bg unit=aircraft.speed_unit only %}
+                    </td>
+                    <td>
+                        {% include "logbook/speed_item.html" with speed=aircraft.v_fe unit=aircraft.speed_unit only %}
+                    </td>
+                    <td>
+                        {% include "logbook/speed_item.html" with speed=aircraft.v_app unit=aircraft.speed_unit only %}
+                    </td>
+                    <td>
+                        {% include "logbook/speed_item.html" with speed=aircraft.v_ref unit=aircraft.speed_unit only %}
+                    </td>
+                    <td>
+                        {% include "logbook/speed_item.html" with speed=aircraft.v_s unit=aircraft.speed_unit only %}
+                    </td>
+                    <td>
+                        {% include "logbook/speed_item.html" with speed=aircraft.v_c unit=aircraft.speed_unit only %}
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>

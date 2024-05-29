@@ -12,6 +12,7 @@ python = "^3.11"  # @mm-version-check-ignore
 django = "*"
 django-countries = "*"
 django-bootstrap5 = "*"
+django-colorfield = "*"
 
 python-dateutil = "*"
 skyfield = "*"
