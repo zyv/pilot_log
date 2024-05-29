@@ -17,5 +17,8 @@ jobs:
           poetry run ruff check .
           poetry run ruff format --diff .
 
+      - name: Check migrations
+        run: poetry run python manage.py makemigrations --check
+
       - name: Run tests
         run: poetry run pytest --cov
