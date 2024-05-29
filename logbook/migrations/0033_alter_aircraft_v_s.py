@@ -13,7 +13,10 @@ class Migration(migrations.Migration):
             model_name="aircraft",
             name="v_s",
             field=models.PositiveSmallIntegerField(
-                blank=True, help_text="Stall speed (clean)", null=True, verbose_name="Vs",
+                blank=True,
+                help_text="Stall speed (clean)",
+                null=True,
+                verbose_name="Vs",
             ),
         ),
     ]
