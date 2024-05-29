@@ -4,15 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('logbook', '0032_alter_fueltype_options_fueltype_color'),
+        ("logbook", "0032_alter_fueltype_options_fueltype_color"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='aircraft',
-            name='v_s',
-            field=models.PositiveSmallIntegerField(blank=True, help_text='Stall speed (clean)', null=True, verbose_name='Vs'),
+            model_name="aircraft",
+            name="v_s",
+            field=models.PositiveSmallIntegerField(
+                blank=True, help_text="Stall speed (clean)", null=True, verbose_name="Vs",
+            ),
         ),
     ]

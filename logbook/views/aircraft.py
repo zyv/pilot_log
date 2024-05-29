@@ -23,7 +23,7 @@ def get_fuel_color_filters() -> str:
     return mark_safe(
         f"""<svg id='fuel-color-filters'>{
             ''.join(get_fuel_color_filter(fuel.pk, fuel.color) for fuel in FuelType.objects.all())
-        }</svg>"""
+        }</svg>""",
     )
 
 
