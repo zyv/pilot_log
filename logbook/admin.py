@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models.aerodrome import Aerodrome
-from .models.aircraft import Aircraft
+from .models.aircraft import Aircraft, FuelType
 from .models.log_entry import LogEntry
 from .models.pilot import Certificate, Pilot
 from .templatetags.logbook_utils import duration
@@ -13,10 +13,19 @@ class AerodromeAdmin(admin.ModelAdmin):
     save_as = True
 
 
+@admin.register(FuelType)
+class FuelTypeAdmin(admin.ModelAdmin):
+    search_fields = ("name",)
+    list_display = ("name", "density")
+    save_as = True
+
+
 @admin.register(Aircraft)
 class AircraftAdmin(admin.ModelAdmin):
     search_fields = ("registration", "maker", "model")
     save_as = True
+
+    filter_horizontal = ("fuel_types",)
 
     fieldsets = [
         (

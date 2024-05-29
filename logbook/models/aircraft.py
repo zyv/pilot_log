@@ -1,5 +1,6 @@
 from typing import Optional
 
+from colorfield.fields import ColorField
 from django.db import models
 
 from logbook.statistics.currency import NinetyDaysCurrency, get_ninety_days_currency
@@ -15,6 +16,18 @@ class SpeedUnit(models.TextChoices):
     KMH = "KMH", "km/h"
     KT = "KT", "kt"
     MPH = "MPH", "mph"
+
+
+class FuelType(models.Model):
+    name = models.CharField(max_length=64)
+    color = ColorField(default="#00FFFF")
+    density = models.FloatField(help_text="Density in kg/L")
+
+    class Meta:
+        ordering = ("-density",)
+
+    def __str__(self):
+        return self.name
 
 
 class Aircraft(models.Model):
@@ -36,6 +49,8 @@ class Aircraft(models.Model):
     reduced_noise = models.BooleanField(default=False, help_text="Erhöhter Schallschutz")
 
     speed_unit = models.CharField(max_length=3, choices=SpeedUnit.choices)
+
+    fuel_types = models.ManyToManyField(FuelType)
 
     v_r = models.PositiveSmallIntegerField(verbose_name="Vr", help_text="Rotation speed", blank=True, null=True)
     v_y = models.PositiveSmallIntegerField(
