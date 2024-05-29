@@ -37,7 +37,7 @@
             <tr>
                 <th scope="col" class="align-middle">Tail No.</th>
                 <th scope="col" class="align-middle">Fuel</th>
-                <th scope="col" class="align-middle">Info</th>
+                <th scope="col" class="align-middle">Flags</th>
                 <th scope="col" class="align-middle">
                     <abbr title="{{ aircraft_fields.demonstrated_crosswind.verbose_name|capfirst }}">💨</abbr>
                 </th>
@@ -78,9 +78,7 @@
                         {% endwith %}
 
                         <small>
-                            (<abbr title="{{ aircraft.maker }} {{ aircraft.model }}">
-                            {{ aircraft.icao_designator }}
-                            </abbr>)
+                            (<abbr title="{{ aircraft.maker }} {{ aircraft.model }}">{{ aircraft.icao_designator }}</abbr>)
                         </small>
                     </td>
                     <td>
