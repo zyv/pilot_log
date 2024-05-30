@@ -29,7 +29,7 @@ class SkyfieldLocation(enum.IntEnum):
     SUNRISE = 1
 
 
-def round_to_nearest_minute(dt: datetime):
+def round_to_nearest_minute(dt: datetime) -> datetime:
     return (dt + timedelta(seconds=30)).replace(second=0, microsecond=0)
 
 

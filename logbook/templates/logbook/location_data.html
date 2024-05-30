@@ -1,3 +1,4 @@
+{% load tz %}
 {% load logbook_utils %}
 
 <table class="table table-bordered table-location text-center">
@@ -27,32 +28,40 @@
     <thead>
     <tr>
         <th scope="col">Event</th>
-        <th scope="col">Local time</th>
+        <th scope="col">Time</th>
         <th scope="col">Duration</th>
     </tr>
     </thead>
     <tbody>
     <tr>
         <th scope="row"><abbr title="Start of morning civil twilight">🌙 👇</abbr></th>
-        <td>{{ location_data.morning_twilight | date:"H:i" }}</td>
+        <td>
+            <abbr title="{{ location_data.morning_twilight | utc | date:'H:i' }} UTC">{{ location_data.morning_twilight | timezone:location_data.timezone | date:"H:i" }} LCL</abbr>
+        </td>
         <td rowspan="2" class="align-middle">
             {{ location_data.morning_twilight_duration | duration:"%{m} min." }}
         </td>
     </tr>
     <tr>
         <th scope="row"><abbr title="Sunrise">☀️ 👆</abbr></th>
-        <td>{{ location_data.sunrise | date:"H:i" }}</td>
+        <td>
+            <abbr title="{{ location_data.sunrise | utc | date:'H:i' }} UTC">{{ location_data.sunrise | timezone:location_data.timezone | date:"H:i" }} LCL</abbr>
+        </td>
     </tr>
     <tr>
         <th scope="row"><abbr title="Sunset">☀️ 👇</abbr></th>
-        <td>{{ location_data.sunset | date:"H:i" }}</td>
+        <td>
+            <abbr title="{{ location_data.sunset | utc | date:'H:i' }} UTC">{{ location_data.sunset  | timezone:location_data.timezone | date:"H:i" }} LCL</abbr>
+        </td>
         <td rowspan="2" class="align-middle">
             {{ location_data.evening_twilight_duration | duration:"%{m} min." }}
         </td>
     </tr>
     <tr>
         <th scope="row"><abbr title="End of evening civil twilight">🌙 👆</abbr></th>
-        <td>{{ location_data.evening_twilight | date:"H:i" }}</td>
+        <td>
+            <abbr title="{{ location_data.evening_twilight | utc | date:'H:i' }} UTC">{{ location_data.evening_twilight  | timezone:location_data.timezone | date:"H:i" }} LCL</abbr>
+        </td>
     </tr>
     </tbody>
 </table>
