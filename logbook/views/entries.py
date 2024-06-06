@@ -58,7 +58,7 @@ class VereinsfliegerForm(forms.Form):
             pilot=pilot,
             copilot=copilot,
             remarks=flight.remarks,
-            cross_country="XC" in flight.remarks,
+            cross_country="XC" in flight.remarks or "Nav." in flight.remarks,
         )
 
 
