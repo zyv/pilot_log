@@ -87,7 +87,7 @@ class Flight:
 
         flight_type = await page.locator(":text('Flugart') + td").text_content()
 
-        if flight_type.startswith("S"):
+        if flight_type.startswith("S") or flight_type.startswith("T"):
             if (await page.query_selector(":text('Flugauftrag von') + td")) is not None:
                 time_function = FunctionType.PIC
                 pilot = cls.parse_pilot(await page.locator(":text('Pilot') + td").text_content())
