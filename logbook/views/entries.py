@@ -39,6 +39,14 @@ class VereinsfliegerForm(forms.Form):
         from_aerodrome = Aerodrome.objects.get(icao_code=flight.from_aerodrome)
         to_aerodrome = Aerodrome.objects.get(icao_code=flight.to_aerodrome)
 
+        pilot, _ = Pilot.objects.get_or_create(first_name=flight.pilot.first_name, last_name=flight.pilot.last_name)
+
+        copilot, _ = (
+            Pilot.objects.get_or_create(first_name=flight.copilot.first_name, last_name=flight.copilot.last_name)
+            if flight.copilot is not None
+            else (None, None)
+        )
+
         return flight_id, LogEntry.objects.create(
             aircraft=aircraft,
             from_aerodrome=from_aerodrome,
@@ -47,12 +55,8 @@ class VereinsfliegerForm(forms.Form):
             arrival_time=arrival_time,
             landings=flight.landings,
             time_function=flight.function,
-            pilot=Pilot.objects.get(first_name=flight.pilot.first_name, last_name=flight.pilot.last_name),
-            copilot=(
-                Pilot.objects.get(first_name=flight.copilot.first_name, last_name=flight.copilot.last_name)
-                if flight.copilot is not None
-                else None
-            ),
+            pilot=pilot,
+            copilot=copilot,
             remarks=flight.remarks,
             cross_country="XC" in flight.remarks,
         )
