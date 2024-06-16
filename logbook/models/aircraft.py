@@ -1,9 +1,10 @@
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 from colorfield.fields import ColorField
 from django.db import models
 
-from logbook.statistics.currency import NinetyDaysCurrency, get_ninety_days_currency
+if TYPE_CHECKING:
+    from ..statistics.currency import RollingCurrency
 
 
 class AircraftType(models.TextChoices):
@@ -87,9 +88,11 @@ class Aircraft(models.Model):
         return f"{self.registration} ({self.maker} {self.model})"
 
     @property
-    def currency_status(self) -> Optional[NinetyDaysCurrency]:
+    def currency_status(self) -> Optional["RollingCurrency"]:
+        from ..statistics.currency import get_rolling_currency
+
         return (
-            get_ninety_days_currency(self.logentry_set.all(), self.CURRENCY_REQUIRED_LANDINGS)
+            get_rolling_currency(self.logentry_set.all(), self.CURRENCY_REQUIRED_LANDINGS)
             if self.currency_required
             else None
         )

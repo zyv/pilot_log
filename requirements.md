@@ -47,6 +47,14 @@ A pilot shall not operate an aircraft in commercial air transport or carrying pa
    1. has carried out in the preceding 90 days at least 1 take-off, approach and landing at night as a pilot flying in an aircraft of the same type or class or an FFS representing that type or class; or
    2. holds an IR;
 
+## FCL.140.A LAPL(A) – Recency requirements
+
+Holders of a LAPL(A) shall exercise the privileges of their licence only if in the last 2 years they have met any of the following conditions as pilots of aeroplanes or TMGs:
+1. They have completed at least 12 hours of flight time as PIC or flying dual or solo under the supervision of an instructor, including:
+    * 12 take-offs and landings;
+    * refresher training of at least 1 hour of total flight time with an instructor;
+2. They have passed a LAPL(A) proficiency check with an examiner. The proficiency check programme shall be based on the skill test for the LAPL(A)
+
 ## Instrument rating
 
 "Cross-country" means a flight between a point of departure and a point of arrival following a pre-planned route, using standard navigation procedures.

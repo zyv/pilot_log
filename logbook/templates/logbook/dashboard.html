@@ -28,10 +28,10 @@
     <h2>Currency status</h2>
     <div class="table-responsive">
         <table class="table table-bordered text-center table-currency">
-            <caption>Passenger currency</caption>
+            <caption><strong>&dagger;</strong> LAPL(A) currency status</caption>
             <thead>
             <tr>
-                <th scope="col"></th>
+                <th scope="col">{% include "logbook/currency_status.html" with currency=lapl_a_currency %}&dagger;</th>
                 <th scope="col">Day</th>
                 <th scope="col">Night</th>
             </tr>

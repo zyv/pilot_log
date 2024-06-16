@@ -4,7 +4,7 @@ from django.db.models import QuerySet
 
 from ..models.aircraft import Aircraft, AircraftType
 from ..models.log_entry import FunctionType, LogEntry
-from ..statistics.currency import get_passenger_currency
+from ..statistics.currency import get_lapl_currency, get_passenger_currency
 from ..statistics.experience import compute_totals
 from .utils import (
     AuthenticatedTemplateView,
@@ -28,7 +28,7 @@ class DashboardView(AuthenticatedTemplateView):
             "1M": timedelta(days=30),
             "6M": timedelta(days=180),
             "1Y": timedelta(days=365),
-            "2Y": timedelta(days=365 * 2),
+            "3Y": timedelta(days=365 * 3),
         }
 
         all_entries = LogEntry.objects.all()
@@ -40,7 +40,10 @@ class DashboardView(AuthenticatedTemplateView):
             all_entries.filter(aircraft__type=AircraftType.TMG),
         )
 
+        lapl_a_currency = get_lapl_currency(all_entries.filter(aircraft__type__in=(AircraftType.TMG, AircraftType.SEP)))
+
         return super().get_context_data(*args, **kwargs) | {
+            "lapl_a_currency": lapl_a_currency,
             "passenger_currency": {
                 "sep": {
                     "day": day_sep_currency,

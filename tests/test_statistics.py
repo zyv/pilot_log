@@ -6,10 +6,10 @@ from logbook.models.aerodrome import Aerodrome
 from logbook.models.aircraft import Aircraft, AircraftType
 from logbook.models.log_entry import LogEntry
 from logbook.models.pilot import Pilot
-from logbook.statistics.currency import CurrencyStatus, get_ninety_days_currency
+from logbook.statistics.currency import CurrencyStatus, get_rolling_currency
 
 
-class TestNinetyDaysCurrency(TestCase):
+class TestRollingCurrency(TestCase):
     def setUp(self):
         self.aircraft = Aircraft.objects.create(
             type=AircraftType.SEP,
@@ -34,7 +34,7 @@ class TestNinetyDaysCurrency(TestCase):
         )
 
     def test_not_current(self):
-        currency = get_ninety_days_currency(LogEntry.objects.all(), 5)
+        currency = get_rolling_currency(LogEntry.objects.all(), 5)
 
         self.assertEqual(timedelta(days=0), currency.expires_in)
         self.assertEqual(datetime.now(tz=UTC).date(), currency.expires_on)
@@ -56,7 +56,7 @@ class TestNinetyDaysCurrency(TestCase):
             )
 
         with self.subTest("linear progression"):
-            currency = get_ninety_days_currency(LogEntry.objects.all(), 5)
+            currency = get_rolling_currency(LogEntry.objects.all(), 5)
 
             self.assertAlmostEqual(
                 timedelta(days=5).total_seconds() / 60,
@@ -64,7 +64,7 @@ class TestNinetyDaysCurrency(TestCase):
                 places=1,
             )
 
-            self.assertEqual((datetime.now(tz=UTC) + timedelta(days=5)).date(), currency.expires_on)
+            self.assertEqual((datetime.now(tz=UTC) + timedelta(days=5 - 1)).date(), currency.expires_on)
             self.assertEqual(CurrencyStatus.EXPIRING, currency.status)
             self.assertEqual(1, currency.landings_to_renew)
 
@@ -76,7 +76,7 @@ class TestNinetyDaysCurrency(TestCase):
             first_current_entry.arrival_time -= timedelta(hours=1)
             first_current_entry.save()
 
-            currency = get_ninety_days_currency(LogEntry.objects.all(), 5)
+            currency = get_rolling_currency(LogEntry.objects.all(), 5)
 
             self.assertAlmostEqual(
                 timedelta(days=8, hours=23).total_seconds() / 60,
@@ -87,3 +87,8 @@ class TestNinetyDaysCurrency(TestCase):
             self.assertEqual((datetime.now(tz=UTC) + timedelta(days=8)).date(), currency.expires_on)
             self.assertEqual(CurrencyStatus.EXPIRING, currency.status)
             self.assertEqual(5, currency.landings_to_renew)
+
+    def test_lowest_currency_status(self):
+        self.assertEqual(CurrencyStatus.CURRENT, min(CurrencyStatus.CURRENT, CurrencyStatus.CURRENT))
+        self.assertEqual(CurrencyStatus.EXPIRING, min(CurrencyStatus.CURRENT, CurrencyStatus.EXPIRING))
+        self.assertEqual(CurrencyStatus.NOT_CURRENT, min(CurrencyStatus.EXPIRING, CurrencyStatus.NOT_CURRENT))
