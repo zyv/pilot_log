@@ -55,6 +55,12 @@ Holders of a LAPL(A) shall exercise the privileges of their licence only if in t
     * refresher training of at least 1 hour of total flight time with an instructor;
 2. They have passed a LAPL(A) proficiency check with an examiner. The proficiency check programme shall be based on the skill test for the LAPL(A)
 
+## FCL.710 Class and type ratings – variants
+
+(d) If pilots have not flown the variant within 2 years following the training listed in point (b), a further differences training or a proficiency check in that variant shall be completed, except for types or variants within the SEP and TMG class ratings.
+
+(e) The differences training or the proficiency check in that variant shall be entered in the pilots’ logbook or equivalent record and signed by the instructor or examiner as appropriate.
+
 ## Instrument rating
 
 "Cross-country" means a flight between a point of departure and a point of arrival following a pre-planned route, using standard navigation procedures.
