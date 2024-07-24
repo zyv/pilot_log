@@ -1,7 +1,7 @@
 {% load logbook_utils %}
 
 {% if speed != None %}
-    <abbr title="{{ speed|to_kt:unit }} KT">
+    {% if unit != "KT" %}<abbr title="{{ speed|to_kt:unit }} KT">{% endif %}
         {{ speed }} {{ unit }}
-    </abbr>
+    {% if unit != "KT" %}</abbr>{% endif %}
 {% endif %}
