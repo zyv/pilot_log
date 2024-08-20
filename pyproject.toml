@@ -20,6 +20,7 @@ timezonefinder = "*"
 
 requests = "*"
 playwright = "*"
+fontawesomefree = "^6"  # @mm-version-check-ignore
 
 [tool.poetry.dev-dependencies]
 django-debug-toolbar = "*"

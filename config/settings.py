@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "django_countries",
     "django_bootstrap5",
     "colorfield",
+    "fontawesomefree",
     "logbook",
 ]
 
