@@ -45,10 +45,10 @@ class LogEntry(models.Model):
 
     class Meta:
         constraints = (
-            CheckConstraint(check=Q(arrival_time__gt=F("departure_time")), name="arrival_after_departure"),
-            CheckConstraint(check=~Q(copilot=F("pilot")), name="copilot_not_pilot"),
+            CheckConstraint(condition=Q(arrival_time__gt=F("departure_time")), name="arrival_after_departure"),
+            CheckConstraint(condition=~Q(copilot=F("pilot")), name="copilot_not_pilot"),
             CheckConstraint(
-                check=(
+                condition=(
                     Q(time_function=FunctionType.PIC)  # PIC time may be XC or not XC
                     | ~Q(time_function=FunctionType.PIC) & Q(cross_country=False)  # non-PIC time must be non-XC
                 ),

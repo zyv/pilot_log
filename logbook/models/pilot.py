@@ -44,11 +44,11 @@ class Certificate(models.Model):
     class Meta:
         constraints = (
             CheckConstraint(
-                check=Q(valid_until__isnull=True) | Q(valid_until__gt=F("issue_date")),
+                condition=Q(valid_until__isnull=True) | Q(valid_until__gt=F("issue_date")),
                 name="validity_after_issue",
             ),
             CheckConstraint(
-                check=~Q(id=F("supersedes")),
+                condition=~Q(id=F("supersedes")),
                 name="supersedes_self",
             ),
             UniqueConstraint(

@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
         migrations.AddConstraint(
             model_name="logentry",
             constraint=models.CheckConstraint(
-                check=models.Q(("arrival_time__gt", django.db.models.expressions.F("departure_time"))),
+                condition=models.Q(("arrival_time__gt", django.db.models.expressions.F("departure_time"))),
                 name="arrival_after_departure",
             ),
         ),

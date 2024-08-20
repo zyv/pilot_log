@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
         migrations.AddConstraint(
             model_name="logentry",
             constraint=models.CheckConstraint(
-                check=models.Q(("copilot", django.db.models.expressions.F("pilot")), _negated=True),
+                condition=models.Q(("copilot", django.db.models.expressions.F("pilot")), _negated=True),
                 name="copilot_not_pilot",
             ),
         ),

@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
         migrations.AddConstraint(
             model_name="logentry",
             constraint=models.CheckConstraint(
-                check=models.Q(
+                condition=models.Q(
                     ("time_function", "PIC"),
                     models.Q(models.Q(("time_function", "PIC"), _negated=True), ("cross_country", False)),
                     _connector="OR",

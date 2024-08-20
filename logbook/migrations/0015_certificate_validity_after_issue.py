@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
         migrations.AddConstraint(
             model_name="certificate",
             constraint=models.CheckConstraint(
-                check=models.Q(
+                condition=models.Q(
                     ("valid_until__isnull", True),
                     ("valid_until__gt", models.F("issue_date")),
                     _connector="OR",

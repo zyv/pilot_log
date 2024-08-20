@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
         migrations.AddConstraint(
             model_name="certificate",
             constraint=models.CheckConstraint(
-                check=models.Q(("id", models.F("supersedes")), _negated=True),
+                condition=models.Q(("id", models.F("supersedes")), _negated=True),
                 name="supersedes_self",
             ),
         ),
