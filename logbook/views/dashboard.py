@@ -58,14 +58,24 @@ class DashboardView(AuthenticatedTemplateView):
                 aircraft_type: {
                     "grand": compute_totals(all_entries.filter(aircraft__type=aircraft_type)),
                     "per_function": totals_per_function(all_entries.filter(aircraft__type=aircraft_type)),
-                    "per_aircraft": [
+                    "per_aircraft": sorted(
                         (
-                            aircraft,
-                            totals_per_function(all_entries.filter(aircraft=aircraft)),
-                            compute_totals(all_entries.filter(aircraft=aircraft)),
-                        )
-                        for aircraft in Aircraft.objects.filter(type=aircraft_type)
-                    ],
+                            (
+                                aircraft,
+                                totals_per_function(all_entries.filter(aircraft=aircraft)),
+                                compute_totals(all_entries.filter(aircraft=aircraft)),
+                            )
+                            for aircraft in Aircraft.objects.filter(type=aircraft_type)
+                        ),
+                        key=lambda item: (
+                            (-item[2].landings, -item[2].time)
+                            if "-landings" in self.request.GET.get("order_by", "")
+                            else (-item[2].time, -item[2].landings)
+                            if "-time" in self.request.GET.get("order_by", "")
+                            # Neutral element to preserve default sorting order
+                            else 0
+                        ),
+                    ),
                     "per_period": [
                         {
                             "per_function": totals_per_function(

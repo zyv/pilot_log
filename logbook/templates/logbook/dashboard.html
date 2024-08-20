@@ -17,6 +17,10 @@
         .table-totals {
             max-width: 50rem;
         }
+
+        a i.fa-solid {
+            padding-left: 0.25rem;
+        }
     </style>
 {% endblock %}
 
@@ -93,9 +97,9 @@
         <table class="table table-striped table-sm table-hover table-totals">
             <thead>
             <tr>
-                <th scope="col">Type / Registration</th>
-                <th scope="col" class="text-end"><abbr title="Total Time">⏱️</abbr></th>
-                <th scope="col" class="text-end"><abbr title="Total Landings">🛬</abbr></th>
+                <th scope="col">Type / Registration <a href="{% querystring order_by='' %}"><i class="fa-solid fa-arrow-down-a-z"></i></a></th>
+                <th scope="col" class="text-end"><abbr title="Total Time">⏱️</abbr> <a href="{% querystring order_by='-time' %}"><i class="fa-solid fa-arrow-down-wide-short"></i></a></th>
+                <th scope="col" class="text-end"><abbr title="Total Landings">🛬</abbr> <a href="{% querystring order_by='-landings' %}"><i class="fa-solid fa-arrow-down-wide-short"></i></a></th>
             </tr>
             </thead>
             <tbody>
