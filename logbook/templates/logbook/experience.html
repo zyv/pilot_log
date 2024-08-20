@@ -19,7 +19,11 @@
                 <td class="text-end">{{ experience.accrued | represent:experience }}</td>
                 <td class="text-end">{{ experience.remaining | represent:experience }}</td>
                 <td class="text-end {% if experience.completed %}text-success{% else %}text-danger{% endif %}">
-                    {% if experience.completed %}✓{% else %}✗{% endif %}
+                    {% if experience.completed %}
+                        <i class='fa-regular fa-check text-success'></i>
+                    {% else %}
+                        <i class='fa-regular fa-xmark text-danger'></i>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}

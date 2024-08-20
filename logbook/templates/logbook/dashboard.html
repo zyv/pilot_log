@@ -68,8 +68,8 @@
             </tr>
             <tr>
                 {% for label in period_labels %}
-                    <th scope="col"><abbr title="Time">⏱️</abbr></th>
-                    <th scope="col"><abbr title="Landings">🛬</abbr></th>
+                    <th scope="col"><abbr title="Time"><i class="fa-solid fa-clock"></i></abbr></th>
+                    <th scope="col"><abbr title="Landings"><i class="fa-solid fa-plane-arrival"></i></abbr></th>
                 {% endfor %}
             </tr>
             </thead>
@@ -98,8 +98,8 @@
             <thead>
             <tr>
                 <th scope="col">Type / Registration <a href="{% querystring order_by='' %}"><i class="fa-solid fa-arrow-down-a-z"></i></a></th>
-                <th scope="col" class="text-end"><abbr title="Total Time">⏱️</abbr> <a href="{% querystring order_by='-time' %}"><i class="fa-solid fa-arrow-down-wide-short"></i></a></th>
-                <th scope="col" class="text-end"><abbr title="Total Landings">🛬</abbr> <a href="{% querystring order_by='-landings' %}"><i class="fa-solid fa-arrow-down-wide-short"></i></a></th>
+                <th scope="col" class="text-end"><abbr title="Total Time"><i class="fa-solid fa-clock"></i></abbr> <a href="{% querystring order_by='-time' %}"><i class="fa-solid fa-arrow-down-wide-short"></i></a></th>
+                <th scope="col" class="text-end"><abbr title="Total Landings"><i class="fa-solid fa-plane-arrival"></i></abbr> <a href="{% querystring order_by='-landings' %}"><i class="fa-solid fa-arrow-down-wide-short"></i></a></th>
             </tr>
             </thead>
             <tbody>

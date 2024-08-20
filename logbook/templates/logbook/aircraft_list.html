@@ -10,21 +10,15 @@
         background-color: rgba(var(--bs-black-rgb), var(--bs-bg-opacity)) !important;
     }
 
-    #fuel-color-filters {
-      display: none;
-    }
-
     {% for fuel_type in fuel_types %}
         .fuel-color-{{ fuel_type.pk }} {
-          filter: grayscale(100%) brightness(200%) url(#fuel-{{ fuel_type.pk }});
+            color: {{ fuel_type.color }};
         }
     {% endfor %}
 </style>
 {% endblock %}
 
 {% block content %}
-    {{ fuel_color_filters }}
-
     <h1>Aircraft</h1>
 
     <div class="table-responsive">
@@ -39,7 +33,7 @@
                 <th scope="col" class="align-middle">Fuel</th>
                 <th scope="col" class="align-middle">Flags</th>
                 <th scope="col" class="align-middle">
-                    <abbr title="{{ aircraft_fields.demonstrated_crosswind.verbose_name|capfirst }}">💨</abbr>
+                    <abbr title="{{ aircraft_fields.demonstrated_crosswind.verbose_name|capfirst }}"><i class="fa-solid fa-wind"></i></abbr>
                 </th>
                 <th scope="col">
                     {% include "logbook/field_description_item.html" with field=aircraft_fields.v_r only %}
@@ -83,9 +77,7 @@
                     </td>
                     <td>
                         {% for fuel_type in aircraft.fuel_types.all %}
-                            <abbr title="{{ fuel_type.name }}">
-                                <span class="fuel-color-{{ fuel_type.pk }}">🛢️</span>️
-                            </abbr>
+                            <abbr title="{{ fuel_type.name }}"><i class="fa-solid fa-gas-pump fuel-color-{{ fuel_type.pk }}"></i></abbr>
                         {% endfor %}
                     </td>
                     <td>
@@ -93,10 +85,10 @@
                             {% include "logbook/currency_status.html" with currency=aircraft.currency_status %}
                         {% endif %}
                         {% if aircraft.night_vfr %}
-                            {% include "logbook/field_description_item.html" with field=aircraft_fields.night_vfr name="🌜" only %}
+                            {% include "logbook/field_description_item.html" with field=aircraft_fields.night_vfr name="<i class='fa-regular fa-moon text-primary'></i>" only %}
                         {% endif %}
                         {% if aircraft.reduced_noise %}
-                            {% include "logbook/field_description_item.html" with field=aircraft_fields.reduced_noise name="👂🏻" only %}
+                            {% include "logbook/field_description_item.html" with field=aircraft_fields.reduced_noise name="<i class='fa-solid fa-volume-low text-secondary'></i>" only %}
                         {% endif %}
                     </td>
                     <td>

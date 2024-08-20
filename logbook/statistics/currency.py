@@ -9,9 +9,9 @@ from ..models.log_entry import FunctionType, LogEntry
 
 
 class CurrencyStatus(models.TextChoices):
-    CURRENT = "🟢"
-    EXPIRING = "🟡"
-    NOT_CURRENT = "🔴"
+    CURRENT = "<!-- Priority: 3 --><i class='fa-solid fa-circle text-success'></i>"
+    EXPIRING = "<!-- Priority: 2 --><i class='fa-solid fa-circle text-warning'></i>"
+    NOT_CURRENT = "<!-- Priority: 1 --><i class='fa-solid fa-circle text-danger'></i>"
 
 
 @dataclass(frozen=True, kw_only=True)
