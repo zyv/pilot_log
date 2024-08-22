@@ -1,0 +1,5 @@
+{% if criterion in request.GET.order_by|default:'default' %}
+    <i class="ordering-marker fa-solid {{ icon }} text-secondary"></i>
+{% else %}
+    <a href="{% querystring order_by=criterion %}" class="ordering-marker"><i class="fa-solid {{ icon }} text-primary text-opacity-75"></i></a>
+{% endif %}

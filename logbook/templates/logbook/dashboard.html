@@ -18,7 +18,7 @@
             max-width: 50rem;
         }
 
-        a i.fa-solid {
+        .ordering-marker {
             padding-left: 0.25rem;
         }
     </style>
@@ -97,9 +97,18 @@
         <table class="table table-striped table-sm table-hover table-totals">
             <thead>
             <tr>
-                <th scope="col">Type / Registration <a href="{% querystring order_by='' %}"><i class="fa-solid fa-arrow-down-a-z"></i></a></th>
-                <th scope="col" class="text-end"><abbr title="Total Time"><i class="fa-solid fa-clock"></i></abbr> <a href="{% querystring order_by='-time' %}"><i class="fa-solid fa-arrow-down-wide-short"></i></a></th>
-                <th scope="col" class="text-end"><abbr title="Total Landings"><i class="fa-solid fa-plane-arrival"></i></abbr> <a href="{% querystring order_by='-landings' %}"><i class="fa-solid fa-arrow-down-wide-short"></i></a></th>
+                <th scope="col">
+                    Type / Registration
+                    {% include 'logbook/ordering_marker.html' with criterion='default' icon='fa-arrow-down-a-z' %}
+                </th>
+                <th scope="col" class="text-end">
+                    <abbr title="Total Time"><i class="fa-solid fa-clock"></i></abbr>
+                    {% include 'logbook/ordering_marker.html' with criterion='-time' icon='fa-arrow-down-wide-short' %}
+                </th>
+                <th scope="col" class="text-end">
+                    <abbr title="Total Landings"><i class="fa-solid fa-plane-arrival"></i></abbr>
+                    {% include 'logbook/ordering_marker.html' with criterion='-landings' icon='fa-arrow-down-wide-short' %}
+                </th>
             </tr>
             </thead>
             <tbody>
