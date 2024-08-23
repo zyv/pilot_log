@@ -17,6 +17,7 @@ poetry install
 ./manage.py migrate
 ./manage.py createsuperuser
 ./manage.py shell < logbook/fixtures/import_aerodromes.py
+./manage.py loaddata logbook/fixtures/fuel_type.json
 ./manage.py runserver
 ```
 

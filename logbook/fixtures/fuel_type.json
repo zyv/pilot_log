@@ -1,0 +1,29 @@
+[
+{
+  "model": "logbook.fueltype",
+  "pk": 1,
+  "fields": {
+    "name": "Jet",
+    "color": "#FFC107",
+    "density": 0.81
+  }
+},
+{
+  "model": "logbook.fueltype",
+  "pk": 2,
+  "fields": {
+    "name": "Mogas",
+    "color": "#198754",
+    "density": 0.75
+  }
+},
+{
+  "model": "logbook.fueltype",
+  "pk": 3,
+  "fields": {
+    "name": "Avgas",
+    "color": "#0DCAF0",
+    "density": 0.72
+  }
+}
+]
