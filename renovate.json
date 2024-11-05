@@ -5,9 +5,6 @@
   ],
   "rangeStrategy": "update-lockfile",
   "branchPrefix": "feature/renovate/",
-  "reviewers": [
-    "zyv"
-  ],
   "packageRules": [
     {
       "groupName": "all",
