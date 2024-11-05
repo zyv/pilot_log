@@ -1,17 +1,14 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base"
+    "config:recommended"
   ],
   "rangeStrategy": "update-lockfile",
   "branchPrefix": "feature/renovate/",
-  "reviewers": [
-    "zyv"
-  ],
   "packageRules": [
     {
       "groupName": "all",
-      "matchPackagePatterns": [
+      "matchPackageNames": [
         "*"
       ]
     }
