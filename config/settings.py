@@ -61,6 +61,8 @@ INSTALLED_APPS = [
 ]
 
 BOOTSTRAP5 = {
+    "css_url": "/static/css/bootstrap.min.css",
+    "javascript_url": "/static/js/bootstrap.bundle.min.js",
     "horizontal_label_class": "col-sm-3",
     "horizontal_field_class": "col-sm-9",
 }
@@ -128,9 +130,13 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.1/howto/static-files/
+# https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = "static/"
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 if DEBUG:
     INTERNAL_IPS = ["127.0.0.1"]
