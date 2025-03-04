@@ -46,6 +46,9 @@ def duration(value: datetime.timedelta, format_specification: str = "%{h}h %{m}m
 
 @register.filter
 def represent(total: TotalsRecord, experience: ExperienceRecord):
+    """
+    Represents **given** totals by using only the **requirements** from the experience record
+    """
     time = duration(total.time, "%{h}h %{m}m").replace(" 0m", "")
     landings = "1 landing" if total.landings == 1 else f"{total.landings} landings"
     return ", ".join(
