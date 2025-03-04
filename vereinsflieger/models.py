@@ -1,7 +1,6 @@
 import html
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Optional
 
 from playwright.async_api import Page
 
@@ -23,7 +22,7 @@ class Flight:
     arrival_time: datetime
     landings: int
     pilot: Person
-    copilot: Optional[Person] = None
+    copilot: Person | None = None
     function: FunctionType
     remarks: str = ""
 

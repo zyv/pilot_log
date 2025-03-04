@@ -109,7 +109,7 @@ class Command(BaseCommand):
                     "Processing entry "
                     f"{departure_time.date()} {departure_time.time()} {arrival_time.time()} {aircraft.registration} "
                     f"{from_aerodrome.icao_code} -> {to_aerodrome.icao_code} {pilot.last_name} / {copilot.last_name} "
-                    f"{'({})'.format(remarks) if remarks else ''}",
+                    f"{f'({remarks})' if remarks else ''}",
                 )
 
                 defaults = {

@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from datetime import UTC, date, datetime, timedelta
-from typing import Optional
 
 from django.db import models
 from django.db.models import DurationField, ExpressionWrapper, F, OuterRef, QuerySet, Subquery, Sum, Value
@@ -19,8 +18,8 @@ class RollingCurrency:
     status: CurrencyStatus
     expires_in: timedelta
     landings_to_renew: int
-    time_to_renew: Optional[timedelta] = None
-    comment: Optional[str] = None
+    time_to_renew: timedelta | None = None
+    comment: str | None = None
 
     @property
     def expires_on(self) -> date:
@@ -60,7 +59,7 @@ def get_currency_status(expires_in: timedelta, reference_entry: LogEntry) -> Cur
 def get_rolling_currency(
     queryset: QuerySet["LogEntry"],
     required_landings: int,
-    required_time: Optional[timedelta] = None,
+    required_time: timedelta | None = None,
     currency_time_range: timedelta = CURRENCY_TIME_RANGE_NINETY,
 ) -> RollingCurrency:
     eligible_entries = queryset.filter(departure_time__gte=datetime.now(tz=UTC) - currency_time_range)

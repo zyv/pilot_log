@@ -1,6 +1,5 @@
 import datetime
 from string import Template
-from typing import Optional
 
 from django import template
 from django.template import TemplateSyntaxError
@@ -60,14 +59,14 @@ def subtract(value, argument):
 
 
 @register.simple_tag
-def replace(value: str, old: str, new: str) -> Optional[str]:
+def replace(value: str, old: str, new: str) -> str | None:
     if not all(isinstance(obj, str) for obj in (old, new)):
         raise TemplateSyntaxError("'replace' tag arguments must be strings")
     return mark_safe(value.replace(old, new)) if isinstance(value, str) else None
 
 
 @register.filter
-def to_kt(value: int | float, unit: SpeedUnit) -> int:
+def to_kt(value: float, unit: SpeedUnit) -> int:
     match unit:
         case SpeedUnit.KMH:
             return round(value * 0.539957)

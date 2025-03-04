@@ -1,3 +1,5 @@
+import typing
+
 from django.contrib import admin
 
 from .models.aerodrome import Aerodrome
@@ -27,7 +29,7 @@ class AircraftAdmin(admin.ModelAdmin):
 
     filter_horizontal = ("fuel_types",)
 
-    fieldsets = [
+    fieldsets = (
         (
             None,
             {
@@ -44,13 +46,13 @@ class AircraftAdmin(admin.ModelAdmin):
                 "fields": [field.name for field in Aircraft._meta.get_fields() if field.name.startswith("v_")],
             },
         ),
-    ]
+    )
 
 
 @admin.register(LogEntry)
 class LogEntryAdmin(admin.ModelAdmin):
     autocomplete_fields = ("aircraft", "from_aerodrome", "to_aerodrome", "pilot", "copilot")
-    radio_fields = {
+    radio_fields: typing.ClassVar = {
         "time_function": admin.VERTICAL,
         "launch_type": admin.VERTICAL,
     }
