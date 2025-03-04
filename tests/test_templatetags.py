@@ -16,10 +16,10 @@ def test_represent():
     experience2 = ExperienceRecord(required=TotalsRecord(time=timedelta(hours=100), landings=0), accrued=totals1)
     experience3 = ExperienceRecord(required=TotalsRecord(time=timedelta(0), landings=1), accrued=totals1)
 
-    assert "50h 30m, 1 landing" == represent(totals1, experience1)
-    assert "50h 30m, 2 landings" == represent(totals2, experience1)
-    assert "50h 30m" == represent(totals1, experience2)
-    assert "1 landing" == represent(totals1, experience3)
+    assert represent(totals1, experience1) == "50h 30m, 1 landing"
+    assert represent(totals2, experience1) == "50h 30m, 2 landings"
+    assert represent(totals1, experience2) == "50h 30m"
+    assert represent(totals1, experience3) == "1 landing"
 
 
 def test_subtract():
@@ -28,7 +28,8 @@ def test_subtract():
 
 def test_replace_result():
     result = replace("Hello, world!", "world", "morning")
-    assert "Hello, morning!" == result
+
+    assert result == "Hello, morning!"
     assert isinstance(result, SafeString)
 
 
@@ -48,14 +49,14 @@ def test_replace_non_str_args():
 
 
 def test_to_kt():
-    assert 54 == to_kt(100, SpeedUnit.KMH)
-    assert 87 == to_kt(100, SpeedUnit.MPH)
-    assert 100 == to_kt(100, SpeedUnit.KT)
+    assert to_kt(100, SpeedUnit.KMH) == 54
+    assert to_kt(100, SpeedUnit.MPH) == 87
+    assert to_kt(100, SpeedUnit.KT) == 100
 
     with pytest.raises(TemplateSyntaxError):
         to_kt(100, "foo")
 
 
 def test_duration():
-    assert "26:03" == duration(timedelta(days=1, hours=2, minutes=3, seconds=4), "%H:%M")
-    assert "1:2:184" == duration(timedelta(days=1, hours=2, minutes=3, seconds=4), "%d:%h:%s")
+    assert duration(timedelta(days=1, hours=2, minutes=3, seconds=4), "%H:%M") == "26:03"
+    assert duration(timedelta(days=1, hours=2, minutes=3, seconds=4), "%d:%h:%s") == "1:2:184"
