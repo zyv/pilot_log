@@ -48,21 +48,21 @@ def log_entries():
 def test_not_current():
     currency = get_rolling_currency(LogEntry.objects.all(), 5)
 
-    assert timedelta(days=0) == currency.expires_in
-    assert datetime.now(tz=UTC).date() == currency.expires_on
-    assert CurrencyStatus.NOT_CURRENT == currency.status
-    assert 5 == currency.landings_to_renew
+    assert currency.expires_in == timedelta(days=0)
+    assert currency.expires_on == datetime.now(tz=UTC).date()
+    assert currency.status == CurrencyStatus.NOT_CURRENT
+    assert currency.landings_to_renew == 5
 
 
 @pytest.mark.django_db
 def test_current_linear(log_entries):
     currency = get_rolling_currency(LogEntry.objects.all(), 5)
 
-    assert timedelta(days=5).total_seconds() == pytest.approx(currency.expires_in.total_seconds(), abs=0.1)
+    assert currency.expires_in.total_seconds() == pytest.approx(timedelta(days=5).total_seconds(), abs=0.1)
 
-    assert (datetime.now(tz=UTC) + timedelta(days=5 - 1)).date() == currency.expires_on
-    assert CurrencyStatus.EXPIRING == currency.status
-    assert 1 == currency.landings_to_renew
+    assert currency.expires_on == (datetime.now(tz=UTC) + timedelta(days=5 - 1)).date()
+    assert currency.status == CurrencyStatus.EXPIRING
+    assert currency.landings_to_renew == 1
 
 
 @pytest.mark.django_db
@@ -76,14 +76,14 @@ def test_current_first_current_and_expired_on_same_day(log_entries):
 
     currency = get_rolling_currency(LogEntry.objects.all(), 5)
 
-    assert timedelta(days=8, hours=23).total_seconds() == pytest.approx(currency.expires_in.total_seconds(), abs=0.1)
+    assert currency.expires_in.total_seconds() == pytest.approx(timedelta(days=8, hours=23).total_seconds(), abs=0.1)
 
-    assert (datetime.now(tz=UTC) + timedelta(days=8)).date() == currency.expires_on
-    assert CurrencyStatus.EXPIRING == currency.status
-    assert 5 == currency.landings_to_renew
+    assert currency.expires_on == (datetime.now(tz=UTC) + timedelta(days=8)).date()
+    assert currency.status == CurrencyStatus.EXPIRING
+    assert currency.landings_to_renew == 5
 
 
 def test_lowest_currency_status():
-    assert CurrencyStatus.CURRENT == min(CurrencyStatus.CURRENT, CurrencyStatus.CURRENT)
-    assert CurrencyStatus.EXPIRING == min(CurrencyStatus.CURRENT, CurrencyStatus.EXPIRING)
-    assert CurrencyStatus.NOT_CURRENT == min(CurrencyStatus.EXPIRING, CurrencyStatus.NOT_CURRENT)
+    assert min(CurrencyStatus.CURRENT, CurrencyStatus.CURRENT) == CurrencyStatus.CURRENT
+    assert min(CurrencyStatus.CURRENT, CurrencyStatus.EXPIRING) == CurrencyStatus.EXPIRING
+    assert min(CurrencyStatus.EXPIRING, CurrencyStatus.NOT_CURRENT) == CurrencyStatus.NOT_CURRENT
