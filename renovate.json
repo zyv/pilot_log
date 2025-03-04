@@ -3,8 +3,13 @@
   "extends": [
     "config:recommended",
     "group:all",
-    "schedule:monthly",
-    ":maintainLockFilesMonthly"
+    "schedule:quarterly"
   ],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "extends": [
+      "schedule:quarterly"
+    ]
+  },
   "branchPrefix": "feature/renovate/"
 }

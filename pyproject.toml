@@ -1,36 +1,36 @@
-[tool.poetry]
+[project]
 name = "pilot_log"
-version = "0.1.0"
 description = "Simple Django pilot log webapp"
-authors = ["Yury V. Zaytsev <yury@shurup.com>"]
+readme = "README.md"
+authors = [
+    { name = "Yury V. Zaytsev", email = "yury@shurup.com" }
+]
+repository = "https://github.com/zyv/pilot_log"
+keywords = ["aviation", "python", "django"]
 license = "MIT"
-package-mode = false
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "django",
+    "django-countries",
+    "django-bootstrap5",
+    "django-colorfield",
+    "python-dateutil",
+    "skyfield",
+    "timezonefinder",
+    "requests",
+    "playwright",
+    "fontawesomefree>=6",
+]
 
-[tool.poetry.dependencies]
-python = "^3.11"  # @mm-version-check-ignore
-
-django = "*"
-django-countries = "*"
-django-bootstrap5 = "*"
-django-colorfield = "*"
-
-python-dateutil = "*"
-skyfield = "*"
-timezonefinder = "*"
-
-requests = "*"
-playwright = "*"
-fontawesomefree = "^6"  # @mm-version-check-ignore
-
-[tool.poetry.dev-dependencies]
-django-debug-toolbar = "*"
-
-requests-mock = "*"
-
-pytest-django = "*"
-pytest-cov = "*"
-
-ruff = "*"
+[dependency-groups]
+dev = [
+    "django-debug-toolbar",
+    "requests-mock",
+    "pytest-django",
+    "pytest-cov",
+    "ruff",
+]
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "config.settings"
@@ -45,6 +45,37 @@ omit = [
     "manage.py"
 ]
 
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+[tool.ruff]
+line-length = 120
+target-version = "py313"
+
+[tool.ruff.lint]
+select = [
+    "C4", # flake8-comprehensions
+    "COM", # flake8-commas
+    "DTZ", # flake8-datetimez
+    "E", # pycodestyle Error
+    "F", # Pyflakes
+    "I", # isort
+    "LOG", # flake8-logging
+    "PT", # flake8-pytest-style
+    "PTH", # flake8-use-pathlib
+    "Q", # flake8-quotes
+    "PYI", # flake8-pyi
+    "RSE", # flake8-raise
+    "RUF", # ruff-specific rules
+    "T10", # flake8-debugger
+    "T20", # flake8-print
+    "UP", # pyupgrade
+    "W", # pycodestyle Warning
+]
+
+ignore = [
+    "COM812", # comma consistency enforced by formatter
+]
+
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.lint.per-file-ignores]
+"**/migrations/**.py" = ["RUF012"]

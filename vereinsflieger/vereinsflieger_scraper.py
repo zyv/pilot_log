@@ -12,9 +12,10 @@ class VereinsfliegerScraperSession:
         self.debug = debug
         self._counter = 0
 
-        assert self.username is not None and self.password is not None, "invalid credentials"
+        assert self.username is not None
+        assert self.password is not None
 
-    async def __aenter__(self):
+    async def __aenter__(self) -> "VereinsfliegerScraperSession":
         self.playwright = await async_playwright().start()
         self.browser = await self.playwright.firefox.launch(headless=self.debug)
         self.context = await self.browser.new_context()

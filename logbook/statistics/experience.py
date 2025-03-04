@@ -1,7 +1,9 @@
 import dataclasses
+from collections.abc import Iterable
 from dataclasses import dataclass
 from datetime import timedelta
-from typing import Iterable, Optional
+
+from django.db.models import QuerySet
 
 from ..models.aircraft import AircraftType
 from ..models.log_entry import FunctionType, LogEntry
@@ -41,7 +43,7 @@ class ExperienceRecord:
 @dataclass(frozen=True, kw_only=True)
 class ExperienceRequirements:
     experience: dict[str, ExperienceRecord]
-    details: Optional[str] = None
+    details: str | None = None
 
 
 def flight_time(entries: Iterable["LogEntry"]) -> timedelta:
@@ -55,7 +57,7 @@ def compute_totals(entries: Iterable["LogEntry"], full_stop=False) -> TotalsReco
     )
 
 
-def cpl_entry_requirements(entries: Iterable["LogEntry"]):
+def cpl_entry_requirements(entries: QuerySet["LogEntry"]):
     max_glider_credit = timedelta(hours=10)
     glider_time = flight_time(
         entries.filter(time_function=FunctionType.PIC, aircraft__type__in=(AircraftType.GLD, AircraftType.TMG)),

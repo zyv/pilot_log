@@ -1,6 +1,6 @@
 from datetime import timedelta
-from unittest import TestCase
 
+import pytest
 from django.template import TemplateSyntaxError
 from django.utils.safestring import SafeString
 
@@ -9,49 +9,54 @@ from logbook.statistics.experience import ExperienceRecord, TotalsRecord
 from logbook.templatetags.logbook_utils import duration, replace, represent, subtract, to_kt
 
 
-class TestRepresent(TestCase):
-    def test_result(self):
-        totals1 = TotalsRecord(time=timedelta(hours=50, minutes=30), landings=1)
-        totals2 = TotalsRecord(time=timedelta(hours=50, minutes=30), landings=2)
-        experience1 = ExperienceRecord(required=TotalsRecord(time=timedelta(hours=100), landings=3), accrued=totals1)
-        experience2 = ExperienceRecord(required=TotalsRecord(time=timedelta(hours=100), landings=0), accrued=totals1)
-        experience3 = ExperienceRecord(required=TotalsRecord(time=timedelta(0), landings=1), accrued=totals1)
+def test_represent():
+    totals1 = TotalsRecord(time=timedelta(hours=50, minutes=30), landings=1)
+    totals2 = TotalsRecord(time=timedelta(hours=50, minutes=30), landings=2)
+    experience1 = ExperienceRecord(required=TotalsRecord(time=timedelta(hours=100), landings=3), accrued=totals1)
+    experience2 = ExperienceRecord(required=TotalsRecord(time=timedelta(hours=100), landings=0), accrued=totals1)
+    experience3 = ExperienceRecord(required=TotalsRecord(time=timedelta(0), landings=1), accrued=totals1)
 
-        self.assertEqual("50h 30m, 1 landing", represent(totals1, experience1))
-        self.assertEqual("50h 30m, 2 landings", represent(totals2, experience1))
-        self.assertEqual("50h 30m", represent(totals1, experience2))
-        self.assertEqual("1 landing", represent(totals1, experience3))
-
-
-class TestSubtract(TestCase):
-    def test_result(self):
-        self.assertEqual(3, subtract(5, 2))
+    assert represent(totals1, experience1) == "50h 30m, 1 landing"
+    assert represent(totals2, experience1) == "50h 30m, 2 landings"
+    assert represent(totals1, experience2) == "50h 30m"
+    assert represent(totals1, experience3) == "1 landing"
 
 
-class TestReplace(TestCase):
-    def test_result(self):
-        result = replace("Hello, world!", "world", "morning")
-        self.assertEqual("Hello, morning!", result)
-        self.assertIsInstance(result, SafeString)
-
-    def test_non_str_value(self):
-        self.assertIsNone(replace(100, "world", "morning"))
-
-    def test_non_str_args(self):
-        self.assertRaises(TemplateSyntaxError, replace, "Hello, world!", 5, 7)
-        self.assertRaises(TemplateSyntaxError, replace, "Hello, world!", "foo", 7)
-        self.assertRaises(TemplateSyntaxError, replace, "Hello, world!", 5, "bar")
+def test_subtract():
+    assert 3 == subtract(5, 2)
 
 
-class TestToKT(TestCase):
-    def test_to_kt(self):
-        self.assertEqual(54, to_kt(100, SpeedUnit.KMH))
-        self.assertEqual(87, to_kt(100, SpeedUnit.MPH))
-        self.assertEqual(100, to_kt(100, SpeedUnit.KT))
-        self.assertRaises(TemplateSyntaxError, to_kt, 100, "foo")
+def test_replace_result():
+    result = replace("Hello, world!", "world", "morning")
+
+    assert result == "Hello, morning!"
+    assert isinstance(result, SafeString)
 
 
-class TestDuration(TestCase):
-    def test_duration(self):
-        self.assertEqual("26:03", duration(timedelta(days=1, hours=2, minutes=3, seconds=4), "%H:%M"))
-        self.assertEqual("1:2:184", duration(timedelta(days=1, hours=2, minutes=3, seconds=4), "%d:%h:%s"))
+def test_replace_non_str_value():
+    assert replace(100, "world", "morning") is None
+
+
+def test_replace_non_str_args():
+    with pytest.raises(TemplateSyntaxError):
+        replace("Hello, world!", 5, 7)
+
+    with pytest.raises(TemplateSyntaxError):
+        replace("Hello, world!", "foo", 7)
+
+    with pytest.raises(TemplateSyntaxError):
+        replace("Hello, world!", 5, "bar")
+
+
+def test_to_kt():
+    assert to_kt(100, SpeedUnit.KMH) == 54
+    assert to_kt(100, SpeedUnit.MPH) == 87
+    assert to_kt(100, SpeedUnit.KT) == 100
+
+    with pytest.raises(TemplateSyntaxError):
+        to_kt(100, "foo")
+
+
+def test_duration():
+    assert duration(timedelta(days=1, hours=2, minutes=3, seconds=4), "%H:%M") == "26:03"
+    assert duration(timedelta(days=1, hours=2, minutes=3, seconds=4), "%d:%h:%s") == "1:2:184"

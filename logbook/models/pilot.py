@@ -60,7 +60,7 @@ class Certificate(models.Model):
         ordering = ("name", F("supersedes").desc(nulls_last=True), "-valid_until")
 
     def __str__(self):
-        return f"{self.name}{' / {}'.format(self.number) if self.number else ''} ({self.issue_date})"
+        return f"{self.name}{f' / {self.number}' if self.number else ''} ({self.issue_date})"
 
     @property
     def valid(self) -> bool:
