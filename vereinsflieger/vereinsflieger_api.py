@@ -42,7 +42,7 @@ class VereinsfliegerApiSession:
         self.session = requests.Session()
         self.session.request = checked_request(authenticated_request(self.session.request))
 
-    def __enter__(self):
+    def __enter__(self) -> "VereinsfliegerApiSession":
         self.sign_in()
         return self
 
