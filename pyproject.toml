@@ -44,3 +44,38 @@ omit = [
     "*/test_*.py",
     "manage.py"
 ]
+
+[tool.ruff]
+line-length = 120
+target-version = "py313"
+
+[tool.ruff.lint]
+select = [
+    "C4", # flake8-comprehensions
+    "COM", # flake8-commas
+    "DTZ", # flake8-datetimez
+    "E", # pycodestyle Error
+    "F", # Pyflakes
+    "I", # isort
+    "LOG", # flake8-logging
+    "PT", # flake8-pytest-style
+    "PTH", # flake8-use-pathlib
+    "Q", # flake8-quotes
+    "PYI", # flake8-pyi
+    "RSE", # flake8-raise
+    "RUF", # ruff-specific rules
+    "T10", # flake8-debugger
+    "T20", # flake8-print
+    "UP", # pyupgrade
+    "W", # pycodestyle Warning
+]
+
+ignore = [
+    "COM812", # comma consistency enforced by formatter
+]
+
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.lint.per-file-ignores]
+"**/migrations/**.py" = ["RUF012"]
