@@ -1,66 +1,95 @@
 from datetime import datetime
 from pathlib import Path
 
+import httpx
 import pytest
-import requests
+import respx
 
 from logbook.models.log_entry import FunctionType
 from vereinsflieger.models import Flight, Person
-from vereinsflieger.vereinsflieger_api import VereinsfliegerApiSession
+from vereinsflieger.vereinsflieger_api import HttpClient, VereinsfliegerApiSession, VereinsfliegerError
+
+pytestmark = pytest.mark.respx(base_url="https://www.vereinsflieger.de")
 
 
-def test_raise_for_status_raw(requests_mock):
-    requests_mock.post("https://www.vereinsflieger.de/interface/rest/auth/accesstoken", status_code=403)
-
-    with pytest.raises(requests.exceptions.HTTPError):
-        VereinsfliegerApiSession("app_key", "username", "password").sign_in()
+@pytest.fixture
+def vf_session() -> VereinsfliegerApiSession:
+    return VereinsfliegerApiSession("app_key", "username", "password")
 
 
-def test_raise_for_status_auth(requests_mock):
-    requests_mock.get("https://www.vereinsflieger.de/interface/rest/flight/get/123", status_code=404)
+@pytest.fixture
+def respx_mock_sign_in(respx_mock: respx.mock) -> respx.mock:
+    respx_mock.post(url="/interface/rest/auth/accesstoken", params="").respond(json={"accesstoken": "foo"})
+    respx_mock.post(
+        url="/interface/rest/auth/signin",
+        params={
+            "accesstoken": "foo",
+            "username": "username",
+            "password": "5f4dcc3b5aa765d61d8327deb882cf99",
+            "cid": 0,
+            "appkey": "app_key",
+            "auth_secret": "",
+        },
+    ) % httpx.codes.OK
 
-    vs = VereinsfliegerApiSession("app_key", "username", "password")
-    vs._access_token = "foo"
-
-    with pytest.raises(requests.exceptions.HTTPError):
-        vs.get_flight(123)
-
-
-def test_sign_in(requests_mock):
-    requests_mock.post("https://www.vereinsflieger.de/interface/rest/auth/accesstoken", text='{"accesstoken": "foo"}')
-    requests_mock.post("https://www.vereinsflieger.de/interface/rest/auth/signin")
-
-    vs = VereinsfliegerApiSession("app_key", "username", "password")
-    vs.sign_in()
-
-    assert vs._access_token == "foo"
-    assert requests_mock.call_count == 2
+    return respx_mock
 
 
-def test_sign_out(requests_mock):
-    requests_mock.delete("https://www.vereinsflieger.de/interface/rest/auth/signout/foo")
-    vs = VereinsfliegerApiSession("app_key", "username", "password")
-    vs._access_token = "foo"
-    vs.sign_out()
+def test_sign_in_raise_for_status_access_token(respx_mock: respx.mock, vf_session: VereinsfliegerApiSession):
+    respx_mock.post(url="/interface/rest/auth/accesstoken") % httpx.codes.FORBIDDEN
+
+    with pytest.raises(httpx.HTTPError):
+        vf_session.sign_in()
+
+    assert vf_session._access_token_hook is None
+    with pytest.raises(VereinsfliegerError, match="not signed in"):
+        vf_session.get_flight(123)
+
+    with pytest.raises(httpx.HTTPError):
+        vf_session.sign_in()
+
+    assert vf_session._access_token_hook is None
+    assert respx_mock.calls.call_count == 2
 
 
-def test_context_manager(requests_mock):
-    requests_mock.post("https://www.vereinsflieger.de/interface/rest/auth/accesstoken", text='{"accesstoken": "foo"}')
-    requests_mock.post("https://www.vereinsflieger.de/interface/rest/auth/signin")
-    requests_mock.delete("https://www.vereinsflieger.de/interface/rest/auth/signout/foo")
+def test_sign_in_raise_for_status_sign_in(respx_mock: respx.mock, vf_session: VereinsfliegerApiSession):
+    respx_mock.post(url="/interface/rest/auth/accesstoken").respond(json={"accesstoken": "foo"})
+    respx_mock.post(url="/interface/rest/auth/signin") % httpx.codes.FORBIDDEN
+
+    with pytest.raises(httpx.HTTPStatusError):
+        vf_session.sign_in()
+
+    assert vf_session._access_token_hook is None
+    with pytest.raises(VereinsfliegerError, match="not signed in"):
+        vf_session.get_flight(123)
+
+    assert respx_mock.calls.call_count == 2
+
+
+def test_raise_if_not_signed_in(vf_session: VereinsfliegerApiSession):
+    with pytest.raises(VereinsfliegerError, match="not signed in"):
+        vf_session.sign_out()
+
+    with pytest.raises(VereinsfliegerError, match="not signed in"):
+        vf_session.get_flight(123)
+
+
+def test_sign_out(respx_mock_sign_in: respx.mock, vf_session: VereinsfliegerApiSession):
+    respx_mock_sign_in.delete(url="/interface/rest/auth/signout/foo", params={"accesstoken": "foo"}) % httpx.codes.OK
+    vf_session.sign_in()
+    vf_session.sign_out()
+
+
+def test_session_context_manager(respx_mock_sign_in: respx.mock):
+    respx_mock_sign_in.delete(url="/interface/rest/auth/signout/foo", params={"accesstoken": "foo"}) % httpx.codes.OK
 
     with VereinsfliegerApiSession("app_key", "username", "password") as vs:
         assert isinstance(vs, VereinsfliegerApiSession)
-        assert vs._access_token == "foo"
+        assert vs._access_token_hook.args == ("foo",)
 
-    assert requests_mock.call_count == 3
-
-
-def test_get_flight_no_auth(requests_mock):
-    requests_mock.get("https://www.vereinsflieger.de/interface/rest/flight/get/123", text="{}")
-
-    with pytest.raises(ValueError, match="not signed in"):
-        VereinsfliegerApiSession("app_key", "username", "password").get_flight(123)
+    assert vs._access_token_hook is None
+    assert HttpClient.raise_if_not_signed_in in vs._http_client.event_hooks["request"]
+    assert respx_mock_sign_in.calls.call_count == 3
 
 
 MOCK_PILOT = Person(first_name="Peter", last_name="Pilot")
@@ -76,28 +105,28 @@ MOCK_INSTRUCTOR = Person(first_name="Ian", last_name="Instructor")
     ],
 )
 def test_get_flight_success(
-    requests_mock,
+    respx_mock_sign_in: respx.mock,
     flight_type: str,
     fixture_name: str,
     function_type: FunctionType,
     pilot: Person,
     copilot: Person | None,
 ):
-    vs = VereinsfliegerApiSession("app_key", "username", "password")
-    vs._access_token = "foo"
-
-    mock_data = (Path(__file__).parent / Path(f"fixtures/{fixture_name}")).read_text()
-    requests_mock.get("https://www.vereinsflieger.de/interface/rest/flight/get/123", text=mock_data)
-
-    assert vs.get_flight(123) == Flight(
-        registration="D-EABC",
-        from_aerodrome="EDKA",
-        to_aerodrome="EDLN",
-        departure_time=datetime.fromisoformat("2023-09-01T10:22:00Z"),
-        arrival_time=datetime.fromisoformat("2023-09-01T11:07:00Z"),
-        landings=5,
-        pilot=pilot,
-        copilot=copilot,
-        function=function_type,
-        remarks=f"Example {flight_type} flight",
+    respx_mock_sign_in.get(url="/interface/rest/flight/get/123").respond(
+        content=(Path(__file__).parent / Path(f"fixtures/{fixture_name}")).read_bytes()
     )
+    respx_mock_sign_in.delete(url="/interface/rest/auth/signout/foo", params={"accesstoken": "foo"}) % httpx.codes.OK
+
+    with VereinsfliegerApiSession("app_key", "username", "password") as vs:
+        assert vs.get_flight(123) == Flight(
+            registration="D-EABC",
+            from_aerodrome="EDKA",
+            to_aerodrome="EDLN",
+            departure_time=datetime.fromisoformat("2023-09-01T10:22:00Z"),
+            arrival_time=datetime.fromisoformat("2023-09-01T11:07:00Z"),
+            landings=5,
+            pilot=pilot,
+            copilot=copilot,
+            function=function_type,
+            remarks=f"Example {flight_type} flight",
+        )

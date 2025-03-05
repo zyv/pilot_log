@@ -18,17 +18,17 @@ dependencies = [
     "python-dateutil",
     "skyfield",
     "timezonefinder",
-    "requests",
     "playwright",
     "fontawesomefree>=6",
+    "httpx",
 ]
 
 [dependency-groups]
 dev = [
     "django-debug-toolbar",
-    "requests-mock",
     "pytest-django",
     "pytest-cov",
+    "respx",
     "ruff",
 ]
 
