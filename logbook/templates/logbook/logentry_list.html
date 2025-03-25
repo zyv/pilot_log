@@ -14,6 +14,18 @@
         <table class="table table-striped table-sm table-hover">
             <thead>
             <tr>
+                <td colspan="4" class="text-muted text-end">Totals brought forward ▶</td>
+                {% for aircraft_type in AircraftType reversed %}
+                    <td class="text-muted text-center">{% total_time object_list.0.departure_time aircraft_type=aircraft_type %}</td>
+                {% endfor %}
+                <td class="text-muted text-center">{% total_landings object_list.0.departure_time %}</td>
+                <td class="text-muted text-end">▶</td>
+                {% for function_type in FunctionType %}
+                    <td class="text-muted text-center">{% total_time object_list.0.departure_time time_function=function_type %}</td>
+                {% endfor %}
+                <td class="text-muted">◀ Totals brought forward</td>
+            </tr>
+            <tr>
                 <th scope="col">Year: {{ object_list.0.departure_time | date:"Y" }}<br>Day / Month</th>
                 <th scope="col">Type<br>Registration</th>
                 <th scope="col">From<br>To</th>
@@ -66,6 +78,22 @@
                 </tr>
             {% endfor %}
             </tbody>
+            <tfoot>
+            <tr>
+                {% with object_list|last as last_entry %}
+                    <td colspan="4" class="text-muted text-end">Totals carried forward ▶</td>
+                    {% for aircraft_type in AircraftType reversed %}
+                        <td class="text-muted text-center">{% total_time last_entry.arrival_time aircraft_type=aircraft_type %}</td>
+                    {% endfor %}
+                    <td class="text-muted text-center">{% total_landings last_entry.arrival_time %}</td>
+                    <td class="text-muted text-end">▶</td>
+                    {% for function_type in FunctionType %}
+                        <td class="text-muted text-center">{% total_time last_entry.arrival_time time_function=function_type %}</td>
+                    {% endfor %}
+                    <td class="text-muted">◀ Totals carried forward</td>
+                {% endwith %}
+            </tr>
+            </tfoot>
         </table>
     </div>
 

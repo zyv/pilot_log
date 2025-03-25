@@ -10,6 +10,8 @@ from logbook.models.pilot import Pilot
 NUMBER_OF_LOG_ENTRIES = 30
 EXTRA_LANDINGS = 2
 
+DAYS_IN_THE_PAST = 110
+
 
 @pytest.fixture
 def log_entries() -> LogEntryQuerySet[LogEntry]:
@@ -37,8 +39,8 @@ def log_entries() -> LogEntryQuerySet[LogEntry]:
             aircraft=aircraft,
             from_aerodrome=aerodrome,
             to_aerodrome=aerodrome,
-            departure_time=datetime.now(tz=UTC) - timedelta(days=110 - i),
-            arrival_time=datetime.now(tz=UTC) - timedelta(days=110 - i) + timedelta(minutes=1),
+            departure_time=datetime.now(tz=UTC) - timedelta(days=DAYS_IN_THE_PAST - i),
+            arrival_time=datetime.now(tz=UTC) - timedelta(days=DAYS_IN_THE_PAST - i) + timedelta(minutes=1),
             landings=1,
             pilot=pilot,
         )

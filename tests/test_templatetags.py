@@ -1,12 +1,14 @@
-from datetime import timedelta
+from datetime import UTC, datetime, timedelta
 
 import pytest
+from conftest import DAYS_IN_THE_PAST, EXTRA_LANDINGS, NUMBER_OF_LOG_ENTRIES
 from django.template import TemplateSyntaxError
 from django.utils.safestring import SafeString
 
-from logbook.models.aircraft import SpeedUnit
+from logbook.models.aircraft import AircraftType, SpeedUnit
+from logbook.models.log_entry import FunctionType
 from logbook.statistics.experience import ExperienceRecord, TotalsRecord
-from logbook.templatetags.logbook_utils import duration, replace, represent, subtract, to_kt
+from logbook.templatetags.logbook_utils import duration, replace, represent, subtract, to_kt, total_landings, total_time
 
 
 def test_represent():
@@ -60,3 +62,24 @@ def test_to_kt():
 def test_duration():
     assert duration(timedelta(days=1, hours=2, minutes=3, seconds=4), "%H:%M") == "26:03"
     assert duration(timedelta(days=1, hours=2, minutes=3, seconds=4), "%d:%h:%s") == "1:2:184"
+
+
+@pytest.mark.django_db
+def test_total_time(log_entries):
+    time = total_time(datetime.now(tz=UTC))
+    assert time == "0:30"
+
+    time = total_time(datetime.now(tz=UTC), time_function=FunctionType.DUAL)
+    assert time == "0:00"
+
+    time = total_time(datetime.now(tz=UTC), aircraft_type=AircraftType.GLD)
+    assert time == "0:00"
+
+
+@pytest.mark.django_db
+def test_total_landings(log_entries):
+    landings = total_landings(datetime.now(tz=UTC))
+    assert landings == str(NUMBER_OF_LOG_ENTRIES + EXTRA_LANDINGS)
+
+    landings = total_landings(datetime.now(tz=UTC) - timedelta(days=DAYS_IN_THE_PAST - NUMBER_OF_LOG_ENTRIES / 2))
+    assert landings == str(NUMBER_OF_LOG_ENTRIES // 2 + EXTRA_LANDINGS)
