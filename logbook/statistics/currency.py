@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from datetime import UTC, date, datetime, timedelta
 
+from dateutil.relativedelta import relativedelta
 from django.db import models
 from django.db.models import OuterRef, QuerySet, Subquery, Sum, Value
 
@@ -27,7 +28,7 @@ class RollingCurrency:
 
 
 CURRENCY_TIME_RANGE_NINETY = timedelta(days=90)
-CURRENCY_TIME_RANGE_LAPL = timedelta(days=365 * 2)
+CURRENCY_TIME_RANGE_LAPL = relativedelta(years=2)
 CURRENCY_TIME_RANGE_WARNING = timedelta(days=30)
 
 CURRENCY_REQUIRED_LANDINGS_PASSENGER = 3
