@@ -2,6 +2,7 @@ from typing import TYPE_CHECKING, Optional
 
 from colorfield.fields import ColorField
 from django.db import models
+from django.utils.functional import classproperty
 
 if TYPE_CHECKING:
     from ..statistics.currency import RollingCurrency
@@ -11,6 +12,18 @@ class AircraftType(models.TextChoices):
     GLD = "GLD", "Glider"
     TMG = "TMG", "Touring Motor Glider"
     SEP = "SEP", "Single Engine Piston"
+
+    @classproperty
+    def gliders(cls) -> tuple["AircraftType", ...]:
+        return cls.GLD, cls.TMG
+
+    @classproperty
+    def powered(cls) -> tuple["AircraftType", ...]:
+        return cls.TMG, cls.SEP
+
+    @classproperty
+    def airplanes(cls) -> tuple["AircraftType", ...]:
+        return (cls.SEP,)
 
 
 class SpeedUnit(models.TextChoices):
