@@ -1,12 +1,12 @@
 from datetime import UTC, datetime, time, timedelta
 
-from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.db.models import QuerySet
 from django.utils.timezone import make_aware
 
 from ..models.aircraft import AircraftType
 from ..models.log_entry import FunctionType, LogEntry
+from ..statistics.currency import CURRENCY_REQUIRED_TIME_REFRESHER_SEP, CURRENCY_TIME_RANGE_SEP
 from ..statistics.experience import (
     MAX_GLIDER_CPL_ENTRY_CREDIT,
     MAX_GLIDER_CPL_ISSUE_CREDIT,
@@ -41,7 +41,7 @@ def get_sep_revalidation_experience(log_entries: QuerySet[LogEntry]) -> Experien
         aircraft__type__in=AircraftType.powered,
         departure_time__gte=make_aware(
             datetime.combine(
-                get_current_sep_rating().valid_until - relativedelta(months=12),
+                get_current_sep_rating().valid_until - CURRENCY_TIME_RANGE_SEP,
                 time.min,
             ),
             UTC,
@@ -66,7 +66,7 @@ def get_sep_revalidation_experience(log_entries: QuerySet[LogEntry]) -> Experien
                 accrued=compute_totals(
                     eligible_entries.filter(time_function=FunctionType.DUAL)
                     .with_durations()
-                    .filter(duration__gte=timedelta(hours=1))
+                    .filter(duration__gte=CURRENCY_REQUIRED_TIME_REFRESHER_SEP)
                 ),
             ),
         },

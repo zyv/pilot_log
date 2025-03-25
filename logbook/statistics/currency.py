@@ -38,6 +38,9 @@ CURRENCY_REQUIRED_LANDINGS_LAPL = 12
 CURRENCY_REQUIRED_TIME_TOTAL_LAPL = timedelta(hours=12)
 CURRENCY_REQUIRED_TIME_REFRESHER_LAPL = timedelta(hours=1)
 
+CURRENCY_TIME_RANGE_SEP = relativedelta(months=12)
+CURRENCY_REQUIRED_TIME_REFRESHER_SEP = CURRENCY_REQUIRED_TIME_REFRESHER_LAPL
+
 
 def get_time_to_expiry(currency_time_range: timedelta, reference_entry: LogEntry) -> timedelta:
     return (
