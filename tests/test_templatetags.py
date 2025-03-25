@@ -1,7 +1,6 @@
 from datetime import UTC, datetime, timedelta
 
 import pytest
-from conftest import DAYS_IN_THE_PAST, EXTRA_LANDINGS, NUMBER_OF_LOG_ENTRIES
 from django.template import TemplateSyntaxError
 from django.utils.safestring import SafeString
 
@@ -9,6 +8,8 @@ from logbook.models.aircraft import AircraftType, SpeedUnit
 from logbook.models.log_entry import FunctionType
 from logbook.statistics.experience import ExperienceRecord, TotalsRecord
 from logbook.templatetags.logbook_utils import duration, replace, represent, subtract, to_kt, total_landings, total_time
+
+from .conftest import DAYS_IN_THE_PAST, EXTRA_LANDINGS, NUMBER_OF_LOG_ENTRIES
 
 
 def test_represent():

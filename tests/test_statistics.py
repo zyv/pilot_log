@@ -1,13 +1,12 @@
 from datetime import UTC, datetime, timedelta
 
 import pytest
-from conftest import EXTRA_LANDINGS
 
 from logbook.models.log_entry import LogEntry
 from logbook.statistics.currency import CurrencyStatus, get_rolling_currency
 from logbook.statistics.experience import compute_totals
 
-from .conftest import NUMBER_OF_LOG_ENTRIES
+from .conftest import EXTRA_LANDINGS, NUMBER_OF_LOG_ENTRIES
 
 
 @pytest.mark.django_db
