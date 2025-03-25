@@ -101,9 +101,9 @@ The course consists of two modules, which may be taken separately or combined:
 
 ### Prerequisites
 
-Before commencing the flight training the applicant shall have completed 150 hours flight time; including 50 hours as PIC on aeroplanes of which 10 hours shall be cross-country.
+3. (a) Before commencing the flight training the applicant shall have completed 150 hours flight time; including 50 hours as PIC on aeroplanes of which 10 hours shall be cross-country.
 
-Except for the requirement of 50 hours as PIC in aeroplanes, hours as PIC in other categories of aircraft may account for the 150 hours of aeroplane flight time in any of the following cases: (3) 10 hours in TMGs or sailplanes.
+*Except for the requirement of 50 hours as PIC in aeroplanes*, hours as PIC in other categories of aircraft may account for the 150 hours of aeroplane flight time in any of the following cases: (3) 10 hours in TMGs or sailplanes.
 
 ### Experience
 

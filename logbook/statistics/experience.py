@@ -6,7 +6,7 @@ from datetime import timedelta
 from django.db.models import QuerySet
 
 from ..models.aircraft import AircraftType
-from ..models.log_entry import FunctionType, LogEntry
+from ..models.log_entry import LogEntry
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -57,15 +57,16 @@ def compute_totals(entries: Iterable["LogEntry"], full_stop=False) -> TotalsReco
     )
 
 
-def cpl_entry_requirements(entries: QuerySet["LogEntry"]):
-    max_glider_credit = timedelta(hours=10)
-    glider_time = flight_time(
-        entries.filter(time_function=FunctionType.PIC, aircraft__type__in=(AircraftType.GLD, AircraftType.TMG)),
-    )
-    if glider_time > max_glider_credit:
-        glider_time = max_glider_credit
+MAX_GLIDER_CPL_ENTRY_CREDIT = timedelta(hours=10)
+MAX_GLIDER_CPL_ISSUE_CREDIT = timedelta(hours=30)
 
-    airplane_time = flight_time(entries.filter(aircraft__type=AircraftType.SEP))
+
+def cpl_total_hours_requirements(entries: QuerySet[LogEntry], glider_credit: timedelta) -> timedelta:
+    glider_time = flight_time(entries.filter(aircraft__type__in=AircraftType.gliders))
+    if glider_time > glider_credit:
+        glider_time = glider_credit
+
+    airplane_time = flight_time(entries.filter(aircraft__type__in=AircraftType.airplanes))
 
     return TotalsRecord(
         time=airplane_time + glider_time,

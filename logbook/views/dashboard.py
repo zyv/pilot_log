@@ -40,7 +40,7 @@ class DashboardView(AuthenticatedTemplateView):
             all_entries.filter(aircraft__type=AircraftType.TMG),
         )
 
-        lapl_a_currency = get_lapl_currency(all_entries.filter(aircraft__type__in=(AircraftType.TMG, AircraftType.SEP)))
+        lapl_a_currency = get_lapl_currency(all_entries.filter(aircraft__type__in=AircraftType.powered))
 
         return super().get_context_data(*args, **kwargs) | {
             "lapl_a_currency": lapl_a_currency,

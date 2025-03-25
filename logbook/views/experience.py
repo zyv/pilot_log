@@ -8,11 +8,13 @@ from django.utils.timezone import make_aware
 from ..models.aircraft import AircraftType
 from ..models.log_entry import FunctionType, LogEntry
 from ..statistics.experience import (
+    MAX_GLIDER_CPL_ENTRY_CREDIT,
+    MAX_GLIDER_CPL_ISSUE_CREDIT,
     ExperienceRecord,
     ExperienceRequirements,
     TotalsRecord,
     compute_totals,
-    cpl_entry_requirements,
+    cpl_total_hours_requirements,
 )
 from .utils import (
     AuthenticatedTemplateView,
@@ -36,7 +38,7 @@ class ExperienceIndexView(AuthenticatedTemplateView):
 
 def get_sep_revalidation_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirements:
     eligible_entries = log_entries.filter(
-        aircraft__type__in={AircraftType.SEP, AircraftType.TMG},
+        aircraft__type__in=AircraftType.powered,
         departure_time__gte=make_aware(
             datetime.combine(
                 get_current_sep_rating().valid_until - relativedelta(months=12),
@@ -142,31 +144,39 @@ def get_cpl_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirement
         experience={
             "Entry: PIC hours": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=50), landings=0),
-                accrued=compute_totals(log_entries.filter(time_function=FunctionType.PIC)),
+                accrued=compute_totals(
+                    log_entries.filter(time_function=FunctionType.PIC, aircraft__type__in=AircraftType.airplanes)
+                ),
             ),
             "Entry: Cross-country PIC hours": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=10), landings=0),
-                accrued=compute_totals(log_entries.filter(time_function=FunctionType.PIC, cross_country=True)),
+                accrued=compute_totals(
+                    log_entries.filter(
+                        time_function=FunctionType.PIC, aircraft__type__in=AircraftType.airplanes, cross_country=True
+                    )
+                ),
             ),
             "Entry: Total hours": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=150), landings=0),
-                accrued=cpl_entry_requirements(log_entries),
+                accrued=cpl_total_hours_requirements(log_entries, MAX_GLIDER_CPL_ENTRY_CREDIT),
             ),
             "Issue: PIC hours": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=100), landings=0),
                 accrued=compute_totals(
-                    log_entries.filter(time_function=FunctionType.PIC),
+                    log_entries.filter(time_function=FunctionType.PIC, aircraft__type__in=AircraftType.airplanes),
                 ),
             ),
             "Issue: Cross-country PIC hours (incl. qualifying)": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=20), landings=0),
                 accrued=compute_totals(
-                    log_entries.filter(time_function=FunctionType.PIC, cross_country=True),
+                    log_entries.filter(
+                        time_function=FunctionType.PIC, aircraft__type__in=AircraftType.airplanes, cross_country=True
+                    ),
                 ),
             ),
             "Issue: Total hours": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=200), landings=0),
-                accrued=compute_totals(log_entries),
+                accrued=cpl_total_hours_requirements(log_entries, MAX_GLIDER_CPL_ISSUE_CREDIT),
             ),
         },
         details="""
