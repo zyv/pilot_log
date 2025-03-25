@@ -130,9 +130,21 @@ def get_night_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequireme
 def get_ir_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirements:
     return ExperienceRequirements(
         experience={
-            "Entry: Cross-country PIC hours": ExperienceRecord(
+            "Entry: Cross-country PIC hours (powered)": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=50), landings=0),
-                accrued=compute_totals(log_entries.filter(time_function=FunctionType.PIC, cross_country=True)),
+                accrued=compute_totals(
+                    log_entries.filter(
+                        time_function=FunctionType.PIC, aircraft__type__in=AircraftType.powered, cross_country=True
+                    )
+                ),
+            ),
+            "Entry: Cross-country PIC hours (airplane)": ExperienceRecord(
+                required=TotalsRecord(time=timedelta(hours=10), landings=0),
+                accrued=compute_totals(
+                    log_entries.filter(
+                        time_function=FunctionType.PIC, aircraft__type__in=AircraftType.airplanes, cross_country=True
+                    )
+                ),
             ),
         },
         details="""
