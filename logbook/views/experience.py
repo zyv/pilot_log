@@ -134,7 +134,9 @@ def get_ir_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirements
                 required=TotalsRecord(time=timedelta(hours=50), landings=0),
                 accrued=compute_totals(
                     log_entries.filter(
-                        time_function=FunctionType.PIC, aircraft__type__in=AircraftType.powered, cross_country=True
+                        time_function=FunctionType.PIC,
+                        aircraft__type__in=AircraftType.powered,
+                        cross_country=True,
                     )
                 ),
             ),
@@ -142,7 +144,9 @@ def get_ir_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirements
                 required=TotalsRecord(time=timedelta(hours=10), landings=0),
                 accrued=compute_totals(
                     log_entries.filter(
-                        time_function=FunctionType.PIC, aircraft__type__in=AircraftType.airplanes, cross_country=True
+                        time_function=FunctionType.PIC,
+                        aircraft__type__in=AircraftType.airplanes,
+                        cross_country=True,
                     )
                 ),
             ),
@@ -160,14 +164,19 @@ def get_cpl_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirement
             "Entry: PIC hours": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=50), landings=0),
                 accrued=compute_totals(
-                    log_entries.filter(time_function=FunctionType.PIC, aircraft__type__in=AircraftType.airplanes)
+                    log_entries.filter(
+                        time_function=FunctionType.PIC,
+                        aircraft__type__in=AircraftType.airplanes,
+                    )
                 ),
             ),
             "Entry: Cross-country PIC hours": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=10), landings=0),
                 accrued=compute_totals(
                     log_entries.filter(
-                        time_function=FunctionType.PIC, aircraft__type__in=AircraftType.airplanes, cross_country=True
+                        time_function=FunctionType.PIC,
+                        aircraft__type__in=AircraftType.airplanes,
+                        cross_country=True,
                     )
                 ),
             ),
@@ -178,14 +187,19 @@ def get_cpl_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirement
             "Issue: PIC hours": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=100), landings=0),
                 accrued=compute_totals(
-                    log_entries.filter(time_function=FunctionType.PIC, aircraft__type__in=AircraftType.airplanes),
+                    log_entries.filter(
+                        time_function=FunctionType.PIC,
+                        aircraft__type__in=AircraftType.airplanes,
+                    ),
                 ),
             ),
             "Issue: Cross-country PIC hours (incl. qualifying)": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=20), landings=0),
                 accrued=compute_totals(
                     log_entries.filter(
-                        time_function=FunctionType.PIC, aircraft__type__in=AircraftType.airplanes, cross_country=True
+                        time_function=FunctionType.PIC,
+                        aircraft__type__in=AircraftType.airplanes,
+                        cross_country=True,
                     ),
                 ),
             ),
