@@ -1,6 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import CheckConstraint, F, Q
+from django.db.models import CheckConstraint, DurationField, ExpressionWrapper, F, Q
 
 from .aerodrome import Aerodrome
 from .aircraft import Aircraft, AircraftType
@@ -18,7 +18,16 @@ class LaunchType(models.TextChoices):
     TOW = "TOW", "Aerotow"
 
 
+class LogEntryQuerySet(models.QuerySet):
+    def with_durations(self):
+        return self.annotate(
+            duration=ExpressionWrapper(F("arrival_time") - F("departure_time"), output_field=DurationField())
+        )
+
+
 class LogEntry(models.Model):
+    objects = LogEntryQuerySet.as_manager()
+
     aircraft = models.ForeignKey(Aircraft, on_delete=models.PROTECT)
 
     from_aerodrome = models.ForeignKey(Aerodrome, on_delete=models.PROTECT, related_name="from_aerodrome_set")

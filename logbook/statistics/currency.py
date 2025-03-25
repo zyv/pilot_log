@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from datetime import UTC, date, datetime, timedelta
 
 from django.db import models
-from django.db.models import DurationField, ExpressionWrapper, F, OuterRef, QuerySet, Subquery, Sum, Value
+from django.db.models import OuterRef, QuerySet, Subquery, Sum, Value
 
 from ..models.log_entry import FunctionType, LogEntry
 
@@ -74,7 +74,7 @@ def get_rolling_currency(
         ),
         eligible_time=Subquery(
             eligible_entries.filter(departure_time__gte=OuterRef("departure_time"))
-            .annotate(duration=ExpressionWrapper(F("arrival_time") - F("departure_time"), output_field=DurationField()))
+            .with_durations()
             .annotate(remove_group_by=Value(None))
             .values("remove_group_by")
             .annotate(total_time_until=Sum("duration"))
@@ -148,9 +148,7 @@ def get_lapl_currency(entries: QuerySet["LogEntry"]) -> RollingCurrency:
     )
 
     refresher_training = (
-        entries.annotate(
-            duration=ExpressionWrapper(F("arrival_time") - F("departure_time"), output_field=DurationField()),
-        )
+        entries.with_durations()
         .filter(time_function=FunctionType.DUAL, duration__gte=CURRENCY_REQUIRED_TIME_REFRESHER_LAPL)
         .first()
     )
