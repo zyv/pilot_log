@@ -103,11 +103,9 @@ def get_rolling_currency(
     )
 
     expired_entries = annotated_entries.filter(
-        **(
-            {"eligible_landings__lt": required_landings}
-            | ({"eligible_time__lt": required_time} if required_time is not None else {})
-            | departure_date_filter
-        ),
+        **{"eligible_landings__lt": required_landings}
+        | ({"eligible_time__lt": required_time} if required_time is not None else {})
+        | departure_date_filter,
     ).order_by("-eligible_landings", "-eligible_time")
 
     first_expired_entry = expired_entries.first()
