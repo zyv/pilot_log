@@ -63,8 +63,11 @@ def get_sep_revalidation_experience(log_entries: QuerySet[LogEntry]) -> Experien
             ),
             "Refresher training with FI or CRI": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=1), landings=0),
-                # TODO: filter by tag in remarks, not just dual, and time >1h
-                accrued=compute_totals(eligible_entries.filter(time_function=FunctionType.DUAL)),
+                accrued=compute_totals(
+                    eligible_entries.filter(time_function=FunctionType.DUAL)
+                    .with_durations()
+                    .filter(duration__gte=timedelta(hours=1))
+                ),
             ),
         },
         details="""
