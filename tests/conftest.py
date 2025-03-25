@@ -8,6 +8,7 @@ from logbook.models.log_entry import LogEntry, LogEntryQuerySet
 from logbook.models.pilot import Pilot
 
 NUMBER_OF_LOG_ENTRIES = 30
+EXTRA_LANDINGS = 2
 
 
 @pytest.fixture
@@ -43,7 +44,7 @@ def log_entries() -> LogEntryQuerySet[LogEntry]:
         )
 
     first_entry = LogEntry.objects.get(pk=1)
-    first_entry.landings = 3
+    first_entry.landings = EXTRA_LANDINGS + 1
     first_entry.save()
 
     return LogEntry.objects.all()

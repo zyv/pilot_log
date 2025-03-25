@@ -1,6 +1,7 @@
 from datetime import UTC, datetime, timedelta
 
 import pytest
+from conftest import EXTRA_LANDINGS
 
 from logbook.models.log_entry import LogEntry
 from logbook.statistics.currency import CurrencyStatus, get_rolling_currency
@@ -12,7 +13,7 @@ from .conftest import NUMBER_OF_LOG_ENTRIES
 @pytest.mark.django_db
 def test_compute_totals_total_landings(log_entries):
     totals = compute_totals(log_entries)
-    assert totals.landings == NUMBER_OF_LOG_ENTRIES + 2
+    assert totals.landings == NUMBER_OF_LOG_ENTRIES + EXTRA_LANDINGS
 
 
 @pytest.mark.django_db
