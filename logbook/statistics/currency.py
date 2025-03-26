@@ -27,8 +27,9 @@ class RollingCurrency:
         return datetime.now(tz=UTC).date() + self.expires_in
 
 
-CURRENCY_TIME_RANGE_NINETY = timedelta(days=90)
+CURRENCY_TIME_RANGE_NINETY = relativedelta(days=90)
 CURRENCY_TIME_RANGE_LAPL = relativedelta(years=2)
+
 CURRENCY_TIME_RANGE_WARNING = timedelta(days=30)
 
 CURRENCY_REQUIRED_LANDINGS_PASSENGER = 3
@@ -42,9 +43,9 @@ CURRENCY_TIME_RANGE_SEP = relativedelta(months=12)
 CURRENCY_REQUIRED_TIME_REFRESHER_SEP = CURRENCY_REQUIRED_TIME_REFRESHER_LAPL
 
 
-def get_time_to_expiry(currency_time_range: timedelta, reference_entry: LogEntry) -> timedelta:
+def get_time_to_expiry(currency_time_range: relativedelta, reference_entry: LogEntry) -> timedelta:
     return (
-        currency_time_range - (datetime.now(tz=UTC) - reference_entry.departure_time)
+        reference_entry.departure_time - (datetime.now(tz=UTC) - currency_time_range)
         if reference_entry is not None
         else timedelta(0)
     )
@@ -64,7 +65,7 @@ def get_rolling_currency(
     queryset: QuerySet["LogEntry"],
     required_landings: int,
     required_time: timedelta | None = None,
-    currency_time_range: timedelta = CURRENCY_TIME_RANGE_NINETY,
+    currency_time_range: relativedelta = CURRENCY_TIME_RANGE_NINETY,
 ) -> RollingCurrency:
     eligible_entries = queryset.filter(departure_time__gte=datetime.now(tz=UTC) - currency_time_range)
 
