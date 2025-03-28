@@ -71,9 +71,15 @@ class EntryIndexView(AuthenticatedListView, FormView):
     success_url = reverse_lazy("logbook:entries")
 
     def get_context_data(self, *args, **kwargs):
-        return super().get_context_data(*args, **kwargs) | {"form": self.get_form()}
+        context = super().get_context_data(*args, **kwargs)
+
+        # Take slots into account
+        context["last_entry"] = [entry for entry in context["object_list"] if entry is not None][-1]
+
+        return context | {"form": self.get_form()}
 
     def paginate_queryset(self, queryset, page_size):
+        # Take slots into account
         entries = tuple(chain.from_iterable(([entry] + [None] * (entry.slots - 1)) for entry in queryset))
 
         # Set last page as a default to mimic paper logbook

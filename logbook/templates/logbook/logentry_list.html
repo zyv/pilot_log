@@ -80,18 +80,16 @@
             </tbody>
             <tfoot>
             <tr>
-                {% with object_list|last as last_entry %}
-                    <td colspan="4" class="text-muted text-end">Totals carried forward ▶</td>
-                    {% for aircraft_type in AircraftType reversed %}
-                        <td class="text-muted text-center">{% total_time last_entry.arrival_time aircraft_type=aircraft_type %}</td>
-                    {% endfor %}
-                    <td class="text-muted text-center">{% total_landings last_entry.arrival_time %}</td>
-                    <td class="text-muted text-end">▶</td>
-                    {% for function_type in FunctionType %}
-                        <td class="text-muted text-center">{% total_time last_entry.arrival_time time_function=function_type %}</td>
-                    {% endfor %}
-                    <td class="text-muted">◀ Totals carried forward</td>
-                {% endwith %}
+                <td colspan="4" class="text-muted text-end">Totals carried forward ▶</td>
+                {% for aircraft_type in AircraftType reversed %}
+                    <td class="text-muted text-center">{% total_time last_entry.arrival_time aircraft_type=aircraft_type %}</td>
+                {% endfor %}
+                <td class="text-muted text-center">{% total_landings last_entry.arrival_time %}</td>
+                <td class="text-muted text-end">▶</td>
+                {% for function_type in FunctionType %}
+                    <td class="text-muted text-center">{% total_time last_entry.arrival_time time_function=function_type %}</td>
+                {% endfor %}
+                <td class="text-muted">◀ Totals carried forward</td>
             </tr>
             </tfoot>
         </table>
