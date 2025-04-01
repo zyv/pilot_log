@@ -11,6 +11,7 @@ from logbook.models.aerodrome import Aerodrome
 CHECK_ICAO_CODE = False
 
 logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 
 # Reference data from http://ourairports.com/data/
@@ -45,7 +46,7 @@ for aerodrome in load_bitbringers_data():
     aerodrome_country = countries.by_name(aerodrome["country"])
 
     if not any([aerodrome_name, aerodrome_city, aerodrome_country]):
-        logging.warning(f"Empty name/city/country for {aerodrome_icao_code}!")
+        logger.warning(f"Empty name/city/country for {aerodrome_icao_code}!")
 
     obj, created = Aerodrome.objects.update_or_create(
         icao_code=aerodrome_icao_code,
@@ -60,8 +61,8 @@ for aerodrome in load_bitbringers_data():
         },
     )
 
-    logging.debug(f"{'Created' if created else 'Updated'} aerodrome: {obj}")
+    logger.debug(f"{'Created' if created else 'Updated'} aerodrome: {obj}")
 
 if suspicious_codes:
-    logging.warning(f"Found suspicious codes: {len(suspicious_codes)}")
-    logging.warning(suspicious_codes)
+    logger.warning(f"Found suspicious codes: {len(suspicious_codes)}")
+    logger.warning(suspicious_codes)
