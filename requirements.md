@@ -143,3 +143,15 @@ licence holders who:
 4. LAPL medical certificates shall be valid for a period of:
    * 60 months until the licence holder reaches the age of 40. A medical certificate issued prior to reaching the age of 40 shall cease to be valid after the licence holder reaches the age of 42;
    * 24 months after the age of 40.
+
+# FAA
+
+# Medical
+
+First Class Medical Certificate: A first class medical certificate is valid for the remainder of the month of issue; plus
+
+* 6 calendar months for operations requiring a first class medical certificate if the airman is age 40 or over on or before the date of the examination, or
+* 12-calendar months for operations requiring a first-class medical certificate if the airman has not reached age 40 on or before the date of examination, or
+* 12 calendar months for operations requiring a second class medical certificate, or
+* 24 calendar months for operations requiring a third class medical certificate if the airman is age 40 or over on or before the date of the examination, or
+* 60 calendar months for operations requiring a third class medical certificate if the airman has not reached age 40 on or before the date of examination.
