@@ -54,7 +54,7 @@
                     {% include "logbook/field_description_item.html" with field=aircraft_fields.v_ref only %}
                 </th>
                 <th scope="col">
-                    {% include "logbook/field_description_item.html" with field=aircraft_fields.v_s only %}
+                    {% include "logbook/field_description_item.html" with field=aircraft_fields.v_s1 only %}
                 </th>
                 <th scope="col">
                     {% include "logbook/field_description_item.html" with field=aircraft_fields.v_c only %}
@@ -115,7 +115,7 @@
                         {% include "logbook/speed_item.html" with speed=aircraft.v_ref unit=aircraft.speed_unit only %}
                     </td>
                     <td>
-                        {% include "logbook/speed_item.html" with speed=aircraft.v_s unit=aircraft.speed_unit only %}
+                        {% include "logbook/speed_item.html" with speed=aircraft.v_s1 unit=aircraft.speed_unit only %}
                     </td>
                     <td>
                         {% include "logbook/speed_item.html" with speed=aircraft.v_c unit=aircraft.speed_unit only %}

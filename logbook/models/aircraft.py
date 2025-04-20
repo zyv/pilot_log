@@ -81,7 +81,7 @@ class Aircraft(models.Model):
         blank=True,
         null=True,
     )
-    v_s = models.PositiveSmallIntegerField(verbose_name="Vs", help_text="Stall speed (clean)", blank=True, null=True)
+    v_s1 = models.PositiveSmallIntegerField(verbose_name="Vs1", help_text="Stall speed (clean)", blank=True, null=True)
     v_fe = models.PositiveSmallIntegerField(verbose_name="Vfe", help_text="Flap extension speed", blank=True, null=True)
     v_c = models.PositiveSmallIntegerField(verbose_name="Vc", help_text="Cruise speed", blank=True, null=True)
 
