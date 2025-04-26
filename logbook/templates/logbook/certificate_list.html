@@ -46,7 +46,11 @@
             <tbody>
             {% for obj in object_list %}
                 <tr class="{% if not obj.valid %}table-light text-muted d-none{% endif %}">
-                    <td>{{ obj.name }}</td>
+                    <td>
+                        {% if obj.supersedes %}<abbr title="Supersedes {{ obj.supersedes }}">{% endif %}
+                        {{ obj.name }}
+                        {% if obj.supersedes %}</abbr>{% endif %}
+                    </td>
                     <td>{{ obj.number | default:"-" }}</td>
                     <td>{{ obj.issue_date.isoformat }}</td>
                     <td>{{ obj.valid_until.isoformat | default:"-" }}</td>
