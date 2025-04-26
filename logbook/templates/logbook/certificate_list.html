@@ -1,6 +1,12 @@
 {% extends "logbook/base.html" %}
 {% block extra_title %} - Certificates{% endblock %}
 
+{% load static %}
+{% block extra_head %}
+    <link href="{% static 'css/datatables.min.css' %}" rel="stylesheet" type="text/css">
+    <script src="{% static 'js/datatables.min.js' %}"></script>
+{% endblock %}
+
 {% load django_bootstrap5 %}
 {% load logbook_utils %}
 
@@ -32,7 +38,7 @@
     </script>
 
     <div class="table-responsive">
-        <table class="table table-sm table-hover">
+        <table class="table table-sm table-hover" id="certificates-table">
             <thead>
             <tr>
                 <th scope="col">Name</th>
@@ -65,5 +71,9 @@
             </tbody>
         </table>
     </div>
+
+    <script>
+        $('#certificates-table').DataTable({paging: false, searching: false, info: false});
+    </script>
 
 {% endblock %}
