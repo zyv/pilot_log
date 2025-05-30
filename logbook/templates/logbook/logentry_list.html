@@ -45,7 +45,11 @@
                 <tbody>
                 {% for obj in object_list %}
                     <tr>
-                        <td>{{ obj.departure_time | date:"d/m" }}</td>
+                        <td>
+                            <abbr title="{{ obj.departure_time | date:"Y" }}">
+                                {{ obj.departure_time | date:"d/m" }}
+                            </abbr>
+                        </td>
                         <td>{{ obj.aircraft.icao_designator }}<br>{{ obj.aircraft.registration }}</td>
                         <td>{{ obj.from_aerodrome.icao_code }}<br>{{ obj.to_aerodrome.icao_code }}</td>
                         <td>{{ obj.departure_time | time:"H:i" }}<br>{{ obj.arrival_time | time:"H:i" }}</td>
