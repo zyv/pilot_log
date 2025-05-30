@@ -83,13 +83,19 @@ class LogEntriesFilter(django_filters.FilterSet):
 class EntryIndexView(FilterView, AuthenticatedListView, FormView):
     model = LogEntry
     ordering = "arrival_time"
-    paginate_by = 7
 
     form_class = VereinsfliegerForm
     success_url = reverse_lazy("logbook:entries")
 
     filterset_class = LogEntriesFilter
     template_name_suffix = "_list"
+
+    def filtering_is_active(self):
+        return self.filterset.form.is_valid() and any(self.filterset.form.cleaned_data.values())
+
+    def get_paginate_by(self, queryset):
+        # Disable pagination if filtering is active
+        return None if self.filtering_is_active() else 7
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -104,8 +110,12 @@ class EntryIndexView(FilterView, AuthenticatedListView, FormView):
         return context | {"form": self.get_form()}
 
     def paginate_queryset(self, queryset, page_size):
-        # Take slots into account
-        entries = tuple(chain.from_iterable(([entry] + [None] * (entry.slots - 1)) for entry in queryset))
+        # Create empty entries for slots, but only if filtering is NOT active
+        entries = tuple(
+            chain.from_iterable(
+                [entry] + ([None] * (entry.slots - 1) if not self.filtering_is_active() else []) for entry in queryset
+            )
+        )
 
         # Set last page as a default to mimic paper logbook
         if not self.request.GET.get(self.page_kwarg):
