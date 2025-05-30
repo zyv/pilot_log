@@ -8,7 +8,11 @@
 
     <h1>Log entries</h1>
 
-    {% include "logbook/pagination.html" with is_paginated=is_paginated paginator=paginator page_obj=page_obj only %}
+    <form method="get">
+        {% bootstrap_form filter.form layout="horizontal" %}
+    </form>
+
+    {% include "logbook/pagination.html" with is_paginated=is_paginated paginator=paginator page_obj=page_obj filter=filter only %}
 
     {% if object_list %}
         <div class="table-responsive">
@@ -17,12 +21,12 @@
                 <tr>
                     <td colspan="4" class="text-muted text-end">Totals brought forward ▶</td>
                     {% for aircraft_type in AircraftType reversed %}
-                        <td class="text-muted text-center">{% total_time object_list.0.departure_time aircraft_type=aircraft_type %}</td>
+                        <td class="text-muted text-center">{% total_time object_list.0.departure_time aircraft_type=aircraft_type entries_filter=filter %}</td>
                     {% endfor %}
-                    <td class="text-muted text-center">{% total_landings object_list.0.departure_time %}</td>
+                    <td class="text-muted text-center">{% total_landings object_list.0.departure_time entries_filter=filter %}</td>
                     <td class="text-muted text-end">▶</td>
                     {% for function_type in FunctionType %}
-                        <td class="text-muted text-center">{% total_time object_list.0.departure_time time_function=function_type %}</td>
+                        <td class="text-muted text-center">{% total_time object_list.0.departure_time time_function=function_type entries_filter=filter %}</td>
                     {% endfor %}
                     <td class="text-muted">◀ Totals brought forward</td>
                 </tr>
@@ -95,12 +99,12 @@
                 <tr>
                     <td colspan="4" class="text-muted text-end">Totals carried forward ▶</td>
                     {% for aircraft_type in AircraftType reversed %}
-                        <td class="text-muted text-center">{% total_time last_entry.arrival_time aircraft_type=aircraft_type %}</td>
+                        <td class="text-muted text-center">{% total_time last_entry.arrival_time aircraft_type=aircraft_type entries_filter=filter %}</td>
                     {% endfor %}
-                    <td class="text-muted text-center">{% total_landings last_entry.arrival_time %}</td>
+                    <td class="text-muted text-center">{% total_landings last_entry.arrival_time entries_filter=filter %}</td>
                     <td class="text-muted text-end">▶</td>
                     {% for function_type in FunctionType %}
-                        <td class="text-muted text-center">{% total_time last_entry.arrival_time time_function=function_type %}</td>
+                        <td class="text-muted text-center">{% total_time last_entry.arrival_time time_function=function_type entries_filter=filter %}</td>
                     {% endfor %}
                     <td class="text-muted">◀ Totals carried forward</td>
                 </tr>
@@ -113,7 +117,7 @@
         </div>
     {% endif %}
 
-    {% include "logbook/pagination.html" with is_paginated=is_paginated paginator=paginator page_obj=page_obj only %}
+    {% include "logbook/pagination.html" with is_paginated=is_paginated paginator=paginator page_obj=page_obj filter=filter only %}
 
     <h2>Import from Vereinsflieger</h2>
 
