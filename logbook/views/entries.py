@@ -73,8 +73,12 @@ class EntryIndexView(AuthenticatedListView, FormView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
 
-        # Take slots into account
-        context["last_entry"] = [entry for entry in context["object_list"] if entry is not None][-1]
+        # Due to slots, `object_list|last` in the template can possibly be None, so provide the last "real" entry
+        context["last_entry"] = (
+            [entry for entry in context["object_list"] if entry is not None][-1]
+            if len(context["object_list"])
+            else None
+        )
 
         return context | {"form": self.get_form()}
 
