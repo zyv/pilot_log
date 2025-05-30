@@ -12,22 +12,23 @@ version = "0.1.0"
 requires-python = ">=3.12"
 dependencies = [
     "django",
-    "django-countries",
     "django-bootstrap5",
     "django-colorfield",
+    "django-countries",
+    "django-filter",
+    "fontawesomefree>=6",
+    "httpx",
+    "playwright",
     "python-dateutil",
     "skyfield",
     "timezonefinder",
-    "playwright",
-    "fontawesomefree>=6",
-    "httpx",
 ]
 
 [dependency-groups]
 dev = [
     "django-debug-toolbar",
-    "pytest-django",
     "pytest-cov",
+    "pytest-django",
     "respx",
     "ruff",
 ]
