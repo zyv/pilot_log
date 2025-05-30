@@ -59,7 +59,15 @@
                             </td>
                         {% endfor %}
                         <td class="text-center">{{ obj.landings }}</td>
-                        <td>{% if obj.pilot %}{% if not obj.pilot.me %}{{ obj.pilot.first_name.0 }}. {{ obj.pilot.last_name }}{% else %}Self{% endif %}{% endif %}</td>
+                        <td>
+                            {% if obj.pilot %}
+                                {% if not obj.pilot.me %}
+                                    {{ obj.pilot.first_name.0 }}. {{ obj.pilot.last_name }}
+                                {% else %}
+                                    Self
+                                {% endif %}
+                            {% endif %}
+                        </td>
                         {% for function_type in FunctionType %}
                             <td class="text-center">
                                 {% if obj.time_function == function_type %}
