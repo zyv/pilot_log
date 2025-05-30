@@ -1,10 +1,13 @@
 from itertools import chain
 
+import django_filters
 from django import forms
 from django.conf import settings
 from django.contrib import messages
+from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views.generic import FormView
+from django_filters.views import FilterView
 
 from vereinsflieger.vereinsflieger import import_from_vereinsflieger
 
@@ -62,13 +65,31 @@ class VereinsfliegerForm(forms.Form):
         )
 
 
-class EntryIndexView(AuthenticatedListView, FormView):
+class LogEntriesFilter(django_filters.FilterSet):
+    @staticmethod
+    def filter_by_aerodrome(queryset, _, value):
+        return queryset.filter(Q(from_aerodrome=value) | Q(to_aerodrome=value))
+
+    registration = django_filters.AllValuesFilter(field_name="aircraft__registration")
+    aerodrome = django_filters.ModelChoiceFilter(
+        label="Aerodrome", method="filter_by_aerodrome", queryset=Aerodrome.objects.all()
+    )
+
+    class Meta:
+        model = LogEntry
+        fields = ("registration", "aerodrome")
+
+
+class EntryIndexView(FilterView, AuthenticatedListView, FormView):
     model = LogEntry
     ordering = "arrival_time"
     paginate_by = 7
 
     form_class = VereinsfliegerForm
     success_url = reverse_lazy("logbook:entries")
+
+    filterset_class = LogEntriesFilter
+    template_name_suffix = "_list"
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
