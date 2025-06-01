@@ -4,6 +4,7 @@ from string import Template
 from django import template
 from django.template import TemplateSyntaxError
 from django.utils.safestring import mark_safe
+from django_filters import FilterSet
 
 from ..models.aircraft import AircraftType, SpeedUnit
 from ..models.log_entry import FunctionType, LogEntry
@@ -84,15 +85,23 @@ def to_kt(value: float, unit: SpeedUnit) -> int:
             raise TemplateSyntaxError(f"unknown speed unit: {unit}")
 
 
+def get_filtered_entries(entries_filter: FilterSet | None):
+    entries = LogEntry.objects.all()
+    if entries_filter is not None and entries_filter.form.is_valid():
+        entries = entries_filter.filter_queryset(entries)
+    return entries
+
+
 @register.simple_tag
 def total_time(
     reference_time: datetime,
     time_function: FunctionType | None = None,
     aircraft_type: AircraftType | None = None,
+    entries_filter: FilterSet | None = None,
 ) -> str:
     return duration(
         statistics_total_time(
-            LogEntry.objects.filter(
+            get_filtered_entries(entries_filter).filter(
                 **{"arrival_time__lte": reference_time}
                 | ({"time_function": time_function} if time_function is not None else {})
                 | ({"aircraft__type": aircraft_type} if aircraft_type is not None else {})
@@ -103,5 +112,10 @@ def total_time(
 
 
 @register.simple_tag
-def total_landings(reference_time: datetime) -> str:
-    return str(statistics_total_landings(LogEntry.objects.filter(arrival_time__lte=reference_time), full_stop=False))
+def total_landings(reference_time: datetime, entries_filter: FilterSet | None = None) -> str:
+    return str(
+        statistics_total_landings(
+            get_filtered_entries(entries_filter).filter(arrival_time__lte=reference_time),
+            full_stop=False,
+        )
+    )

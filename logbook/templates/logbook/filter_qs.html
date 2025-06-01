@@ -1,0 +1,1 @@
+{% for filter_name, filter_value in filter.form.cleaned_data.items %}{% if filter_value %}&{{ filter_name|urlencode }}={% if filter_value and filter_value.id %}{{ filter_value.id|urlencode }}{% else %}{{ filter_value|default_if_none:""|urlencode }}{% endif %}{% endif %}{% endfor %}

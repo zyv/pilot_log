@@ -1,10 +1,13 @@
 from itertools import chain
 
+import django_filters
 from django import forms
 from django.conf import settings
 from django.contrib import messages
+from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views.generic import FormView
+from django_filters.views import FilterView
 
 from vereinsflieger.vereinsflieger import import_from_vereinsflieger
 
@@ -62,25 +65,57 @@ class VereinsfliegerForm(forms.Form):
         )
 
 
-class EntryIndexView(AuthenticatedListView, FormView):
+class LogEntriesFilter(django_filters.FilterSet):
+    @staticmethod
+    def filter_by_aerodrome(queryset, _, value):
+        return queryset.filter(Q(from_aerodrome=value) | Q(to_aerodrome=value))
+
+    registration = django_filters.AllValuesFilter(field_name="aircraft__registration")
+    aerodrome = django_filters.ModelChoiceFilter(
+        label="Aerodrome", method="filter_by_aerodrome", queryset=Aerodrome.objects.all()
+    )
+
+    class Meta:
+        model = LogEntry
+        fields = ("registration", "aerodrome")
+
+
+class EntryIndexView(FilterView, AuthenticatedListView, FormView):
     model = LogEntry
     ordering = "arrival_time"
-    paginate_by = 7
 
     form_class = VereinsfliegerForm
     success_url = reverse_lazy("logbook:entries")
 
+    filterset_class = LogEntriesFilter
+    template_name_suffix = "_list"
+
+    def filtering_is_active(self):
+        return self.filterset.form.is_valid() and any(self.filterset.form.cleaned_data.values())
+
+    def get_paginate_by(self, queryset):
+        # Disable pagination if filtering is active
+        return None if self.filtering_is_active() else 7
+
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
 
-        # Take slots into account
-        context["last_entry"] = [entry for entry in context["object_list"] if entry is not None][-1]
+        # Due to slots, `object_list|last` in the template can possibly be None, so provide the last "real" entry
+        context["last_entry"] = (
+            [entry for entry in context["object_list"] if entry is not None][-1]
+            if len(context["object_list"])
+            else None
+        )
 
         return context | {"form": self.get_form()}
 
     def paginate_queryset(self, queryset, page_size):
-        # Take slots into account
-        entries = tuple(chain.from_iterable(([entry] + [None] * (entry.slots - 1)) for entry in queryset))
+        # Create empty entries for slots, but only if filtering is NOT active
+        entries = tuple(
+            chain.from_iterable(
+                [entry] + ([None] * (entry.slots - 1) if not self.filtering_is_active() else []) for entry in queryset
+            )
+        )
 
         # Set last page as a default to mimic paper logbook
         if not self.request.GET.get(self.page_kwarg):
