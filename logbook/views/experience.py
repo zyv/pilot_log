@@ -26,14 +26,32 @@ class ExperienceIndexView(AuthenticatedTemplateView):
     template_name = "logbook/experience_list.html"
 
     def get_context_data(self, **kwargs):
-        log_entries = LogEntry.objects.filter(departure_time__gte=settings.PPL_START_DATE)
+        log_entries = LogEntry.objects.all()
         return super().get_context_data(**kwargs) | {
-            "sep_revalidation": get_sep_revalidation_experience(log_entries),
-            "ppl": get_ppl_experience(log_entries.filter(departure_time__lt=settings.PPL_END_DATE)),
+            "total": get_total_experience(log_entries),
+            "sep_revalidation": get_sep_revalidation_experience(
+                log_entries.filter(departure_time__gte=settings.PPL_END_DATE)
+            ),
+            "ppl": get_ppl_experience(
+                log_entries.filter(
+                    departure_time__gte=settings.PPL_START_DATE, departure_time__lt=settings.PPL_END_DATE
+                )
+            ),
             "night": get_night_experience(log_entries.filter(night=True)),
             "ir": get_ir_experience(log_entries),
             "cpl": get_cpl_experience(log_entries),
         }
+
+
+def get_total_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirements:
+    return ExperienceRequirements(
+        experience={
+            "After PPL Skill Test": ExperienceRecord(
+                required=TotalsRecord(time=timedelta(hours=0), landings=0),
+                accrued=compute_totals(log_entries.filter(departure_time__gt=settings.PPL_END_DATE)),
+            ),
+        },
+    )
 
 
 def get_sep_revalidation_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirements:
