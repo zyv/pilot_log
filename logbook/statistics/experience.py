@@ -38,6 +38,10 @@ class ExperienceRecord:
     def completed(self) -> bool:
         return self.remaining.time.total_seconds() == 0 and self.remaining.landings == 0
 
+    @property
+    def has_requirements(self) -> bool:
+        return bool(self.required.time) or bool(self.required.landings)
+
 
 @dataclass(frozen=True, kw_only=True)
 class ExperienceRequirements:

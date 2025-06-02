@@ -15,9 +15,13 @@
         {% for type, experience in requirements.items %}
             <tr>
                 <td>{{ type }}</td>
-                <td class="text-end">{{ experience.required | represent:experience }}</td>
+                <td class="text-end">
+                    {% if experience.has_requirements %}{{ experience.required | represent:experience }}{% endif %}
+                </td>
                 <td class="text-end">{{ experience.accrued | represent:experience }}</td>
-                <td class="text-end">{{ experience.remaining | represent:experience }}</td>
+                <td class="text-end">
+                    {% if experience.has_requirements %}{{ experience.remaining | represent:experience }}{% endif %}
+                </td>
                 <td class="text-end {% if experience.completed %}text-success{% else %}text-danger{% endif %}">
                     {% if experience.completed %}
                         <i class='fa-regular fa-check text-success'></i>
@@ -28,6 +32,8 @@
             </tr>
         {% endfor %}
         </tbody>
-        {% if caption %}<caption>{{ caption }}</caption>{% endif %}
+        {% if caption %}
+            <caption>{{ caption }}</caption>
+        {% endif %}
     </table>
 </div>

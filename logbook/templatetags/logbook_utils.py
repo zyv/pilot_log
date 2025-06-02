@@ -56,7 +56,8 @@ def represent(total: TotalsRecord, experience: ExperienceRecord):
     time = duration(total.time, "%{h}h %{m}m").replace(" 0m", "")
     landings = "1 landing" if total.landings == 1 else f"{total.landings} landings"
     return ", ".join(
-        ((time,) if experience.required.time else ()) + ((landings,) if experience.required.landings else ()),
+        ((time,) if experience.required.time or not experience.has_requirements else ())
+        + ((landings,) if experience.required.landings or not experience.has_requirements else ()),
     )
 
 
