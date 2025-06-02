@@ -1,5 +1,32 @@
 # EASA Part-FCL & Part-MED Requirements
 
+## FCL.010 - Definitions
+
+* "Category of aircraft" means a categorisation of aircraft according to specified basic characteristics, for example aeroplane, powered-lift, helicopter, airship, sailplane, free balloon.
+
+* "Class of aeroplane" means a categorisation of single-pilot aeroplanes not requiring a type rating.
+
+* "Cross-country" means a flight between a point of departure and a point of arrival following a pre-planned route, using standard navigation procedures.
+
+* "Instrument flight time" means the time during which a pilot is controlling an aircraft in flight  solely by reference to instruments.
+
+* "Instrument ground time" means the time during which a pilot is receiving instruction in simulated instrument flight, in flight simulation training devices (FSTD).
+
+* "Instrument time" means instrument flight time or instrument ground time.
+
+* "Flight time":
+  - for aeroplanes, touring motor gliders and powered-lift aircraft, it means the total time from the moment an aircraft first moves for the purpose of taking off until the moment it finally comes to rest at the end of the flight;
+
+  - for helicopters, it means the total time from the moment a helicopter’s rotor blades start turning until the moment the helicopter finally comes to rest at the end of the flight, and the rotor blades are stopped;
+
+* "Flight time under Instrument Flight Rules" (IFR) means all flight time during which the aircraft is being operated under the Instrument Flight Rules.
+
+* "Night" means the period between the end of evening civil twilight and the beginning of morning civil twilight or such other period between sunset and sunrise as may be prescribed by the appropriate authority.
+
+## FCL.035 Crediting of flight time and theoretical knowledge
+
+(a) 1. Unless otherwise specified in this Part, flight time to be credited for a licence, rating or certificate shall have been flown in the same category of aircraft for which the licence, rating or certificate is sought.
+
 ## FCL.210.A PPL(A) — Experience requirements and crediting
 
 Applicants for a PPL(A) shall have completed at least 45 hours of flight instruction in aeroplanes or TMGs, 5 of which may have been completed in an FSTD, including at least:
@@ -24,9 +51,7 @@ When applicants hold both a single-engine piston aeroplane-land class rating and
 
 ## FCL.810 - Night rating
 
-"Night" means the period between the end of evening civil twilight and the beginning of morning civil twilight or such other period between sunset and sunrise as may be prescribed by the appropriate authority.
-
-Civil Twilight begins in the morning, or ends in the evening, when the geometric center of the sun is 6 degrees below the horizon. At Greenwich, England (51.5°N), the duration of civil twilight will vary from 33 minutes to 48 minutes, depending on the time of year. At the equator, civil twilight can last as little as 24 minutes.
+N.B. Civil Twilight begins in the morning, or ends in the evening, when the geometric center of the sun is 6 degrees below the horizon. At Greenwich, England (51.5°N), the duration of civil twilight will vary from 33 minutes to 48 minutes, depending on the time of year. At the equator, civil twilight can last as little as 24 minutes.
 
 ### Training course
 
@@ -63,8 +88,6 @@ Holders of a LAPL(A) shall exercise the privileges of their licence only if in t
 
 ## Instrument rating
 
-"Cross-country" means a flight between a point of departure and a point of arrival following a pre-planned route, using standard navigation procedures.
-
 ### FCL.610 IR — Prerequisites and crediting
 
 Applicants for an IR shall:
@@ -74,10 +97,6 @@ Applicants for an IR shall:
       1. the privileges to fly at night in accordance with FCL.810, if the IR privileges will be used at night; or
    2. a CPL, in the appropriate aircraft category;
 2. have completed at least 50 hours of cross-country flight time as PIC in aeroplanes, TMGs, helicopters or airships, of which at least 10 or, in the case of airships, 20 hours shall be in the relevant aircraft category;
-
-### IFR vs. IMC time
-
-In the EASA world it is possible to log IFR hours any time on an IFR flight plan in the IFR-certified airplane, regardless of conditions outside. For FAA, we cannot log instrument time in VMC regardless of our flight rules. This is one of the essential differences between the two authorities.
 
 ### Training course
 
@@ -114,6 +133,8 @@ The applicant for a CPL(A) shall have completed at least 200 hours flight time, 
 3. 10 hours of instrument flight instruction, of which up to 5 hours may be instrument ground time in an FNPT I, or FNPT II or FFS.
 4. 6 hours of flight time shall be completed in a multi-engine aeroplane, if a multi-engine aeroplane is used for the skill test.
 
+Hours as PIC of other categories of aircraft may count towards the 200 hours flight time, in the following cases: 30 hours in TMGs or sailplanes.
+
 ### Training course
 
 1. Applicants holding a valid IR(A) shall be fully credited towards the dual instrument instruction time.
@@ -146,12 +167,12 @@ licence holders who:
 
 # FAA
 
-# Medical
+## Medical
 
 First Class Medical Certificate: A first class medical certificate is valid for the remainder of the month of issue; plus
 
-* 6 calendar months for operations requiring a first class medical certificate if the airman is age 40 or over on or before the date of the examination, or
+* 6 calendar months for operations requiring a first-class medical certificate if the airman is age 40 or over on or before the date of the examination, or
 * 12-calendar months for operations requiring a first-class medical certificate if the airman has not reached age 40 on or before the date of examination, or
-* 12 calendar months for operations requiring a second class medical certificate, or
+* 12 calendar months for operations requiring a second-class medical certificate, or
 * 24 calendar months for operations requiring a third class medical certificate if the airman is age 40 or over on or before the date of the examination, or
 * 60 calendar months for operations requiring a third class medical certificate if the airman has not reached age 40 on or before the date of examination.
