@@ -7,11 +7,11 @@
   "lockFileMaintenance": {
     "enabled": true,
     "schedule": [
-      "30 3 1 */3 *"
+      "* 3 1 */3 *"
     ]
   },
   "schedule": [
-    "30 3 1 */3 *"
+    "* 5 1 */3 *"
   ],
   "branchPrefix": "feature/renovate/"
 }
