@@ -40,6 +40,7 @@ class ExperienceIndexView(AuthenticatedTemplateView):
             "night": get_night_experience(log_entries.filter(night=True)),
             "ir": get_ir_experience(log_entries),
             "cpl": get_cpl_experience(log_entries),
+            "cri": get_cri_experience(log_entries),
         }
 
 
@@ -233,4 +234,25 @@ def get_cpl_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirement
                 flight instruction shall be carried out in an aeroplane certificated for the carriage of at least
                 4 persons and have a variable pitch propeller and retractable landing gear.
                 """,
+    )
+
+
+def get_cri_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirements:
+    return ExperienceRequirements(
+        experience={
+            "(1) 300 hours flight time as a pilot on aeroplanes": ExperienceRecord(
+                required=TotalsRecord(time=timedelta(hours=300), landings=0),
+                accrued=compute_totals(log_entries.filter(aircraft__type__in=AircraftType.airplanes)),
+            ),
+            "(2) 30 hours as PIC on the applicable class or type of aeroplane": ExperienceRecord(
+                required=TotalsRecord(time=timedelta(hours=30), landings=0),
+                accrued=compute_totals(
+                    log_entries.filter(time_function=FunctionType.PIC, aircraft__type__in=AircraftType.airplanes)
+                ),
+            ),
+        },
+        details="""
+        FCL.905.CRI - restricted to the class or type of aeroplane in which the instructor assessment of competence was
+        taken.
+        """,
     )
