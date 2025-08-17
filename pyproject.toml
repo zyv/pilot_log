@@ -11,11 +11,11 @@ license = "MIT"
 version = "0.1.0"
 requires-python = ">=3.12"
 dependencies = [
-    "django",
     "django-bootstrap5",
     "django-colorfield",
     "django-countries",
     "django-filter",
+    "django~=5.2",
     "fontawesomefree>=6",
     "httpx",
     "playwright",
