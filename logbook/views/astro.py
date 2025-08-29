@@ -6,6 +6,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from django import forms
+from django.utils.timezone import now
 from django.views.generic import FormView
 from skyfield import almanac
 from skyfield import api as sf_api
@@ -34,6 +35,7 @@ def round_to_nearest_minute(dt: datetime) -> datetime:
 
 
 class AerodromeForm(forms.Form):
+    date = forms.DateField(initial=now().date(), widget=forms.DateInput(attrs={"type": "date"}))
     aerodrome = forms.CharField(
         label="Aerodrome ICAO code",
         min_length=4,
@@ -84,12 +86,12 @@ class AstroIndexView(AuthenticatedTemplateView, FormView):
         return sf_api.load_file(Path(__file__).parent.parent / "fixtures" / "data" / "de421.bsp")
 
     def form_valid(self, form):
-        aerodrome = form.cleaned_data["aerodrome"]
+        date, aerodrome = form.cleaned_data["date"], form.cleaned_data["aerodrome"]
 
         tz = self.timezone_finder.timezone_at(lng=float(aerodrome.longitude), lat=float(aerodrome.latitude))
         zi = ZoneInfo(tz)
 
-        today_midnight = datetime.now(tz=zi).replace(hour=0, minute=0, second=0, microsecond=0)
+        today_midnight = datetime.combine(date, datetime.min.time(), tzinfo=zi)
 
         timescale = sf_api.load.timescale()
         t0 = timescale.from_datetime(today_midnight)
