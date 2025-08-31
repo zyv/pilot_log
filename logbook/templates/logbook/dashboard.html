@@ -85,10 +85,22 @@
                     <th scope="row">{{ aircraft_type }}</th>
                     {% for totals in type_totals.per_period %}
                         <td {% cycle '' 'class="d-none d-lg-table-cell"' as visibility %}>
-                            <abbr title="{% include "logbook/per_function_item.html" with items=totals.per_function.items only %}">{{ totals.grand.time | duration:"%{h}" }}</abbr><sup>h</sup>
+                            {% if totals.grand.time %}
+                                <abbr
+                                        title="{% include "logbook/per_function_item.html" with items=totals.per_function.items only %}"
+                                >{{ totals.grand.time | duration:"%{h}" }}</abbr><sup>h</sup>
+                            {% else %}
+                                &ndash;
+                            {% endif %}
                         </td>
                         <td {{ visibility }}>
-                            <abbr title="{% include "logbook/per_function_item.html" with items=totals.per_function.items landings=True only %}">{{ totals.grand.landings }}</abbr>
+                            {% if totals.grand.landings %}
+                                <abbr
+                                        title="{% include "logbook/per_function_item.html" with items=totals.per_function.items landings=True only %}"
+                                >{{ totals.grand.landings }}</abbr>
+                            {% else %}
+                                &ndash;
+                            {% endif %}
                         </td>
                     {% endfor %}
                     {% resetcycle %}
