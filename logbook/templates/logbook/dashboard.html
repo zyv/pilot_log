@@ -63,13 +63,19 @@
             <tr>
                 <th rowspan="2" scope="col" class="align-middle">Class</th>
                 {% for label in period_labels %}
-                    <th colspan="2" scope="colgroup">{{ label }}</th>
+                    <th colspan="2" scope="colgroup" {% cycle '' 'class="d-none d-lg-table-cell"' %}>
+                        {{ label }}
+                    </th>
                 {% endfor %}
             </tr>
             <tr>
                 {% for label in period_labels %}
-                    <th scope="col"><abbr title="Time"><i class="fa-solid fa-clock"></i></abbr></th>
-                    <th scope="col"><abbr title="Landings"><i class="fa-solid fa-plane-arrival"></i></abbr></th>
+                    <th scope="col" {% cycle '' 'class="d-none d-lg-table-cell"' as visibility %}>
+                        <abbr title="Time"><i class="fa-solid fa-clock"></i></abbr>
+                    </th>
+                    <th scope="col" {{ visibility }}>
+                        <abbr title="Landings"><i class="fa-solid fa-plane-arrival"></i></abbr>
+                    </th>
                 {% endfor %}
             </tr>
             </thead>
@@ -78,13 +84,14 @@
                 <tr>
                     <th scope="row">{{ aircraft_type }}</th>
                     {% for totals in type_totals.per_period %}
-                        <td>
-                            <abbr title="{% include "logbook/per_function_item.html" with items=totals.per_function.items only %}">{{ totals.grand.time | duration }}</abbr>
+                        <td {% cycle '' 'class="d-none d-lg-table-cell"' as visibility %}>
+                            <abbr title="{% include "logbook/per_function_item.html" with items=totals.per_function.items only %}">{{ totals.grand.time | duration:"%{h}" }}</abbr><sup>h</sup>
                         </td>
-                        <td>
+                        <td {{ visibility }}>
                             <abbr title="{% include "logbook/per_function_item.html" with items=totals.per_function.items landings=True only %}">{{ totals.grand.landings }}</abbr>
                         </td>
                     {% endfor %}
+                    {% resetcycle %}
                 </tr>
             {% endfor %}
             </tbody>

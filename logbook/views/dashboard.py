@@ -26,8 +26,11 @@ class DashboardView(AuthenticatedTemplateView):
         now = datetime.now(tz=UTC)
         periods = {
             "1M": timedelta(days=30),
-            "6M": timedelta(days=180),
+            "3M": timedelta(days=30 * 3),
+            "6M": timedelta(days=30 * 6),
+            "9M": timedelta(days=30 * 9),
             "1Y": timedelta(days=365),
+            "2Y": timedelta(days=365 * 2),
             "3Y": timedelta(days=365 * 3),
         }
 
