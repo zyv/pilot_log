@@ -87,7 +87,7 @@
                         <td {% cycle '' 'class="d-none d-lg-table-cell"' as visibility %}>
                             {% if totals.grand.time %}
                                 <abbr
-                                        title="{% include "logbook/per_function_item.html" with items=totals.per_function.items only %}"
+                                        title="TT: {{ totals.grand.time | duration }} | {% include "logbook/per_function_item.html" with items=totals.per_function.items only %}"
                                 >{{ totals.grand.time | duration:"%{h}" }}</abbr><sup>h</sup>
                             {% else %}
                                 &ndash;
