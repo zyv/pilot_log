@@ -15,14 +15,17 @@ class AircraftType(models.TextChoices):
 
     @classproperty
     def gliders(cls) -> tuple["AircraftType", ...]:
+        """Gliders, including motor gliders"""
         return cls.GLD, cls.TMG
 
     @classproperty
     def powered(cls) -> tuple["AircraftType", ...]:
+        """Used where FCL.720.A allows TMG time to be counted alongside SEP/MEP"""
         return cls.TMG, cls.SEP
 
     @classproperty
     def airplanes(cls) -> tuple["AircraftType", ...]:
+        """Used where specific requirements like CPL modular demand only SEP/MEP time"""
         return (cls.SEP,)
 
 
