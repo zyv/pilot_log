@@ -242,12 +242,18 @@ def get_cri_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirement
         experience={
             "(1) 300 hours flight time as a pilot on aeroplanes": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=300), landings=0),
-                accrued=compute_totals(log_entries.filter(aircraft__type__in=AircraftType.airplanes)),
+                accrued=compute_totals(log_entries.filter(aircraft__type__in=AircraftType.powered)),
             ),
-            "(2) 30 hours as PIC on the applicable class or type of aeroplane": ExperienceRecord(
+            "(2) TMG - 30 hours as PIC on the applicable class or type of aeroplane": ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=30), landings=0),
                 accrued=compute_totals(
-                    log_entries.filter(time_function=FunctionType.PIC, aircraft__type__in=AircraftType.airplanes)
+                    log_entries.filter(time_function=FunctionType.PIC, aircraft__type__in=AircraftType.TMG)
+                ),
+            ),
+            "(2) SEP - 30 hours as PIC on the applicable class or type of aeroplane": ExperienceRecord(
+                required=TotalsRecord(time=timedelta(hours=30), landings=0),
+                accrued=compute_totals(
+                    log_entries.filter(time_function=FunctionType.PIC, aircraft__type__in=AircraftType.SEP)
                 ),
             ),
         },
