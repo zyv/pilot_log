@@ -14,7 +14,7 @@ DAYS_IN_THE_PAST = 110
 
 
 @pytest.fixture
-def log_entries() -> LogEntryQuerySet[LogEntry]:
+def log_entries() -> LogEntryQuerySet:
     aircraft = Aircraft.objects.create(
         type=AircraftType.SEP,
         maker="Test",

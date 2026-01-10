@@ -1,9 +1,7 @@
 from datetime import UTC, datetime, timedelta
 
-from django.db.models import QuerySet
-
 from ..models.aircraft import Aircraft, AircraftType
-from ..models.log_entry import FunctionType, LogEntry
+from ..models.log_entry import FunctionType, LogEntry, LogEntryQuerySet
 from ..statistics.currency import get_lapl_currency, get_passenger_currency
 from ..statistics.experience import compute_totals
 from .utils import (
@@ -20,7 +18,7 @@ class DashboardView(AuthenticatedTemplateView):
         return super().get(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
-        def totals_per_function(log_entries: QuerySet[LogEntry]):
+        def totals_per_function(log_entries: LogEntryQuerySet):
             return {function: compute_totals(log_entries.filter(time_function=function)) for function in FunctionType}
 
         now = datetime.now(tz=UTC)

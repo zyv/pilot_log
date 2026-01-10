@@ -1,11 +1,10 @@
 from datetime import UTC, datetime, time, timedelta
 
 from django.conf import settings
-from django.db.models import QuerySet
 from django.utils.timezone import make_aware
 
 from ..models.aircraft import AircraftType
-from ..models.log_entry import FunctionType, LogEntry
+from ..models.log_entry import FunctionType, LogEntry, LogEntryQuerySet
 from ..statistics.currency import CURRENCY_REQUIRED_TIME_REFRESHER_SEP, CURRENCY_TIME_RANGE_SEP
 from ..statistics.experience import (
     MAX_GLIDER_CPL_ENTRY_CREDIT,
@@ -44,7 +43,7 @@ class ExperienceIndexView(AuthenticatedTemplateView):
         }
 
 
-def get_total_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirements:
+def get_total_experience(log_entries: LogEntryQuerySet) -> ExperienceRequirements:
     return ExperienceRequirements(
         experience={
             "After PPL Skill Test": ExperienceRecord(
@@ -55,7 +54,7 @@ def get_total_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequireme
     )
 
 
-def get_sep_revalidation_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirements:
+def get_sep_revalidation_experience(log_entries: LogEntryQuerySet) -> ExperienceRequirements:
     eligible_entries = log_entries.filter(
         aircraft__type__in=AircraftType.powered,
         departure_time__gte=make_aware(
@@ -96,7 +95,7 @@ def get_sep_revalidation_experience(log_entries: QuerySet[LogEntry]) -> Experien
     )
 
 
-def get_ppl_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirements:
+def get_ppl_experience(log_entries: LogEntryQuerySet) -> ExperienceRequirements:
     return ExperienceRequirements(
         experience={
             "Dual instruction": ExperienceRecord(
@@ -123,7 +122,7 @@ def get_ppl_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirement
     )
 
 
-def get_night_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirements:
+def get_night_experience(log_entries: LogEntryQuerySet) -> ExperienceRequirements:
     return ExperienceRequirements(
         experience={
             "Solo full-stop landings": ExperienceRecord(
@@ -146,7 +145,7 @@ def get_night_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequireme
     )
 
 
-def get_ir_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirements:
+def get_ir_experience(log_entries: LogEntryQuerySet) -> ExperienceRequirements:
     return ExperienceRequirements(
         experience={
             "Entry: Cross-country PIC hours (powered)": ExperienceRecord(
@@ -177,7 +176,7 @@ def get_ir_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirements
     )
 
 
-def get_cpl_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirements:
+def get_cpl_experience(log_entries: LogEntryQuerySet) -> ExperienceRequirements:
     return ExperienceRequirements(
         experience={
             "Entry: PIC hours": ExperienceRecord(
@@ -237,7 +236,7 @@ def get_cpl_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirement
     )
 
 
-def get_cri_experience(log_entries: QuerySet[LogEntry]) -> ExperienceRequirements:
+def get_cri_experience(log_entries: LogEntryQuerySet) -> ExperienceRequirements:
     return ExperienceRequirements(
         experience={
             "(1) 300 hours flight time as a pilot on aeroplanes": ExperienceRecord(

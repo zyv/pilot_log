@@ -5,7 +5,7 @@ from datetime import timedelta
 from django.db.models import Sum
 
 from ..models.aircraft import AircraftType
-from ..models.log_entry import LogEntry, LogEntryQuerySet
+from ..models.log_entry import LogEntryQuerySet
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -49,17 +49,17 @@ class ExperienceRequirements:
     details: str | None = None
 
 
-def total_time(entries: LogEntryQuerySet[LogEntry]) -> timedelta:
+def total_time(entries: LogEntryQuerySet) -> timedelta:
     duration_sum = entries.with_durations().aggregate(Sum("duration"))["duration__sum"]
     return duration_sum if duration_sum is not None else timedelta()
 
 
-def total_landings(entries: LogEntryQuerySet[LogEntry], full_stop: bool) -> int:
+def total_landings(entries: LogEntryQuerySet, full_stop: bool) -> int:
     landings = entries.aggregate(Sum("landings"))["landings__sum"] if not full_stop else entries.count()
     return landings if landings is not None else 0
 
 
-def compute_totals(entries: LogEntryQuerySet[LogEntry], full_stop=False) -> TotalsRecord:
+def compute_totals(entries: LogEntryQuerySet, full_stop=False) -> TotalsRecord:
     return TotalsRecord(time=total_time(entries), landings=total_landings(entries, full_stop))
 
 
@@ -67,7 +67,7 @@ MAX_GLIDER_CPL_ENTRY_CREDIT = timedelta(hours=10)
 MAX_GLIDER_CPL_ISSUE_CREDIT = timedelta(hours=30)
 
 
-def cpl_total_hours_requirements(entries: LogEntryQuerySet[LogEntry], glider_credit: timedelta) -> TotalsRecord:
+def cpl_total_hours_requirements(entries: LogEntryQuerySet, glider_credit: timedelta) -> TotalsRecord:
     glider_time = total_time(entries.filter(aircraft__type__in=AircraftType.gliders))
     if glider_time > glider_credit:
         glider_time = glider_credit
