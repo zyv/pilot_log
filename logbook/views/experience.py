@@ -1,6 +1,7 @@
 from datetime import UTC, datetime, time, timedelta
 
 from django.conf import settings
+from django.utils.safestring import mark_safe
 from django.utils.timezone import make_aware
 
 from ..models.aircraft import AircraftType
@@ -239,7 +240,11 @@ def get_cpl_experience(log_entries: LogEntryQuerySet) -> ExperienceRequirements:
 def get_cri_experience(log_entries: LogEntryQuerySet) -> ExperienceRequirements:
     return ExperienceRequirements(
         experience={
-            "(1) 300 hours flight time as a pilot on aeroplanes": ExperienceRecord(
+            mark_safe(
+                """
+                (1) 300 hours flight time as a <abbr title='Including dual!'>pilot</abbr> on aeroplanes
+                """
+            ): ExperienceRecord(
                 required=TotalsRecord(time=timedelta(hours=300), landings=0),
                 accrued=compute_totals(log_entries.filter(aircraft__type__in=AircraftType.powered)),
             ),
