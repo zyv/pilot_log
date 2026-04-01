@@ -4,6 +4,17 @@
     "config:recommended",
     "group:all"
   ],
+  "packageRules": [
+    {
+      "matchPackageNames": [
+        "django"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "enabled": false
+    }
+  ],
   "lockFileMaintenance": {
     "enabled": true,
     "schedule": [
