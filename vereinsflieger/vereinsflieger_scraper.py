@@ -1,3 +1,5 @@
+from typing import Self
+
 from playwright.async_api import async_playwright
 
 from vereinsflieger.models import Flight
@@ -15,7 +17,7 @@ class VereinsfliegerScraperSession:
         assert self.username is not None
         assert self.password is not None
 
-    async def __aenter__(self) -> "VereinsfliegerScraperSession":
+    async def __aenter__(self) -> Self:
         self.playwright = await async_playwright().start()
         self.browser = await self.playwright.firefox.launch(headless=self.debug)
         self.context = await self.browser.new_context()

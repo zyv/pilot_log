@@ -1,6 +1,7 @@
 import hashlib
 import logging
 from functools import partial
+from typing import Self
 
 import httpx
 
@@ -66,7 +67,7 @@ class VereinsfliegerApiSession:
         self._access_token_hook = None
         self._add_sign_in_guard_hook()
 
-    def __enter__(self) -> "VereinsfliegerApiSession":
+    def __enter__(self) -> Self:
         self.sign_in()
         return self
 
