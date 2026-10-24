@@ -9,7 +9,7 @@ repository = "https://github.com/zyv/pilot_log"
 keywords = ["aviation", "python", "django"]
 license = "MIT"
 version = "0.1.0"
-requires-python = ">=3.12"
+requires-python = ">=3.14"
 dependencies = [
     "django-bootstrap5",
     "django-colorfield",
@@ -48,7 +48,7 @@ omit = [
 
 [tool.ruff]
 line-length = 120
-target-version = "py313"
+target-version = "py314"
 
 [tool.ruff.lint]
 select = [

@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 from colorfield.fields import ColorField
 from django.db import models
@@ -14,17 +14,17 @@ class AircraftType(models.TextChoices):
     SEP = "SEP", "Single Engine Piston"
 
     @classproperty
-    def gliders(cls) -> tuple["AircraftType", ...]:
+    def gliders(cls) -> tuple[AircraftType, ...]:
         """Gliders, including motor gliders"""
         return cls.GLD, cls.TMG
 
     @classproperty
-    def powered(cls) -> tuple["AircraftType", ...]:
+    def powered(cls) -> tuple[AircraftType, ...]:
         """Used where FCL.720.A allows TMG time to be counted alongside SEP/MEP"""
         return cls.TMG, cls.SEP
 
     @classproperty
-    def airplanes(cls) -> tuple["AircraftType", ...]:
+    def airplanes(cls) -> tuple[AircraftType, ...]:
         """Used where specific requirements like CPL modular demand only SEP/MEP time"""
         return (cls.SEP,)
 
@@ -104,7 +104,7 @@ class Aircraft(models.Model):
         return f"{self.registration} ({self.maker} {self.model})"
 
     @property
-    def currency_status(self) -> Optional["RollingCurrency"]:
+    def currency_status(self) -> RollingCurrency | None:
         from ..statistics.currency import get_rolling_currency
 
         return (

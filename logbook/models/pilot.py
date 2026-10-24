@@ -1,5 +1,4 @@
 from datetime import UTC, datetime
-from typing import Optional
 
 from django.db import models
 from django.db.models import CheckConstraint, F, Q, UniqueConstraint
@@ -69,5 +68,5 @@ class Certificate(models.Model):
         ) and not self.supersedes_set.count()
 
     @property
-    def superseded_by(self) -> Optional["Certificate"]:
+    def superseded_by(self) -> Certificate | None:
         return self.supersedes_set.first()

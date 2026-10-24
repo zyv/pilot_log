@@ -62,7 +62,7 @@ def get_currency_status(expires_in: timedelta, reference_entry: LogEntry) -> Cur
 
 
 def get_rolling_currency(
-    queryset: QuerySet["LogEntry"],
+    queryset: QuerySet[LogEntry],
     required_landings: int,
     required_time: timedelta | None = None,
     currency_time_range: relativedelta = CURRENCY_TIME_RANGE_NINETY,
@@ -131,7 +131,7 @@ def get_rolling_currency(
     )
 
 
-def get_passenger_currency(entries: QuerySet["LogEntry"]) -> (RollingCurrency, RollingCurrency):
+def get_passenger_currency(entries: QuerySet[LogEntry]) -> (RollingCurrency, RollingCurrency):
     day_currency = get_rolling_currency(entries, CURRENCY_REQUIRED_LANDINGS_PASSENGER)
 
     night_currency = get_rolling_currency(entries.filter(night=True), CURRENCY_REQUIRED_LANDINGS_NIGHT)
@@ -142,7 +142,7 @@ def get_passenger_currency(entries: QuerySet["LogEntry"]) -> (RollingCurrency, R
     return day_currency, night_currency
 
 
-def get_lapl_currency(entries: QuerySet["LogEntry"]) -> RollingCurrency:
+def get_lapl_currency(entries: QuerySet[LogEntry]) -> RollingCurrency:
     flight_time_currency = get_rolling_currency(
         entries,
         required_landings=CURRENCY_REQUIRED_LANDINGS_LAPL,

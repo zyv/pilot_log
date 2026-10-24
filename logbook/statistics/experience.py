@@ -13,7 +13,7 @@ class TotalsRecord:
     time: timedelta
     landings: int
 
-    def __sub__(self, other: "TotalsRecord") -> "TotalsRecord":
+    def __sub__(self, other: TotalsRecord) -> TotalsRecord:
         return TotalsRecord(time=self.time - other.time, landings=self.landings - other.landings)
 
 

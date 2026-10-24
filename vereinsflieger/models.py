@@ -43,7 +43,7 @@ class Flight:
         return datetime.fromisoformat(f"{date}T{time}+00:00")
 
     @classmethod
-    def from_vereinsflieger_api(cls, data: dict) -> "Flight":
+    def from_vereinsflieger_api(cls, data: dict) -> Flight:
         if data["ft_education"] == "1":
             if data["uidattendant"] != "0":
                 time_function = FunctionType.DUAL
@@ -72,7 +72,7 @@ class Flight:
         )
 
     @classmethod
-    async def from_vereinsflieger_scraper(cls, page: Page) -> "Flight":
+    async def from_vereinsflieger_scraper(cls, page: Page) -> Flight:
         registration = await page.locator(":text('CallSign') + td").text_content()
 
         from_aerodrome = cls.parse_location(await page.locator(":text('Startort') + td").text_content())
