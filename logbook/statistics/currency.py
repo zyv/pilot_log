@@ -131,7 +131,7 @@ def get_rolling_currency(
     )
 
 
-def get_passenger_currency(entries: QuerySet[LogEntry]) -> (RollingCurrency, RollingCurrency):
+def get_passenger_currency(entries: QuerySet[LogEntry]) -> tuple[RollingCurrency, RollingCurrency]:
     day_currency = get_rolling_currency(entries, CURRENCY_REQUIRED_LANDINGS_PASSENGER)
 
     night_currency = get_rolling_currency(entries.filter(night=True), CURRENCY_REQUIRED_LANDINGS_NIGHT)
